@@ -1,0 +1,74 @@
+# ALIGN_CLOSING_BRACKET_WITH_VISUAL_INDENT - Align closing bracket with visual indentation.
+# ALLOW_MULTILINE_LAMBDAS - Allow lambdas to be formatted on more than one line.
+# ALLOW_MULTILINE_DICTIONARY_KEYS - Allow dictionary keys to exist on multiple lines.
+# ALLOW_SPLIT_BEFORE_DICT_VALUE - Allow splits before the dictionary value.
+# BLANK_LINE_BEFORE_NESTED_CLASS_OR_DEF - Insert a blank line before a def or class immediately nested within another
+#     def or class.
+# BLANK_LINE_BEFORE_MODULE_DOCSTRING - Insert a blank line before a module docstring.
+# BLANK_LINE_BEFORE_CLASS_DOCSTRING - Insert a blank line before a class-level docstring.
+# BLANK_LINES_AROUND_TOP_LEVEL_DEFINITION - Sets the number of desired blank lines surrounding top-level function and
+#     class definitions.
+# COALESCE_BRACKETS - Do not split consecutive brackets. Only relevant when DEDENT_CLOSING_BRACKETS is set.
+# COLUMN_LIMIT - The column limit (or max line-length)
+# CONTINUATION_ALIGN_STYLE - The style for continuation alignment. Possible values are:
+#     SPACE: Use spaces for continuation alignment. This is default behavior.
+#     FIXED: Use fixed number (CONTINUATION_INDENT_WIDTH) of columns (ie: CONTINUATION_INDENT_WIDTH/INDENT_WIDTH tabs)
+#         for continuation alignment.
+#     VALIGN-RIGHT: Vertically align continuation lines with indent characters.
+#         Slightly right (one more indent character) if cannot vertically align continuation lines with indent characters.
+#     For options FIXED, and VALIGN-RIGHT are only available when USE_TABS is enabled.
+# CONTINUATION_INDENT_WIDTH - Indent width used for line continuations.
+# DEDENT_CLOSING_BRACKETS - Put closing brackets on a separate line, dedented, if the bracketed expression can't fit in
+#     a single line. Applies to all kinds of brackets, including function definitions and calls.
+# DISABLE_ENDING_COMMA_HEURISTIC - Disable the heuristic which places each list element on a separate line if the list is
+#     comma-terminated.
+# EACH_DICT_ENTRY_ON_SEPARATE_LINE - Place each dictionary entry onto its own line.
+# I18N_COMMENT - The regex for an internationalization comment. The presence of this comment stops reformatting of that
+#     line, because the comments are required to be next to the string they translate.
+# I18N_FUNCTION_CALL - The internationalization function call names. The presence of this function stops reformatting on
+#     that line, because the string it has cannot be moved away from the i18n comment.
+# INDENT_DICTIONARY_VALUE - Indent the dictionary value if it cannot fit on the same line as the dictionary key.
+# INDENT_WIDTH - The number of columns to use for indentation.
+# INDENT_BLANK_LINES - Set to True to prefer indented blank lines rather than empty
+# JOIN_MULTIPLE_LINES - Join short lines into one line. E.g., single line if statements.
+# NO_SPACES_AROUND_SELECTED_BINARY_OPERATORS - Do not include spaces around selected binary operators.
+# SPACES_AROUND_POWER_OPERATOR - Set to True to prefer using spaces around **.
+# SPACES_AROUND_DEFAULT_OR_NAMED_ASSIGN - Set to True to prefer spaces around the assignment operator for default or
+#     keyword arguments.
+# SPACES_BEFORE_COMMENT - The number of spaces required before a trailing comment.
+# SPACE_BETWEEN_ENDING_COMMA_AND_CLOSING_BRACKET - Insert a space between the ending comma and closing bracket
+#     of a list, etc.
+# SPLIT_ARGUMENTS_WHEN_COMMA_TERMINATED - Split before arguments if the argument list is terminated by a comma.
+# SPLIT_ALL_COMMA_SEPARATED_VALUES - If a comma separated list (dict, list, tuple, or function def) is on a line that is
+#     too long, split such that all elements are on a single line.
+# SPLIT_BEFORE_BITWISE_OPERATOR - Set to True to prefer splitting before &, | or ^ rather than after.
+# SPLIT_BEFORE_CLOSING_BRACKET - Split before the closing bracket if a list or dict literal doesn't fit on a single line.
+# SPLIT_BEFORE_DICT_SET_GENERATOR - Split before a dictionary or set generator (comp_for).
+# SPLIT_BEFORE_EXPRESSION_AFTER_OPENING_PAREN - Split after the opening paren which surrounds an expression if it doesn't
+#     fit on a single line.
+# SPLIT_BEFORE_FIRST_ARGUMENT - If an argument / parameter list is going to be split, then split before the first argument.
+# SPLIT_BEFORE_LOGICAL_OPERATOR - Set to True to prefer splitting before and or or rather than after.
+# SPLIT_BEFORE_NAMED_ASSIGNS - Split named assignments onto individual lines.
+# SPLIT_COMPLEX_COMPREHENSION - For list comprehensions and generator expressions with multiple clauses (e.g multiple
+#     "for" calls, "if" filter expressions) and which need to be reflowed, split each clause onto its own line.
+# SPLIT_PENALTY_AFTER_OPENING_BRACKET - The penalty for splitting right after the opening bracket.
+# SPLIT_PENALTY_AFTER_UNARY_OPERATOR - The penalty for splitting the line after a unary operator.
+# SPLIT_PENALTY_BEFORE_IF_EXPR - The penalty for splitting right before an if expression.
+# SPLIT_PENALTY_BITWISE_OPERATOR - The penalty of splitting the line around the &, |, and ^ operators.
+# SPLIT_PENALTY_COMPREHENSION - The penalty for splitting a list comprehension or generator expression.
+# SPLIT_PENALTY_EXCESS_CHARACTER - The penalty for characters over the column limit.
+# SPLIT_PENALTY_FOR_ADDED_LINE_SPLIT - The penalty incurred by adding a line split to the unwrapped line.
+#     The more line splits added the higher the penalty.
+# SPLIT_PENALTY_IMPORT_NAMES - The penalty of splitting a list of import as names.
+# SPLIT_PENALTY_LOGICAL_OPERATOR - The penalty of splitting the line around the and and or operators.
+# USE_TABS - Use the Tab character for indentation.
+
+[style]
+based_on_style = facebook
+coalesce_brackets = true
+column_limit = 120
+i18n_comment = 'Translators: .*'
+i18n_function_call = '_'
+join_multiple_lines = true
+split_before_dot = true
+split_before_expression_after_opening_paren = true

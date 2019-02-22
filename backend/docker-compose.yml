@@ -1,0 +1,44 @@
+version: '2.1'
+
+services:
+
+  base:
+    extends:
+      file: docker-compose.base.yml
+      service: base
+
+  app:
+    image: circuit-design-app
+    build:
+      context: .
+      dockerfile: ./docker/dev/Dockerfile
+    restart: always
+    environment:
+      - DEBUG=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - PGUSER=circuitdesign
+      - PGPASSWORD=circuitdesign
+      - PGDATABASE=circuitdesign
+      - PGHOST=postgres
+      - PGPORT=5432
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "80:8000"
+    depends_on:
+      base:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    links:
+      - postgres
+
+  postgres:
+    extends:
+      file: docker-compose.base.yml
+      service: postgres
+    environment:
+      - POSTGRES_USER=circuitdesign
+      - POSTGRES_DB=circuitdesign
+      - POSTGRES_PASSWORD=circuitdesign

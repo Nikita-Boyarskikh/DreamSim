@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: circuit-design-stage
+  name: app-env
+  labels:
+    app: app
+    stage: stage
+    service: circuit-design
+data:
+  NAME: circuit-design
+  LOGGING_CONFIG: /etc/app/logging.json
+  DJANGO_SETTINGS_MODULE: settings.prod
+  SECRET_KEY: lgjcleikfhk3hntofj4kplw
+  PGUSER: circuit-design
+  PGPASSWORD: circuit-design
+  PGDATABASE: circuit-design_prod
+  PGHOST: postgres
+  PGPORT: "5432"

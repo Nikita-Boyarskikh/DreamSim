@@ -1,0 +1,13 @@
+version: '2.1'
+
+services:
+  frontend:
+    image: circuit-design-frontend
+    environment:
+      - NODE_ENV=production
+      - API_URL='https://circuit-design'
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "80:80"
+

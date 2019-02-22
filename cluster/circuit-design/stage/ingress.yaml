@@ -1,0 +1,49 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: ingress
+  namespace: circuit-design-stage
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt-stage
+    kubernetes.io/tls-acme: "true"
+    kubernetes.io/ingress.class: nginx
+    kubernetes.io/ingress.allow-http: "true"
+  labels:
+    stage: stage
+    service: circuit-design
+spec:
+  rules:
+    - host: circuit-design.ru
+      http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: app
+              servicePort: 80
+    - host: www.circuit-design.ru
+      http:
+        paths:
+          - path: /api
+            backend:
+              serviceName: app
+              servicePort: 80
+    - host: circuit-design.ru
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: frontend
+              servicePort: 80
+    - host: www.circuit-design.ru
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: frontend
+              servicePort: 80
+  tls:
+    - hosts:
+        - circuit-design.ru
+        - www.circuit-design.ru
+      secretName: circuit-design-stage-tls

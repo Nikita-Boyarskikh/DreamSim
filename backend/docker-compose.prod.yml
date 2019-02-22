@@ -1,0 +1,47 @@
+version: '2.1'
+
+services:
+
+  base:
+    extends:
+      file: docker-compose.base.yml
+      service: base
+
+  app:
+    image: circuit-design-app
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+    restart: always
+    volumes:
+      - .:/usr/src/app
+    environment:
+      - NAME='circuit-design'
+      - LOGGING_CONFIG='/etc/app/logging.json'
+      - PYTHONDONTWRITEBYTECODE=1
+      - PYTHONUNBUFFERED=1
+      - DJANGO_SETTINGS_MODULE=settings.prod
+      - SECRET_KEY=lskjfkwghkljcleikfhk34ri2h3i5g1hntofj4kplwtgp[f;o4ler;PIT;WGAJOLI,43JORT,FH4MIET]
+      - PGUSER=circuitdesign
+      - PGPASSWORD=circuitdesign
+      - PGDATABASE=circuitdesign_prod
+      - PGHOST=postgres
+      - PGPORT=5432
+    ports:
+      - "80:80"
+    depends_on:
+      base:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    links:
+      - postgres
+
+  postgres:
+    extends:
+      file: docker-compose.base.yml
+      service: postgres
+    environment:
+      - POSTGRES_USER=circuitdesign
+      - POSTGRES_DB=circuitdesign_prod
+      - POSTGRES_PASSWORD=circuitdesign

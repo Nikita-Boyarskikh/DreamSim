@@ -1,0 +1,94 @@
+user root;
+daemon off;
+worker_processes auto;
+worker_rlimit_nofile 8192;
+pid /var/run/app/nginx.pid;
+
+events {
+    worker_connections 4096;
+    multi_accept on;
+}
+
+http {
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    server_tokens off;
+
+    server_names_hash_bucket_size 64;
+    server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/app/nginx/access.log;
+    error_log /var/log/app/nginx/error.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable "msie6";
+
+    upstream backend {
+        server unix:/var/run/app/gunicorn/gunicorn.sock fail_timeout=10s;
+    }
+
+    server {
+        listen 80;
+        server_name circuit-design.ru;
+
+        large_client_header_buffers 4 64k;
+        client_max_body_size 4G;
+
+        location /static/ {
+            alias /usr/src/app/project/static/;
+        }
+
+        location /storage/ {
+            alias /usr/src/app/project/storage/;
+        }
+
+        location / {
+            gzip on;
+            gzip_min_length 1024;
+            gzip_types application/javascript application/json;
+
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Host localhost;
+            proxy_redirect off;
+            if (!-f $request_filename) {
+                proxy_pass http://backend;
+                break;
+            }
+        }
+
+        error_page 500 502 503 504 /500.html;
+        location = /500.html {
+            root /usr/src/app/static/;
+        }
+
+        error_page 401 403 404 /404.html;
+        location = /400.html {
+            root /usr/src/app/static/;
+        }
+    }
+}

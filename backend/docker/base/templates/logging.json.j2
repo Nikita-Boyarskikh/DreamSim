@@ -1,0 +1,56 @@
+{
+  "version": 1,
+  "disable_existing_loggers": false,
+  "formatters": {
+    "simple": {
+      "format": "%(asctime)s %(process)5d %(session_id)s %(request_id)s %(levelname)-8s %(name)s - %(message)s"
+    },
+    "verbose": {
+      "format": "Process ID:         %(process)d\nSession ID:         %(session_id)s\nRequest ID:         %(request_id)s\nMessage type:       %(levelname)s\nLogger:             %(name)s\nLocation:           %(pathname)s:%(lineno)d\nModule:             %(module)s\nFunction:           %(funcName)s\nTime:               %(asctime)s\n\n%(message)s\n",
+    }
+  },
+  "filters": {
+    "request_context": {
+    }
+  },
+  "handlers": {
+    "null": {
+      "class": "logging.handlers.NullHandler"
+    },
+    "stdout": {
+      "class": "logging.handlers.StreamHandler",
+      "formatter": "simple",
+      "filters": ["request_context"]
+    },
+    "file": {
+      "class": "project.lib.log.handlers.WatchedFileHandler",
+      "filename": os.environ.get("LOG_FILE") or app.config["LOGGING_FILE_NAME"],
+      "formatter": "simple",
+      "filters": ["request_context"]
+    },
+    "email": {
+      "level": "ERROR",
+      "class": "project.lib.log.handlers.SMTPHandler",
+      "mailhost": app.config["LOGGING_EMAIL_HOST"],
+      "fromaddr": app.config["LOGGING_EMAIL_FROMADDR"],
+      "toaddrs": environ["LOGGING_EMAIL_TOADDRS"],
+      "subject": "[Euler Error Notification] Houston, we have a problem!",
+      "credentials": app.config["LOGGING_EMAIL_CREDENTIALS"],
+      "secure": app.config["LOGGING_EMAIL_SECURE"],
+      "formatter": "verbose",
+      "filters": ["request_context"]
+    },
+    "sentry": {
+      "level": "ERROR",
+      "class": "raven.handlers.logging.SentryHandler",
+      "dsn": {{ environ('LOGGING_SENTRY_DSN') }},
+      "transport": RequestsHTTPTransport,
+      "tags": {
+        "environment": {{ environ('LOGGING_SENTRY_ENVIRONMENT') }}
+      }
+    }
+  "root": {
+    "level": "info",
+    "handlers": ["stdout", "file", "email", "sentry"]
+  }
+}

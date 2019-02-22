@@ -1,0 +1,23 @@
+@import 'constants.scss';
+
+html, body {
+  margin: 0;
+  background-color: $secondary-bg-color;
+}
+html, body, section {
+  height: 100%;
+}
+
+.page {
+  position: relative;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+a[disabled] {
+  pointer-events: none;
+}

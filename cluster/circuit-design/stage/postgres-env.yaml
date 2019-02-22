@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: circuit-design-stage
+  name: postgres-env
+  labels:
+    app: postgres
+    stage: stage
+    service: circuit-design
+data:
+  POSTGRES_USER: circuit-design
+  POSTGRES_DB: circuit-design_prod
+  POSTGRES_PASSWORD: circuit-design

@@ -1,0 +1,33 @@
+[supervisord]
+nodaemon=true
+user=root
+minprocs=200
+pidfile=/var/run/app/supervisord/supervisord.pid
+logfile=/var/log/app/supervisord/supervisord.log
+logfile_maxbytes=50MB
+logfile_backups=10
+loglevel=info
+childlogdir=/var/log/app/supervisord/
+
+[rpcinterface:supervisor]
+supervisor.rpcinterface_factory = supervisor.rpcinterface:make_main_rpcinterface
+
+[supervisorctl]
+serverurl=unix:///var/run/app/supervisord/supervisord.sock
+
+[unix_http_server]
+file=/var/run/app/supervisord/supervisord.sock
+
+[program:nginx]
+command=nginx -c /etc/app/nginx.conf
+
+[program:gunicorn]
+command=gunicorn wsgi:application --config=/etc/app/gunicorn.conf.py
+directory=/usr/src/app/project
+stdout_logfile=/var/log/app/gunicorn/gunicorn.log
+stderr_logfile=/var/log/app/gunicorn/gunicorn_error.log
+stopasgroup=true
+user=root
+autostart=true
+autorestart=true
+stopsignal=INT

@@ -1,0 +1,27 @@
+version: '2.1'
+
+services:
+
+  # This service is here only to build base image if something is changed in its Dockerfile
+  base:
+    image: circuit-design-base
+    build:
+      context: .
+      dockerfile: ./docker/base/Dockerfile
+    command: bash -c 'exit 0'
+
+  postgres:
+    image: circuit-design-postgres
+    build:
+      context: .
+      dockerfile: ./docker/postgres/Dockerfile
+    volumes:
+      - /mnt/docker/circuit-design-postgres/data:/var/lib/postgresql/data
+      - /mnt/docker/circuit-design-postgres/backup:/var/lib/postgresql/backup
+    ports:
+      - "55432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U circuitdesign"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
