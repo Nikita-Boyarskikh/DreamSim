@@ -4,7 +4,7 @@ from apps.authentication.models import User
 from enum import Enum
 
 
-class TypeChoice(Enum):  # A subclass of Enum
+class ElementType(Enum):
     SOURCE = 'Источник'
     GROUND = 'Земля'
     GENERATOR = 'Генератор'
