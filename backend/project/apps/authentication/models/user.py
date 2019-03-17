@@ -11,7 +11,7 @@ class User(AbstractUser):
         'Учебная группа', max_length=30, blank=True, null=True, db_index=True, validators=[GroupValidator]
     )
     vk = models.URLField('Ссылка ВК', unique=True, blank=True, null=True, validators=[VkLinkValidator])
-    birthday = models.DateField('Дата рождения', null=True)
+    birthday = models.DateField('Дата рождения', null=True, blank=True)
 
     class Meta:
         verbose_name = 'Пользователь'
