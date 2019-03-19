@@ -4,7 +4,7 @@ from apps.core.models.element import Element
 from apps.core.models.scheme import Scheme
 from apps.core.models.scheme_element import SchemeElement
 from apps.core.models.element_parameter import ElementParameter
-from apps.core.models.group import Group
+from apps.authentication.models.group import Group
 from apps.core.models.scheme_links import SchemeLinks
 from apps.core.models.scheme_tag import SchemeTag
 from apps.core.models.unit import Unit

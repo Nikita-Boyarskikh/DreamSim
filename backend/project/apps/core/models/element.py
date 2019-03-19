@@ -1,10 +1,10 @@
+from enum import Enum
 from django.db import models
 from django.contrib.postgres.fields import ArrayField
 from apps.authentication.models import User
-from enum import Enum
 
 
-class TypeChoice(Enum):  # A subclass of Enum
+class TypeChoice(Enum):
     SOURCE = 'Источник'
     GROUND = 'Земля'
     GENERATOR = 'Генератор'
@@ -19,7 +19,7 @@ class TypeChoice(Enum):  # A subclass of Enum
 
 
 class Element(models.Model):
-    """Логический Элемент"""
+    """Элемент"""
 
     name = models.CharField('Название ЛЭ', max_length=255)
     creator_id = models.ForeignKey(User, on_delete=models.SET_NULL, name='Создатель ЛЭ', blank=True, null=True)
@@ -33,5 +33,5 @@ class Element(models.Model):
     image = models.ImageField('Изображение ЛЭ', blank=True, null=True)
 
     class Meta:
-        verbose_name = 'Логический Элемент'
+        verbose_name = 'Элемент'
         verbose_name_plural = 'Логические Элементы'
