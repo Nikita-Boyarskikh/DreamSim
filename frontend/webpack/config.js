@@ -8,7 +8,7 @@ module.exports = {
     dist: 'dist',
     src: 'src',
     public: 'public',
-    assets: 'public'
+    static: 'static'
   },
   icons: {
     prefix: 'icons/',
@@ -29,8 +29,8 @@ module.exports = {
     }
   },
   limits: {
-    maxAssetSize: 2 * 1024 * 1024,
-    maxEntrypointSize: 4 * 1024 * 1024,
+    maxAssetSize: 10 * 1024 * 1024,
+    maxEntrypointSize: 15 * 1024 * 1024,
     urlLoaderLimit: 128 * 1024
   }
 };

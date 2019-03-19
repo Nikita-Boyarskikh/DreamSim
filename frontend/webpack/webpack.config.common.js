@@ -161,7 +161,7 @@ const webpackConfig = {
               loader: 'file-loader',
               options: {
                 name: '[path][name].[ext]?[hash:8]',
-                outputPath: config.paths.assets + '/',
+                outputPath: config.paths.public + '/',
                 publicPath: config.paths.public + '/'
               }
             }

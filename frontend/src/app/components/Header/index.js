@@ -5,9 +5,9 @@ import Component from './Header';
 
 import { closeMenu, openMenu, toggleMenu } from 'app/state/actions/ui/menu';
 
-const mapStateToProps = (state) => ({ title: state.local.ui.pageTitle }),
+const mapStateToProps = (state) => ({ title: state.local.ui.pageTitle });
 
-      mapDispatchToProps = (dispatch) => ({ openMenu, closeMenu, toggleMenu });
+const mapDispatchToProps = () => ({ closeMenu, openMenu, toggleMenu });
 
 export default connect(
   mapStateToProps,

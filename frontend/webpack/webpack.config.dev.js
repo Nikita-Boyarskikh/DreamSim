@@ -15,15 +15,15 @@ const webpackConfig = {
   devServer: {
     port: config.devServer.port,
     proxy: devServerProxises, // proxy URLs to backend development server
-    contentBase: path.join(__dirname, config.paths.assets),
-    publicPath: '/' + config.paths.public + '/',
-    useLocalIp: true,
+    contentBase: path.join(__dirname, '..', config.paths.static),
+    publicPath: '/',
+    useLocalIp: false,
     compress: true,
     hot: true,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    https: true,
+    https: false,
     open: true,
     overlay: {
       warnings: true,

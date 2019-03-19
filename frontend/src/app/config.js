@@ -5,6 +5,3 @@ moment.locale(window.navigator.language);
 
 export const DEFAULT_LOCALE = 'ru-RU';
 
-export const GUEST_USERNAME = 'guest';
-
-export const GUEST_PASSWORD = '';

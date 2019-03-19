@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import ui from './ui/menu';
+import ui from './ui';
 import db from './db';
 import user from './user';
 

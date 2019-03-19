@@ -2,7 +2,6 @@ import React from 'react';
 import { Route, Switch, browserHistory } from 'react-router-dom';
 
 import Main from 'app/pages/Main';
-
 import Footer from 'app/components/Footer';
 import Header from 'app/components/Header';
 import NotFound from 'app/components/NotFound';

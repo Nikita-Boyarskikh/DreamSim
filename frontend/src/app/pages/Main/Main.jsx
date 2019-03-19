@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Main = (props) => (
-  <div />
+  <Header></Header>
 );
 
 export default Main;

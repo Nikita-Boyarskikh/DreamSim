@@ -4,15 +4,15 @@ import { CLOSE_MENU, OPEN_MENU, TOGGLE_MENU } from '../../../constants/actionTyp
 const initialState = { isOpen: false };
 
 export default handleActions(initialState, {
-  [OPEN_MENU](state, action) {
-    return { isOpen: true };
-  },
-
-  [CLOSE_MENU](state, action) {
+  [CLOSE_MENU]() {
     return { isOpen: false };
   },
 
-  [TOGGLE_MENU](state, action) {
+  [OPEN_MENU]() {
+    return { isOpen: true };
+  },
+
+  [TOGGLE_MENU](state) {
     return { isOpen: !state.isOpen };
   },
 });
