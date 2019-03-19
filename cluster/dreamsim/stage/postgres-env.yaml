@@ -1,0 +1,14 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dreamsim-stage
+  name: postgres-env
+  labels:
+    app: postgres
+    stage: stage
+    service: dreamsim
+data:
+  POSTGRES_USER: dreamsim
+  POSTGRES_DB: dreamsim_prod
+  POSTGRES_PASSWORD: dreamsim

@@ -2,10 +2,10 @@ version: '2.1'
 
 services:
   frontend:
-    image: circuit-design-frontend
+    image: dreamsim-frontend
     environment:
       - NODE_ENV=production
-      - API_URL='https://circuit-design'
+      - API_URL='https://dreamsim'
     volumes:
       - .:/usr/src/app
     ports:

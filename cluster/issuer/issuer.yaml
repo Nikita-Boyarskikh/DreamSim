@@ -4,7 +4,7 @@ metadata:
   name: letsencrypt-stage
   labels:
     stage: stage
-    service: circuit-design
+    service: dreamsim
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory

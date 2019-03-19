@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Circuit Design',
+  title: 'DreamSim',
   mediaRegex: /\.(woff|woff2|ttf|eot|svg|png|jpe?g|gif|bmp)$/,
   indexHtml: 'index.html',
   indexJsx: 'index.jsx',
@@ -19,7 +19,7 @@ module.exports = {
   manifest: {
     json: 'manifest.json',
     publicName: 'manifest.json',
-    appcacheFilename: 'circuit-design-manifest.appcache'
+    appcacheFilename: 'dreamsim-manifest.appcache'
   },
   devServer: {
     port: 8080,

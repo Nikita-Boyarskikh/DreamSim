@@ -4,18 +4,18 @@ metadata:
   name: cert
   labels:
     stage: stage
-    service: circuit-design
+    service: dreamsim
 spec:
-  secretName: circuit-design-stage-tls
+  secretName: dreamsim-stage-tls
   issuerRef:
     name: letsencrypt-stage
     kind: ClusterIssuer
   dnsNames:
-    - circuit-design.ru
-    - www.circuit-design.ru
+    - dreamsim.ru
+    - www.dreamsim.ru
   acme:
     config:
       - ingressClass: nginx
         domains:
-          - circuit-design.ru
-          - www.circuit-design.ru
+          - dreamsim.ru
+          - www.dreamsim.ru

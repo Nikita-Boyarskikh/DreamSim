@@ -1,15 +1,15 @@
 {
-  "name": "circuit-design",
+  "name": "dreamsim",
   "version": "1.0.0",
   "description": "Electronics emulator and circuit design web application",
-  "homepage": "https://circuit-design.ru",
+  "homepage": "https://dreamsim.ru",
   "author": "Nikita Boyarskikh (N02@yandex.ru)",
   "license": "UNLICENSED",
-  "repository": "github:Nikita-Boyarskikh/circuit-design",
+  "repository": "github:Nikita-Boyarskikh/dreamsim",
   "private": true,
   "browser": true,
   "bugs": {
-    "url": "https://github.com/Nikita-Boyarskikh/circuit-design/issues",
+    "url": "https://github.com/Nikita-Boyarskikh/dreamsim/issues",
     "email": "N02@yandex.ru"
   },
   "scripts": {

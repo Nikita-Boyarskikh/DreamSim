@@ -5,7 +5,7 @@ from locales.default.formats import *  # noqa: F401,F403 pylint: disable=wildcar
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP_DIR = os.path.join(os.path.dirname(BASE_DIR), 'tmp')
-DOMAIN_NAME = 'circuit-design.ru'
+DOMAIN_NAME = 'dreamsim.ru'
 PG_CONN_MAX_AGE = 10
 
 SECRET_KEY = 'ou$!!y5#x=9q4i8%$=srd8s04lkf&69pk!f2_6qev+_ywief)0'
@@ -60,9 +60,9 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('PGDATABASE') or 'circuitdesign',
-        'USER': os.environ.get('PGUSER') or 'circuitdesign',
-        'PASSWORD': os.environ.get('PGPASSWORD') or 'circuitdesign',
+        'NAME': os.environ.get('PGDATABASE') or 'dreamsim',
+        'USER': os.environ.get('PGUSER') or 'dreamsim',
+        'PASSWORD': os.environ.get('PGPASSWORD') or 'dreamsim',
         'HOST': os.environ.get('PGHOST') or 'localhost',
         'PORT': os.environ.get('PGPORT') or 5432,
         'CONN_MAX_AGE': PG_CONN_MAX_AGE,
@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DEFAULT_FROM_EMAIL = 'noreply@' + DOMAIN_NAME
 SERVER_EMAIL = 'root@' + DOMAIN_NAME
-EMAIL_SUBJECT_PREFIX = '[CircuitDesign] '
+EMAIL_SUBJECT_PREFIX = '[DreamSim] '
 EMAIL_USE_LOCALTIME = True
 EMAIL_TIMEOUT = 1000  # ms
 

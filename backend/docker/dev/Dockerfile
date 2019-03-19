@@ -1,4 +1,4 @@
-FROM circuit-design-base
+FROM dreamsim-base
 
 MAINTAINER Nikita Boyarskikh <N02@yandex.ru>
 

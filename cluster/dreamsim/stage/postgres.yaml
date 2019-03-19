@@ -2,17 +2,17 @@
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: circuit-design-stage
+  namespace: dreamsim-stage
   name: postgres
   labels:
     app: postgres
     stage: stage
-    service: circuit-design
+    service: dreamsim
 spec:
   selector:
     app: postgres
     stage: stage
-    service: circuit-design
+    service: dreamsim
   ports:
     - port: 5432
 ---
@@ -20,17 +20,17 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: postgres
-  namespace: circuit-design-stage
+  namespace: dreamsim-stage
   labels:
     app: postgres
     stage: stage
-    service: circuit-design
+    service: dreamsim
 spec:
   selector:
     matchLabels:
       app: postgres
       stage: stage
-      service: circuit-design
+      service: dreamsim
   replicas: 1
   strategy:
     type: RollingUpdate
@@ -41,11 +41,11 @@ spec:
       labels:
         app: postgres
         stage: stage
-        service: circuit-design
+        service: dreamsim
     spec:
       containers:
         - name: postgres
-          image: eu.gcr.io/circuit-design-ru/circuit-design-postgres
+          image: eu.gcr.io/dreamsim-ru/dreamsim-postgres
           imagePullPolicy: Always
           envFrom:
           - configMapRef:
