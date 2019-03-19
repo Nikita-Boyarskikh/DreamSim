@@ -1,5 +1,4 @@
 from urllib.parse import urlparse
-from django.db import models
 from django.core.exceptions import ValidationError
 
 
@@ -9,5 +8,5 @@ def validate_vk_link(link):
         raise ValidationError('Ссылка должна вести на профиль vk.com')
 
 
-class GroupValidator(models.Model):
+class GroupValidator:
     pass

@@ -34,4 +34,4 @@ class Element(models.Model):
 
     class Meta:
         verbose_name = 'Элемент'
-        verbose_name_plural = 'Логические Элементы'
+        verbose_name_plural = 'Элементы'
