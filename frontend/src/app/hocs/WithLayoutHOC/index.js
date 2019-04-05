@@ -1,4 +1,4 @@
 import './styles.scss';
-import Component from './LogoIcon';
+import Component from './WithLayoutHOC';
 
 export default Component;

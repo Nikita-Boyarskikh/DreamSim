@@ -7,8 +7,7 @@ module.exports = {
   paths: {
     dist: 'dist',
     src: 'src',
-    public: 'public',
-    static: 'static'
+    public: 'public'
   },
   icons: {
     prefix: 'icons/',

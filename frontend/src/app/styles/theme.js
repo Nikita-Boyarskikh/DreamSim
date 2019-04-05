@@ -29,25 +29,44 @@ export default createMuiTheme({
       main:         bgColor,
       contrastText: mainColor,
     },
-    text:       { secondary: textColorSecondary },
+    text: {
+      secondary: textColorSecondary,
+    },
     background: {},
   },
   typography: {
     useNextVariants: true,
-    body1:           { fontSize: 16 },
-    button:          { color: textColor },
+    fontWeight: 400,
+    h1: {
+      fontSize: 32,
+      fontWeight: 400,
+    },
+    h2: {
+      fontSize: 28,
+    },
+    h3: {
+      fontSize: 24,
+    },
+    h4: {
+      fontSize: 20,
+    },
+    body1: {
+      fontSize: 16,
+    },
+    button: {
+      color: textColor,
+    },
   },
   overrides: {
-    MuiBottomNavigation: {
+    MuiIconButton: {
       root: {
-        backgroundColor: mainColor,
-        height:          'auto',
-        justifyContent:  'center',
-      },
+        color: textColor
+      }
     },
-    MuiBottomNavigationAction: {
-      selected: { color: textColor },
-      root:     { color: textColorSecondary },
-    },
+    MuiLink: {
+      root: {
+        color: textColorSecondary
+      }
+    }
   },
 });

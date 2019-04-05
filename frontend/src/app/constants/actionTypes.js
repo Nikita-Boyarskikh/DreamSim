@@ -12,6 +12,8 @@ export const LOADING_START = 'LOADING_START';
 
 export const LOADING_STOP = 'LOADING_STOP';
 
+export const PAGE_TITLE_CHANGE = 'PAGE_TITLE_CHANGE';
+
 // Menu
 export const OPEN_MENU = 'OPEN_MENU';
 
@@ -23,6 +25,8 @@ export const TOGGLE_MENU = 'TOGGLE_MENU';
 
 // Authorization
 export const LOGIN = 'LOGIN';
+
+export const LOGIN_WITH_VK = 'LOGIN_WITH_VK';
 
 export const LOGOUT = 'LOGOUT';
 

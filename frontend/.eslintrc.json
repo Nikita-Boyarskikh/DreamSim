@@ -23,6 +23,8 @@
     "plugin:react/recommended",
     "plugin:flowtype/recommended",
     "plugin:promise/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
     "eslint:recommended"
   ],
   "settings": {
@@ -31,13 +33,20 @@
       "pragma": "React",
       "version": "16.4.2"
     },
-    "propWrapperFunctions": []
+    "propWrapperFunctions": [],
+    "import/extensions": [".js", ".jsx"],
+    "import/resolver": {
+      "webpack": {
+        "config": "webpack.config.js"
+      }
+    }
   },
   "env": {
     "browser": true,
     "es6": true,
     "serviceworker": true,
-    "jest": true
+    "jest": true,
+    "node": true
   },
   "globals": {},
   "rules": {
@@ -48,7 +57,7 @@
     "no-compare-neg-zero": "error",
     "no-cond-assign": ["error", "always"],
     "no-console": ["error", {
-      // "allow": [],
+      // "allow": []
     }],
     "no-constant-condition": ["error", { "checkLoops": false }],
     "no-control-regex": "error",
@@ -104,7 +113,7 @@
     "dot-notation": "error",
     "eqeqeq": ["error", "always", {"null": "always"}],
     "guard-for-in": "error",
-    "max-classes-per-file": "off",
+    "max-classes-per-file": ["error", 1],
     "no-alert": "error",
     "no-caller": "error",
     "no-case-declarations": "error",
@@ -131,7 +140,7 @@
     "no-lone-blocks": "error",
     "no-loop-func": "error",
     "no-magic-numbers": ["error", {
-      "ignore": [0, 1],
+      "ignore": [-1, 0, 1],
       "ignoreArrayIndexes": false,
       "enforceConst": false,
       "detectObjects": false
@@ -200,7 +209,7 @@
       "args": "after-used",
       "varsIgnorePattern": "^_",
       "argsIgnorePattern": "^_",
-      // "caughtErrorsIgnorePattern": "",
+      "caughtErrorsIgnorePattern": "^$",
       "ignoreRestSiblings": false,
       "caughtErrors": "all"
     }],
@@ -254,11 +263,11 @@
       "considerPropertyDescriptor": true, "includeCommonJSModuleExports": false
     }],
     "func-names": ["error", "as-needed", { "generators": "as-needed" }],
-    "func-style": ["error", "expression", { "allowArrowFunctions": true }],
+    "func-style": ["error", "declaration", { "allowArrowFunctions": true }],
     "function-paren-newline": ["error", "multiline"],
     "id-blacklist": ["error", "data"],
     "id-length": ["error", { "min": 2, "max": 30, "properties": "always", "exceptions": ["a", "b", "x", "i"]}],
-    "id-match": ["error", "^[_A-Za-z]+$", { "properties": true, "onlyDeclarations": false }],
+    "id-match": ["error", "^[_0-9A-Za-z]+$", { "properties": true, "onlyDeclarations": false }],
     "implicit-arrow-linebreak": ["error", "beside"],
     "indent": ["error", 2, {
       "SwitchCase": 1,
@@ -323,7 +332,7 @@
       "code": 120,
       "tabWidth": 4,
       "comments": 120,
-      // "ignorePattern": "",
+       "ignorePattern": "^$",
       "ignoreComments": false,
       "ignoreStrings": false,
       "ignoreUrls": false,
@@ -341,10 +350,10 @@
     "new-cap": ["error", {
       "newIsCap": true,
       "capIsNew": true,
-//      "newIsCapExceptions": [],
-//      "newIsCapExceptionPattern": "",
-//      "capIsNewExceptions": [],
-//      "capIsNewExceptionPattern": "",
+      "newIsCapExceptions": [],
+      "newIsCapExceptionPattern": "^$",
+      "capIsNewExceptions": [],
+      "capIsNewExceptionPattern": "^$",
       "properties": true
     }],
     "new-parens": "error",
@@ -377,16 +386,16 @@
     "nonblock-statement-body-position": ["error", "beside", { "overrides": {} }],
     "object-curly-newline": ["error", {
       "ObjectExpression": {
-//        "minProperties": null,
+        "minProperties": 1,
         "multiline": true
       },
       "ObjectPattern": { "multiline": true },
-      "ImportDeclaration": { "multiline": true },
-      "ExportDeclaration": { "multiline": true }
+      "ImportDeclaration": { "consistent": true },
+      "ExportDeclaration": { "consistent": true }
     }],
     "object-curly-spacing": ["error", "always", { "arraysInObjects": false, "objectsInObjects": true }],
     "object-property-newline": ["error", { "allowAllPropertiesOnSameLine": true }],
-    "one-var": ["error", {  // TODO
+    "one-var": ["error", {
       "initialized": "never",
       "uninitialized": "consecutive"
     }],
@@ -509,6 +518,7 @@
     }],
     "symbol-description": "error",
     "template-curly-spacing": ["error", "never"],
-    "yield-star-spacing": ["error", {"before": true, "after": false}]
+    "yield-star-spacing": ["error", {"before": true, "after": false}],
+    "promise/always-return":  "warn"
   }
 }

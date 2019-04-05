@@ -1,0 +1,10 @@
+@import 'app/styles/constants';
+
+.logo-vk {
+  width: $icon-size;
+  height: $icon-size;
+
+  &.logo-vk_active {
+    fill: $vk-color;
+  }
+}

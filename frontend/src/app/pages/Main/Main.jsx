@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Main = (props) => (
-  <Header></Header>
-);
+import WithLayoutHOC from 'app/hocs/WithLayoutHOC';
 
-export default Main;
+const Main = (props) => <div />;
+
+export default WithLayoutHOC(Main);

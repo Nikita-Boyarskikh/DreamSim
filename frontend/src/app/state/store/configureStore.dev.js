@@ -1,18 +1,27 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import { default as reducer } from 'app/state/reducers';
+import { applyMiddleware, createStore } from 'redux';
+import { createLogger } from 'redux-logger';
 import promise from 'redux-promise';
 import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 
-export default (persistedState) => {
-  const middlewares = [promise, thunk],
-        logger = configureLogger('debug');
+import reducer from 'app/state/reducers';
+
+export default (initialState) => {
+  const middlewares = [promise, thunk];
+  const logger = createLogger('debug');
 
   middlewares.push(logger);
+  const composeEnhancers = composeWithDevTools({
+    latency: 500,
+    maxAge: 50,
+    trace: true,
+    traceLimit: 10
+  });
 
   const store = createStore(
     reducer,
-    persistedState,
-    applyMiddleware(...middlewares),
+    initialState,
+    composeEnhancers(applyMiddleware(...middlewares))
   );
 
   if (module.hot) {

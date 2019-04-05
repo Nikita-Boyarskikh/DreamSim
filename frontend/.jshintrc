@@ -30,8 +30,6 @@
   "passfail"     : false,
   "plusplus"     : false,
   "prototypejs"  : false,
-  "regexdash"    : true,
-  "regexp"       : true,
   "rhino"        : false,
   "undef"        : true,
   "shadow"       : true,

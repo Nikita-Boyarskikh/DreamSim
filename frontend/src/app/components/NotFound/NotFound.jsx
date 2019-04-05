@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -9,11 +10,22 @@ import CardMedia from '@material-ui/core/CardMedia';
 const NotFound = ({ history }) => (
   <Card square className="card not-found">
     <CardHeader title="Страница не найдена" />
-    <CardMedia component="img" image="/static/images/notFound.png" title="not_found" className="not_found" />
+    <CardMedia
+      component="img"
+      image="/images/notFound.png"
+      title="not_found"
+      className="not_found"
+    />
     <CardActions>
-      <Button color="primary" fullWidth onClick={() => history.goBack()}>Назад</Button>
+      <Button color="primary" fullWidth onClick={() => history.goBack()}>
+        Назад
+      </Button>
     </CardActions>
   </Card>
 );
+
+NotFound.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
 export default NotFound;

@@ -4,6 +4,24 @@ $secondary-bg-color: #fafafa;
 $text-color: #ffffff;
 $text-color-secondary: #999999;
 
-$font: 400 16px/23px Roboto, Helvetica, Arial, sans-serif;
-$font-header: 400 20px Roboto, Helvetica, Arial, sans-serif;
+$font-weight: 400;
+$font-size: 16px/23px;
+$font-family: Roboto, Helvetica, Arial, sans-serif;
+
+$font-weight-header: 400;
+$font-size-header: 20px;
+$font-family-header: $font-family;
+
 $font-monospace: "Roboto Mono Light for Powerline", Monaco, "Courier New", Courier, monospace;
+
+$vk-color:  #436EAB;
+
+$main-spacing: 25px;
+$text-spacing: 10px;
+
+$logo-large-height: 40px;
+$icon-size: 20px;
+
+$background-dot-size: 5px;
+$background-dot-space: 10px;
+$header-height: 60px;
