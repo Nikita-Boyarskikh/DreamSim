@@ -2,36 +2,33 @@ const path = require('path');
 const webpack = require('webpack');
 
 const DirectoryNamedWebpackPlugin = require('directory-named-webpack-plugin');
-const { GenerateSW } = require('workbox-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const ResourceHintWebpackPlugin = require('resource-hints-webpack-plugin');
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin');  Waiting until they upgrade lodash
-const AppCachePlugin = require('appcache-webpack-plugin');
-const ManifestPlugin = require('webpack-manifest-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const config = require('./config');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const rootDir = path.resolve(__dirname, '..');
+const srcDir = path.resolve(rootDir, config.paths.src);
+const distDir = path.resolve(rootDir, config.paths.dist);
 
 const webpackConfig = {
   mode: process.env.NODE_ENV,
   target: 'web',
   entry: {
-    app: path.resolve(rootDir, config.paths.src, config.indexJsx),
-    vendors: path.resolve(rootDir, config.paths.src, config.vendors)
+    app: path.resolve(srcDir, config.indexJsx),
+    vendors: path.resolve(srcDir, config.vendors)
   },
   output: {
-    path: path.resolve(rootDir, config.paths.dist),
+    path: distDir,
     filename: '[name].[hash].js'
   },
   resolve: {
-    modules: ['node_modules', path.resolve(rootDir, config.paths.src)],
+    modules: ['node_modules', srcDir],
     extensions: ['.js', '.jsx', '.html', '.json'],
-    unsafeCache: true,
     plugins: [
       new DirectoryNamedWebpackPlugin({
         honorIndex: true
@@ -39,40 +36,34 @@ const webpackConfig = {
     ]
   },
   plugins: [
-    new GenerateSW({
-      offlineGoogleAnalytics: true
-    }),
     new MiniCssExtractPlugin({
       filename: '[name].[hash].css',
       chunkFilename: '[id].[hash].css'
     }),
     new HtmlWebPackPlugin({
       title: config.title,
-      template: path.resolve(rootDir, config.paths.src, config.indexHtml),
-      filename: path.resolve(rootDir, config.paths.dist, config.indexHtml),
+      template: path.resolve(srcDir, config.indexHtml),
+      filename: path.resolve(distDir, config.indexHtml),
       inject: true,
       hash: true,
       cache: true,
       showErrors: true,
       meta: config.meta,
-      minify: isProduction
-        ? {
-            removeComments: true,
-            collapseWhitespace: true,
-            removeRedundantAttributes: true,
-            useShortDoctype: true,
-            removeEmptyAttributes: true,
-            removeStyleLinkTypeAttributes: true,
-            keepClosingSlash: true,
-            minifyJS: true,
-            minifyCSS: true,
-            minifyURLs: true
-          }
-        : false,
+      minify: isProduction && {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      },
       alwaysWriteToDisk: true
     }),
     new HtmlWebpackHarddiskPlugin(),
-    new ResourceHintWebpackPlugin(),
     // new FaviconsWebpackPlugin({
     //   logo: path.resolve(rootDir, config.paths.public, config.icons.logo),
     //   prefix: config.icons.prefix,
@@ -95,21 +86,6 @@ const webpackConfig = {
     //     windows: true,
     //   },
     // }),
-    new AppCachePlugin({
-      cache: [config.mediaRegex],
-      network: null,
-      settings: [],
-      output: config.manifest.appcacheFilename
-    }),
-    new ManifestPlugin({
-      fileName: path.resolve(
-        rootDir,
-        config.paths.public,
-        config.manifest.json
-      ),
-      publicPath: config.manifest.publicName
-    }),
-    new CleanWebpackPlugin([config.paths.dist]),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify(process.env.NODE_ENV)
@@ -126,7 +102,60 @@ const webpackConfig = {
               isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
               'css-loader',
               'postcss-loader',
-              'sass-loader'
+              {
+                loader: 'sass-loader',
+                options: {
+                  includePaths: [srcDir]
+                }
+              }
+            ]
+          },
+          {
+            test: /\.svg$/,
+            use: [
+              'svg-sprite-loader',
+              {
+                loader: 'svgo-loader',
+                options: {
+                  full: true,
+                  plugins: [
+                    'cleanupAttrs',
+                    'inlineStyles',
+                    'removeDoctype',
+                    'removeXMLProcInst',
+                    'removeComments',
+                    'removeMetadata',
+                    'removeTitle',
+                    'removeDesc',
+                    'removeUselessDefs',
+                    'removeEditorsNSData',
+                    'removeEmptyAttrs',
+                    'removeHiddenElems',
+                    'removeEmptyText',
+                    'removeEmptyContainers',
+                    'cleanupEnableBackground',
+                    'minifyStyles',
+                    'convertStyleToAttrs',
+                    'convertColors',
+                    'convertPathData',
+                    'convertTransform',
+                    'removeUnknownsAndDefaults',
+                    'removeNonInheritableGroupAttrs',
+                    'removeUselessStrokeAndFill',
+                    'removeUnusedNS',
+                    'prefixIds',
+                    'cleanupIDs',
+                    'cleanupNumericValues',
+                    'cleanupListOfValues',
+                    'moveElemsAttrsToGroup',
+                    'moveGroupAttrsToElems',
+                    'collapseGroups',
+                    'mergePaths',
+                    'convertShapeToPath',
+                    'removeDimensions'
+                  ]
+                }
+              },
             ]
           },
           {
@@ -176,11 +205,28 @@ const webpackConfig = {
     maxEntrypointSize: config.limits.maxEntrypointSize
   },
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: false
-    },
-    runtimeChunk: true
+    minimizer: [
+      new UglifyJsPlugin({
+        test: /\.jsx?$/,
+        cache: true,
+        parallel: true,
+        sourceMap: !isProduction,
+        uglifyOptions: {
+          warnings: !isProduction && 'verbose',
+          toplevel: true,
+          ie8: true,
+          compress: {
+            drop_console: isProduction,
+            drop_debugger: isProduction,
+            typeofs: false
+          },
+          output: {
+            comments: !isProduction,
+            webkit: true
+          }
+        }
+      })
+    ]
   }
 };
 

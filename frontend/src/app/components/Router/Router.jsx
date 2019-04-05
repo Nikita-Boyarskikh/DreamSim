@@ -1,31 +1,23 @@
 import React from 'react';
-import { Route, Switch, browserHistory } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 import Main from 'app/pages/Main';
-import Footer from 'app/components/Footer';
-import Header from 'app/components/Header';
-import NotFound from 'app/components/NotFound';
+import Login from 'app/pages/Login';
+import PageNotFound from 'app/pages/NotFound';
 
-const PageNotFound = ({ history }) => (
-        <React.Fragment>
-          <Header
-            title="Страница не найдена"
-            onBackClick={() => history.goBack()}
-          />
-          <div className="page">
-            <NotFound history={history} />
-          </div>
-          <Footer />
-        </React.Fragment>
-      ),
+PageNotFound.propTypes = {
+  history: PropTypes.object.isRequired,
+};
 
-      Router = (props) => (
-        <React.Fragment>
-          <Switch>
-            <Route exact path="/" component={Main} />
-            <Route component={PageNotFound} />
-          </Switch>
-        </React.Fragment>
-      );
+const Router = (props) => (
+  <BrowserRouter>
+    <Switch>
+      <Route exact path="/" component={Main} />
+      <Route exact path="/login" component={Login} />
+      <Route component={PageNotFound} />
+    </Switch>
+  </BrowserRouter>
+);
 
 export default Router;

@@ -15,7 +15,7 @@ const webpackConfig = {
   devServer: {
     port: config.devServer.port,
     proxy: devServerProxises, // proxy URLs to backend development server
-    contentBase: path.join(__dirname, '..', config.paths.static),
+    contentBase: path.join(__dirname, '..', config.paths.public),
     publicPath: '/',
     useLocalIp: false,
     compress: true,
@@ -28,6 +28,11 @@ const webpackConfig = {
     overlay: {
       warnings: true,
       errors: true
+    }
+  },
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
     }
   }
 };

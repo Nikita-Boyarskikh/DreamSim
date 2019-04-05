@@ -2,11 +2,10 @@ const easingGradients = require('postcss-easing-gradients');
 const autoPrefixer = require('autoprefixer');
 const bem = require('postcss-bem');
 const bemLinter = require('postcss-bem-linter');
-const immutableCss = require('immutable-css');
 const doiuse = require('doiuse');
 const reporter = require('postcss-reporter');
 
-const browsers = [];
+const browsers = ['last 2 Chrome versions'];
 
 module.exports = {
   plugins: [
@@ -14,8 +13,7 @@ module.exports = {
     autoPrefixer({ browsers }),
     bem({ style: 'bem' }),
     bemLinter('bem'),
-    immutableCss({ strict: true, }),
     doiuse({ browsers }),
-    reporter(),
+    reporter()
   ]
 };

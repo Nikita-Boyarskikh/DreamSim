@@ -5,13 +5,15 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 const Menu = ({ menuItems }) => (
-  <React.Component>
+  <div className="menu">
     {menuItems.map((item, i) => (
-      <IconButton key={i} component={Link} to={item.url}>
-        <Typography variant="h6" component="h1">{item.name}</Typography>
+      <IconButton key={i} component={Link} to={item.url} className="menu__item">
+        <Typography variant="h6" component="h1" className="header__element menu__item-name">
+          {item.name}
+        </Typography>
       </IconButton>
     ))}
-  </React.Component>
+  </div>
 );
 
 Menu.propTypes = {

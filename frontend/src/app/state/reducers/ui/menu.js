@@ -1,18 +1,30 @@
 import { handleActions } from 'redux-actions';
-import { CLOSE_MENU, OPEN_MENU, TOGGLE_MENU } from '../../../constants/actionTypes';
+import {
+  CLOSE_MENU,
+  OPEN_MENU,
+  TOGGLE_MENU,
+} from 'app/constants/actionTypes';
 
-const initialState = { isOpen: false };
+const initialState = {
+  isOpen: false,
+};
 
-export default handleActions(initialState, {
+export default handleActions({
   [CLOSE_MENU]() {
-    return { isOpen: false };
+    return {
+      isOpen: false,
+    };
   },
 
   [OPEN_MENU]() {
-    return { isOpen: true };
+    return {
+      isOpen: true,
+    };
   },
 
   [TOGGLE_MENU](state) {
-    return { isOpen: !state.isOpen };
+    return {
+      isOpen: !state.isOpen,
+    };
   },
-});
+}, initialState);
