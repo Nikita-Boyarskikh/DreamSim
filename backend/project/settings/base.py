@@ -112,7 +112,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/storage/'
 STATIC_URL = '/static/'
 
-APPEND_SLASH = True
+APPEND_SLASH = False
 PREPEND_WWW = False
 
 TIME_ZONE = 'UTC'

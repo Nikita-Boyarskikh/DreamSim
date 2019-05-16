@@ -7,7 +7,7 @@ class Group(models.Model):
     """Группа"""
 
     name = models.CharField('Название группы', max_length=255, validators=[GroupValidator])
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, name='ВУЗ')
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, verbose_name='ВУЗ')
 
     class Meta:
         verbose_name = 'Группа'

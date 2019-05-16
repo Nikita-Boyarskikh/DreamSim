@@ -6,10 +6,10 @@ from .scheme_element import SchemeElement
 class SchemeLinks(models.Model):
     """Связи схемы"""
 
-    id_input_scheme_element = models.ForeignKey(
+    input_scheme_element = models.ForeignKey(
         SchemeElement, on_delete=models.CASCADE, related_name='in_link', verbose_name='ИД ЛЭ схемы входа'
     )
-    id_output_scheme_element = models.ForeignKey(
+    output_scheme_element = models.ForeignKey(
         SchemeElement, on_delete=models.CASCADE, related_name='out_link', verbose_name='ИД ЛЭ схемы выхода'
     )
     input_number = models.IntegerField('Номер входа на элементе')
