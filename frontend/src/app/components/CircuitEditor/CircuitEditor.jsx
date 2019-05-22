@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import { render } from 'react-dom';
 import { Stage, Layer} from 'react-konva';
-import Element from 'Element';
-import Wire from 'Wire';
+import Element from '../Element';
+import Wire from '../Wire';
 
 import PropTypes from 'prop-types';
 

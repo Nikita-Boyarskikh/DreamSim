@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {Image, Layer} from 'react-konva';
 import PropTypes from 'prop-types';
-import Connection from 'Connection'
+import Connection from '../Connection'
 
 class Element extends Component {
 
@@ -11,22 +11,22 @@ class Element extends Component {
     y: null
   };
 
-
+  render() {
   return (
-    <Layer
-      <Connection {props.x - 2} {props.y + this.props.h / 2 - 2} />
-      <Connection {this.props.x + this.props.w - 2} {this.props.y + this.props.h / 2 - 2}/>
+    <Layer>
+      <Connection pos_x = {this.props.x - 2} pos_y = {this.props.y + this.props.h / 2 - 2} />
+      <Connection pos_x = {this.props.x + this.props.w - 2} pos_y={this.props.y + this.props.h / 2 - 2}/>
       <Image
         x={this.props.x}
         y={this.props.y}
         image={this.props.image}
         draggable
-        onDragStart = { => {
+        onDragStart = {() => {
           this.setState({
             isDragging: true
           });
         }}
-        onDragEnd={ e => {
+        onDragEnd={ (e) => {
           this.setState({
             isDragging: false,
             x: e.target.x,
@@ -35,12 +35,14 @@ class Element extends Component {
         }}
         // !!!!!!!!!!!!!!!!!
         onClick = {
-        // Начать создание связи по нажатию  
+          ()=>{}
+        // Начать создание связи по нажатию
         }
       />
 
-    />
+    </Layer>
   );
+}
 };
 
 Element.propTypes = {

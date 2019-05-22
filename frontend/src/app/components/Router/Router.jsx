@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Main from 'app/pages/Main';
 import Login from 'app/pages/Login';
 import PageNotFound from 'app/pages/NotFound';
-import CircuitEditor from  'app/components/CircuitEditor/Element'
+import CircuitEditor from  'app/components/CircuitEditor'
 
 PageNotFound.propTypes = {
   history: PropTypes.object.isRequired,
