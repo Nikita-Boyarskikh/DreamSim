@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Main from 'app/pages/Main';
 import Login from 'app/pages/Login';
 import PageNotFound from 'app/pages/NotFound';
+import CircuitEditor from  'app/components/CircuitEditor/Element'
 
 PageNotFound.propTypes = {
   history: PropTypes.object.isRequired,
@@ -15,6 +16,7 @@ const Router = (props) => (
     <Switch>
       <Route exact path="/" component={Main} />
       <Route exact path="/login" component={Login} />
+      <Route exact path="/editor" component={CircuitEditor} />
       <Route component={PageNotFound} />
     </Switch>
   </BrowserRouter>
