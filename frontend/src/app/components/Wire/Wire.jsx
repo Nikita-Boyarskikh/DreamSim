@@ -14,3 +14,5 @@ const Wire = ({elements}) =>(
     // https://codesandbox.io/s/757nw05p6  Красивые линии, но как интегрировать
   />
 );
+
+export default Wire;

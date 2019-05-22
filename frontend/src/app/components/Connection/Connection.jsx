@@ -7,4 +7,4 @@ const Connection = ({pos_x,pos_y}) = > (
   <Circle x = {pos_x} y = {pos_y} radius = {4} fill = "black" />
 );
 
-export default Connection
+export default Connection;

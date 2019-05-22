@@ -4,14 +4,14 @@ import Element from 'Element'
 import { Stage, Layer} from 'react-konva';
 import {Scroll} from 'react-scroll-component';
 
-const LeftMenu = ({elements}) => (
+const LeftMenu = ({backendElements}) => (
   <Scroll>
     <Stage width={window.innerWidth} height={window.innerHeight} > //??? razmeri
       <Layer>
-        {elements.map(element => <Element key={element.id} image={element.image} x={elements.x} y={elements.y} w={element.w} h={element.h} {...element} />)}
+        {backendElements.map(element => <Element key={element.id} image={element.image} x={elements.x} y={elements.y} w={element.w} h={element.h} {...element} />)}
 
         onClick = {
-          // добавление 
+          // добавление
         }
       </Layer>
     </Stage>
