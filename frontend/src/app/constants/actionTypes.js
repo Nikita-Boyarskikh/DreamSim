@@ -5,6 +5,11 @@ export const API = 'API';
 
 export const API_CANCEL = 'API_CANCEL';
 
+// CircuitEditor
+export const ADD_SCHEME_ELEMENT = 'ADD_SCHEME_ELEMENT';
+
+export const CHOOSE_ELEMENT_FROM_MENU = 'CHOOSE_ELEMENT_FROM_MENU';
+
 // ================= UI =================
 
 // Layout
