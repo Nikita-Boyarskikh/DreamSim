@@ -1,4 +1,12 @@
 - model: authentication.user
+  pk: 1
+  fields:
+    is_superuser: true
+    username: admin
+    password: pbkdf2_sha256$120000$4Dijko33cUgS$Orh8V3P4ayQicmWV9Flb45yp+2Au4uXo9nISmHYxAtg=
+    email: admin@dreamsim.ru
+
+- model: authentication.user
   pk: 2
   fields:
     is_staff: true
@@ -9,5 +17,5 @@
     last_name: Дуров
     patronymic: Валерьевич
     group: 1
-    birthday: 10-10-01T00:00:00+00:00
+    birthday: 1984-10-10
     vk: https://vk.com/durov

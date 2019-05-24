@@ -7,7 +7,7 @@ from apps.core.validators import validate_input_pin, validate_output_pin
 from .scheme_element import SchemeElement
 
 
-class SchemeLinks(models.Model):
+class SchemeLink(models.Model):
     """Связи схемы"""
 
     input_scheme_element = models.ForeignKey(

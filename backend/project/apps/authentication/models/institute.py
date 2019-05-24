@@ -5,7 +5,7 @@ class Institute(models.Model):
     """ВУЗ"""
 
     name = models.CharField('Название', max_length=255)
-    format_group = models.CharField('Формат названия учебной группы', max_length=30, null=True, blank=True)
+    format_group = models.CharField('Формат названия учебной группы', max_length=255, null=True, blank=True)
 
     def __str__(self):
         return self.name

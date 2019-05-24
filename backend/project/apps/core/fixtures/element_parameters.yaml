@@ -1,0 +1,8 @@
+- model: core.elementparameter
+  pk: 1
+  fields:
+    element: 1
+    name: частота
+    unit: 1
+    dimension: Г
+    value: 10

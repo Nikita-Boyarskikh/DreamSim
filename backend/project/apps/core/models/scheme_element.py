@@ -12,14 +12,12 @@ class SchemeElement(models.Model):
     scheme = models.ForeignKey(Scheme, on_delete=models.CASCADE, verbose_name='Схема')
     element = models.ForeignKey(Element, on_delete=models.CASCADE, verbose_name='Элемент')
     coordinates = ArrayField(
-        ArrayField(
-            models.IntegerField(validators=[MinValueValidator(0)]),
-            validators=[
-                ArrayMaxLengthValidator(2),
-                ArrayMinLengthValidator(2)
-            ],
-            verbose_name='Координаты'
-        )
+        models.IntegerField(validators=[MinValueValidator(0)]),
+        validators=[
+            ArrayMaxLengthValidator(2),
+            ArrayMinLengthValidator(2)
+        ],
+        verbose_name='Координаты'
     )
     name = models.CharField('Название', max_length=255, blank=True, null=True)
 

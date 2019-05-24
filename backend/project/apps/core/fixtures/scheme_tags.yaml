@@ -1,0 +1,5 @@
+- model: core.schemetag
+  pk: 1
+  fields:
+    tag: 1
+    scheme: 1

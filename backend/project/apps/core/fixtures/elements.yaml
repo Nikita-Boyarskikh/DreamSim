@@ -2,4 +2,10 @@
   pk: 1
   fields:
     name: Generator
-    creator:
+    creator: 1
+    element_type: 'SOURCE'
+    array_of_inputs: []
+    array_of_outputs: ['C']
+    time: 0
+    delay: 0
+    truth_table: [[[1]], [[0]]]
