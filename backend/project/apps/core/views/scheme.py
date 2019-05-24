@@ -1,23 +1,17 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 
 from apps.core.models import Scheme
-from apps.core.serializers.scheme import SchemeSerializer, SchemeCreateSerializer
-from lib.api.viewsets import MultiSerializerMixin
+from apps.core.serializers.scheme import SchemeSerializer
 
 
-class SchemeViewSet(MultiSerializerMixin, viewsets.ModelViewSet):
+class SchemeViewSet(viewsets.ModelViewSet):
     """
     A simple ViewSet for viewing and editing schemes
     """
-    queryset = Scheme.objects.all()
+    queryset = Scheme.objects.select_related('creator').prefetch_related('elements')
     serializer_class = SchemeSerializer
-    permission_classes = (IsAuthenticated,)
-
-    serializers = {
-        'create': SchemeCreateSerializer,
-        'update': SchemeCreateSerializer,
-    }
+    permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)

@@ -6,10 +6,13 @@ from .element import Element
 class Scheme(models.Model):
     """Схема"""
 
-    name = models.CharField('Название схемы', max_length=255)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Создатель схемы')
+    name = models.CharField('Название', max_length=255)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Создатель')
     formula = models.CharField('Формула', max_length=255, blank=True, null=True)
     elements = models.ManyToManyField(Element, 'schemes', through='SchemeElement')
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Схема'

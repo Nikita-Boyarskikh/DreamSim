@@ -1,25 +1,18 @@
+from django.db import transaction
 from rest_framework import serializers
 
-from apps.authentication.serializers import UserSerializer
 from apps.core.models import Scheme, Element, SchemeElement
 from apps.core.serializers.scheme_element import SchemeElementSerializer
 
 
-class SchemeCommonSerializer(serializers.ModelSerializer):
-    elements = SchemeElementSerializer(many=True)
+class SchemeSerializer(serializers.ModelSerializer):
+    creator = serializers.PrimaryKeyRelatedField(
+        read_only=True,
+        default=serializers.CurrentUserDefault()
+    )
+    elements = SchemeElementSerializer(source='schemeelement_set', many=True)
 
-    class Meta:
-        model = Scheme
-        fields = ('id', 'name', 'formula', 'creator', 'elements')
-
-
-class SchemeSerializer(SchemeCommonSerializer):
-    creator = UserSerializer()
-
-
-class SchemeCreateSerializer(SchemeCommonSerializer):
-    creator = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
-
+    @transaction.atomic
     def create(self, validated_data):
         scheme = Scheme.objects.create(
             name=validated_data['name'],
@@ -27,11 +20,11 @@ class SchemeCreateSerializer(SchemeCommonSerializer):
             formula=validated_data.get('formula')
         )
 
-        elements_data = validated_data['elements']
-        element_ids = (data['element']['id'] for data in elements_data)
+        scheme_elements_data = validated_data['schemeelement_set']
+        element_ids = (data['id'] for data in scheme_elements_data)
 
         elements = Element.objects.filter(id__in=element_ids).all()
-        for element, data in zip(elements, elements_data):
+        for element, data in zip(elements, scheme_elements_data):
             SchemeElement.objects.create(
                 element=element,
                 scheme=scheme,
@@ -40,3 +33,7 @@ class SchemeCreateSerializer(SchemeCommonSerializer):
             )
 
         return scheme
+
+    class Meta:
+        model = Scheme
+        fields = ('id', 'name', 'formula', 'creator', 'elements')

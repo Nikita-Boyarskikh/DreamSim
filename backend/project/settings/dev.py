@@ -22,3 +22,5 @@ PASSWORD_MIN_LENGTH = None
 
 EMAIL_FILE_PATH = [os.path.join(TMP_DIR, 'emails')]
 MEDIA_PATH = os.path.join(TMP_DIR, 'media')
+
+CELERY_TASK_ALWAYS_EAGER = True

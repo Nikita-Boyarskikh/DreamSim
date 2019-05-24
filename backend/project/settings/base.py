@@ -8,6 +8,12 @@ TMP_DIR = os.path.join(os.path.dirname(BASE_DIR), 'tmp')
 DOMAIN_NAME = 'dreamsim.ru'
 PG_CONN_MAX_AGE = 10
 
+APPEND_SLASH = True
+PREPEND_WWW = False
+
+TIME_ZONE = 'UTC'
+USE_TZ = True
+
 SECRET_KEY = 'ou$!!y5#x=9q4i8%$=srd8s04lkf&69pk!f2_6qev+_ywief)0'
 
 ABSOLUTE_URL_OVERRIDES = {}
@@ -24,6 +30,12 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders',
+    # health checks
+    'health_check',
+    'health_check.db',
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.celery',
 
     # Project
     'apps.core',
@@ -70,6 +82,14 @@ DATABASES = {
     },
 }
 
+# Celery application definition
+CELERY_BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
+
 AUTH_USER_MODEL = 'authentication.User'
 
 PASSWORD_MIN_LENGTH = 4
@@ -112,12 +132,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/storage/'
 STATIC_URL = '/static/'
 
-APPEND_SLASH = False
-PREPEND_WWW = False
-
-TIME_ZONE = 'UTC'
-USE_TZ = True
-
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
@@ -126,6 +140,47 @@ LOGOUT_REDIRECT_URL = '/'
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        },
+    },
+    'formatters': {
+        'standard': {
+            'format': '%(levelname)-8s [%(asctime)s] %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'null': {
+            'class': 'logging.NullHandler',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['require_debug_false'],
+        },
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'filters': [],
+            'formatter': 'standard',
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': ['console'],
+            'level': 'INFO'
+        },
+        'django.security.DisallowedHost': {
+            'handlers': ['null'],
+            'propagate': False,
+        },
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
 }
 
 # TODO: TEST_RUNNER

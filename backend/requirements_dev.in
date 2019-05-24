@@ -10,7 +10,8 @@ pylint-args==0.0.5
 pylint-celery==0.3
 pylint-django==2.0.5
 pylint==2.2.2
-pytest==4.3.0
+pytest-cov==2.7.1
+pytest-django==3.4.8
 sentry-flake8==0.0.2
 yapf==0.26.0
 

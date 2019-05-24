@@ -1,0 +1,13 @@
+- model: authentication.user
+  pk: 2
+  fields:
+    is_staff: true
+    username: durov
+    password: pbkdf2_sha256$120000$YVJLQOftvWBo$VXIStVMCBpTWMw5JrQlhZpqcKc1kvDyS88jsT2SipRY=
+    email: durov@vk.com
+    first_name: Павел
+    last_name: Дуров
+    patronymic: Валерьевич
+    group: 1
+    birthday: 10-10-01T00:00:00+00:00
+    vk: https://vk.com/durov

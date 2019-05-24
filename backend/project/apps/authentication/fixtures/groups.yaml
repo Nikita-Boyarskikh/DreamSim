@@ -1,0 +1,5 @@
+- model: authentication.group
+  pk: 1
+  fields:
+    name: ИУ6-62Б
+    institute: 1
