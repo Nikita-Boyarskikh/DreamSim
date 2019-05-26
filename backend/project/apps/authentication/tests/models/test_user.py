@@ -8,8 +8,6 @@ pytestmark = pytest.mark.django_db
 
 class TestUser:
     def test_vk_validation(self, simple_user):
-        assert simple_user.vk is None
-
         expected_errors = {'vk': ['Введите корректный URL.', 'Ссылка должна вести на профиль vk.com']}
         with pytest.raises(ValidationError, match=create_validation_message(expected_errors)):
             simple_user.vk = 'wrong value'
