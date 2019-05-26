@@ -2,7 +2,7 @@ from django.core.exceptions import ValidationError
 
 PIN_INDEX_ERROR = 'Индекс пина должен быть меньше количества пинов на элементе'
 TRUTH_TABLE_OUTPUT_STATES_ERROR = 'Количество состояний выходов должно быть равно количеству выходных сигналов)'
-TRUTH_TABLE_INPUT_STATES_ERROR = 'Количество возможных должно быть равно 2^(количество входных сигналов)'
+TRUTH_TABLE_INPUT_STATES_ERROR = 'Количество возможных комбинаций вх. сигналов д.б. = 2^(количество входных сигналов)'
 
 
 def validate_input_pin(model):

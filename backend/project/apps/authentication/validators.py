@@ -11,4 +11,4 @@ def validate_vk_link(link):
 
 def validate_group_name(model):
     if not re.match(model.institute.format_group, model.name):
-        raise ValidationError('Неверный формат имени группы')
+        raise ValidationError('Неверный формат имени группы', code='invalid_group_name')

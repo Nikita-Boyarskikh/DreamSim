@@ -35,8 +35,8 @@ class SchemeLink(models.Model):
         validate_output_pin(self)
 
     def __str__(self):
-        input_element_str = f'{self.input_scheme_element.id}: {self.input_number}'
-        output_element_str = f'{self.output_scheme_element.id}: {self.output_number}'
+        input_element_str = f'{self.input_scheme_element.id}: {self.input_pin}'
+        output_element_str = f'{self.output_scheme_element.id}: {self.output_pin}'
         link_str = f'{input_element_str} -> {output_element_str}'
         if self.name:
             return f'{self.name}({link_str})'

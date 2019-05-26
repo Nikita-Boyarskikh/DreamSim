@@ -144,4 +144,4 @@ class Migration(migrations.Migration):
             name='unit',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Unit', verbose_name='Единица измерения'),
         ),
-    ]e
+    ]
