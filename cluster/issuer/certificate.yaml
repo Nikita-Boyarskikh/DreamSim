@@ -11,11 +11,11 @@ spec:
     name: letsencrypt-stage
     kind: ClusterIssuer
   dnsNames:
-    - dreamsim.ru
-    - www.dreamsim.ru
+    - drsim.ru
+    - www.drsim.ru
   acme:
     config:
       - ingressClass: nginx
         domains:
-          - dreamsim.ru
-          - www.dreamsim.ru
+          - drsim.ru
+          - www.drsim.ru

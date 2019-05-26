@@ -5,8 +5,10 @@ from locales.default.formats import *  # noqa: F401,F403 pylint: disable=wildcar
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP_DIR = os.path.join(os.path.dirname(BASE_DIR), 'tmp')
-DOMAIN_NAME = 'dreamsim.ru'
+DOMAIN_NAME = 'drsim.ru'
 PG_CONN_MAX_AGE = 10
+
+SITE_ID = 1
 
 APPEND_SLASH = True
 PREPEND_WWW = False
@@ -25,9 +27,20 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
 
     # Third party
     'rest_framework',
+
+    # authentication
+    'rest_framework.authtoken',
+    'rest_auth',
+    'allauth',
+    'allauth.account',
+    'rest_auth.registration',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.vk',
+
     'django_filters',
     'corsheaders',
     # health checks
@@ -82,6 +95,13 @@ DATABASES = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'redis_cache.RedisCache',
+        'LOCATION': 'localhost:6379',
+    },
+}
+
 # Celery application definition
 CELERY_BROKER_URL = 'redis://localhost:6379'
 CELERY_RESULT_BACKEND = 'redis://localhost:6379'
@@ -113,9 +133,14 @@ WSGI_APPLICATION = 'wsgi.application'
 
 DEFAULT_FROM_EMAIL = 'noreply@' + DOMAIN_NAME
 SERVER_EMAIL = 'root@' + DOMAIN_NAME
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_SUBJECT_PREFIX = '[DreamSim] '
 EMAIL_USE_LOCALTIME = True
 EMAIL_TIMEOUT = 1000  # ms
+
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
 
 FORMAT_MODULE_PATH = 'locales.formats'
 USE_THOUSAND_SEPARATOR = True

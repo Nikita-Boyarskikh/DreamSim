@@ -1,7 +1,7 @@
 from django.contrib.postgres.validators import ArrayMinLengthValidator, ArrayMaxLengthValidator
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from lib.postgres.fields import ArrayField
 from .scheme import Scheme
 from .element import Element
 
@@ -13,10 +13,7 @@ class SchemeElement(models.Model):
     element = models.ForeignKey(Element, on_delete=models.CASCADE, verbose_name='Элемент')
     coordinates = ArrayField(
         models.IntegerField(validators=[MinValueValidator(0)]),
-        validators=[
-            ArrayMaxLengthValidator(2),
-            ArrayMinLengthValidator(2)
-        ],
+        validators=[ArrayMaxLengthValidator(2), ArrayMinLengthValidator(2)],
         verbose_name='Координаты'
     )
     name = models.CharField('Название', max_length=255, blank=True, null=True)

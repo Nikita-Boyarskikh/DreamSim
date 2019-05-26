@@ -21,5 +21,5 @@ def validate_truth_table(model):
             raise ValidationError(TRUTH_TABLE_OUTPUT_STATES_ERROR)
 
         for out in state:
-            if len(out) != 2 ** len(model.array_of_inputs):
+            if len(out) != 2**len(model.array_of_inputs):
                 raise ValidationError(TRUTH_TABLE_INPUT_STATES_ERROR)

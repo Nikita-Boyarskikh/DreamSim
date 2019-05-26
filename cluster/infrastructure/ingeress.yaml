@@ -18,7 +18,7 @@ metadata:
     service: dreamsim
 spec:
   rules:
-    - host: kube-dashboard.dreamsim.ru
+    - host: kube-dashboard.drsim.ru
       http:
         paths:
           - path: /
@@ -27,5 +27,5 @@ spec:
               servicePort: 443
   tls:
     - hosts:
-        - kube-dashboard.dreamsim.ru
+        - kube-dashboard.drsim.ru
       secretName: dreamsim-stage-tls

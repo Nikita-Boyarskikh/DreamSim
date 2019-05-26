@@ -5,7 +5,7 @@ services:
     image: dreamsim-frontend
     environment:
       - NODE_ENV=production
-      - API_URL='https://dreamsim'
+      - API_URL='https://drsim'
     volumes:
       - .:/usr/src/app
     ports:

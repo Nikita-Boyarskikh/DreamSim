@@ -25,7 +25,7 @@ module.exports = {
     'jest-watch-typeahead/testname',
   ],
   testEnvironment: 'jsdom',
-  testURL: 'https://dreamsim.ru',
+  testURL: 'https://drsim.ru',
   transform: {
     '^.+\\.(js|jsx)$': '<rootDir>/node_modules/babel-jest',
     '^.+\\.css$': '<rootDir>/src/tests/transformers/cssTransformer.js',

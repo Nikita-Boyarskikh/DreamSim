@@ -1,7 +1,7 @@
 import pytest
 from django.core.exceptions import ValidationError
 
-from lib.test import create_validation_message
+from lib.test.utils import create_validation_message
 
 pytestmark = pytest.mark.django_db
 

@@ -11,7 +11,7 @@ class SchemeViewSet(viewsets.ModelViewSet):
     """
     queryset = Scheme.objects.select_related('creator').prefetch_related('elements')
     serializer_class = SchemeSerializer
-    permission_classes = (IsAuthenticatedOrReadOnly,)
+    permission_classes = (IsAuthenticatedOrReadOnly, )
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)

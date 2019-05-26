@@ -1,9 +1,12 @@
 bandit==1.5.1
+factory-boy==2.12.0
 flake8-bugbear==18.8.0
 flake8-comprehensions==2.0.0
 flake8-per-file-ignores==0.8.1
 flake8-strict==0.2.1
 flake8==3.5.0
+mimesis-factory==1.0.0
+mimesis==3.2.0
 pip-tools==3.4.0
 pyenchant==2.0.0  # For pylint spelling
 pylint-args==0.0.5
@@ -14,4 +17,3 @@ pytest-cov==2.7.1
 pytest-django==3.4.8
 sentry-flake8==0.0.2
 yapf==0.26.0
-

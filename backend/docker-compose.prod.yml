@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/usr/src/app
     environment:
-      - NAME='dreamsim'
+      - NAME=dreamsim
       - LOGGING_CONFIG='/etc/app/logging.json'
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1

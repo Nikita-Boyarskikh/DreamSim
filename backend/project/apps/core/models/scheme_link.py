@@ -1,7 +1,7 @@
 from django.contrib.postgres.validators import ArrayMaxLengthValidator, ArrayMinLengthValidator
 from django.core.validators import MinValueValidator
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from lib.postgres.fields import ArrayField
 
 from apps.core.validators import validate_input_pin, validate_output_pin
 from .scheme_element import SchemeElement
@@ -21,10 +21,7 @@ class SchemeLink(models.Model):
     coordinate_array = ArrayField(
         ArrayField(
             models.IntegerField(validators=[MinValueValidator(0)]),
-            validators=[
-                ArrayMaxLengthValidator(2),
-                ArrayMinLengthValidator(2)
-            ]
+            validators=[ArrayMaxLengthValidator(2), ArrayMinLengthValidator(2)]
         ),
         verbose_name='Координаты'
     )

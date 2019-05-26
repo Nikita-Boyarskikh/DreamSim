@@ -3,15 +3,15 @@
   fields:
     is_superuser: true
     username: admin
-    password: pbkdf2_sha256$120000$4Dijko33cUgS$Orh8V3P4ayQicmWV9Flb45yp+2Au4uXo9nISmHYxAtg=
-    email: admin@dreamsim.ru
+    password: pbkdf2_sha256$120000$4Dijko33cUgS$Orh8V3P4ayQicmWV9Flb45yp+2Au4uXo9nISmHYxAtg=  # admin
+    email: admin@drsim.ru
 
 - model: authentication.user
   pk: 2
   fields:
     is_staff: true
     username: durov
-    password: pbkdf2_sha256$120000$YVJLQOftvWBo$VXIStVMCBpTWMw5JrQlhZpqcKc1kvDyS88jsT2SipRY=
+    password: pbkdf2_sha256$120000$YVJLQOftvWBo$VXIStVMCBpTWMw5JrQlhZpqcKc1kvDyS88jsT2SipRY=  # 12345678
     email: durov@vk.com
     first_name: Павел
     last_name: Дуров

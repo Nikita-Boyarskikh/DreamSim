@@ -2,8 +2,7 @@
 
 import apps.core.models.element_parameter
 from django.conf import settings
-import django.contrib.postgres.fields
-import django.contrib.postgres.fields.jsonb
+import lib.postgres.fields
 import django.contrib.postgres.validators
 import django.core.validators
 from django.db import migrations, models
@@ -25,14 +24,67 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('element_type', models.CharField(choices=[('SOURCE', 'Источник'), ('GROUND', 'Земля'), ('GENERATOR', 'Генератор'), ('ANALYZER', 'Анализатор'), ('AND', 'И'), ('OR', 'ИЛИ'), ('NOT', 'НЕ'), ('XOR', 'Исключающее ИЛИ'), ('NOR', 'ИЛИ-НЕ'), ('NAND', 'И-НЕ'), ('USER', 'Пользовательский')], max_length=30, verbose_name='Тип')),
-                ('array_of_inputs', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None, verbose_name='Массив имён входов')),
-                ('array_of_outputs', django.contrib.postgres.fields.ArrayField(base_field=models.CharField(max_length=255), size=None, verbose_name='Массив имён выходов')),
-                ('time', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0)], verbose_name='Время работы')),
-                ('delay', models.IntegerField(default=0, validators=[django.core.validators.MinValueValidator(0)], verbose_name='Время задержки')),
+                (
+                    'element_type',
+                    models.CharField(
+                        choices=[('SOURCE', 'Источник'), ('GROUND', 'Земля'), ('GENERATOR', 'Генератор'),
+                                 ('ANALYZER', 'Анализатор'), ('AND', 'И'), ('OR', 'ИЛИ'), ('NOT', 'НЕ'),
+                                 ('XOR', 'Исключающее ИЛИ'), ('NOR', 'ИЛИ-НЕ'), ('NAND', 'И-НЕ'),
+                                 ('USER', 'Пользовательский')],
+                        max_length=30,
+                        verbose_name='Тип'
+                    )
+                ),
+                (
+                    'array_of_inputs',
+                    lib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None, verbose_name='Массив имён входов'
+                    )
+                ),
+                (
+                    'array_of_outputs',
+                    lib.postgres.fields.ArrayField(
+                        base_field=models.CharField(max_length=255), size=None, verbose_name='Массив имён выходов'
+                    )
+                ),
+                (
+                    'time',
+                    models.IntegerField(
+                        default=0,
+                        validators=[django.core.validators.MinValueValidator(0)],
+                        verbose_name='Время работы'
+                    )
+                ),
+                (
+                    'delay',
+                    models.IntegerField(
+                        default=0,
+                        validators=[django.core.validators.MinValueValidator(0)],
+                        verbose_name='Время задержки'
+                    )
+                ),
                 ('image', models.ImageField(blank=True, null=True, upload_to='', verbose_name='Изображение')),
-                ('truth_table', django.contrib.postgres.fields.jsonb.JSONField(validators=[lib.models.validators.JSONArrayFieldValidator(dimension=3, field_validator=lib.models.validators.bin_validator)], verbose_name='Временная дискретизация таблицы истинности')),
-                ('creator', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to=settings.AUTH_USER_MODEL, verbose_name='Создатель')),
+                (
+                    'truth_table',
+                    lib.postgres.fields.JSONField(
+                        validators=[
+                            lib.models.validators.JSONArrayFieldValidator(
+                                dimension=3, field_validator=lib.models.validators.bin_validator
+                            )
+                        ],
+                        verbose_name='Временная дискретизация таблицы истинности'
+                    )
+                ),
+                (
+                    'creator',
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name='Создатель'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Элемент',
@@ -44,9 +96,28 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, verbose_name='Название')),
-                ('dimension', models.CharField(choices=[(apps.core.models.element_parameter.DimensionChoice('м'), 'м'), (apps.core.models.element_parameter.DimensionChoice('мк'), 'мк'), (apps.core.models.element_parameter.DimensionChoice('н'), 'н'), (apps.core.models.element_parameter.DimensionChoice('п'), 'п'), (apps.core.models.element_parameter.DimensionChoice('К'), 'К'), (apps.core.models.element_parameter.DimensionChoice('М'), 'М'), (apps.core.models.element_parameter.DimensionChoice('Г'), 'Г'), (apps.core.models.element_parameter.DimensionChoice('Т'), 'Т')], max_length=30, verbose_name='Размерность')),
+                (
+                    'dimension',
+                    models.CharField(
+                        choices=[(apps.core.models.element_parameter.DimensionChoice('м'), 'м'),
+                                 (apps.core.models.element_parameter.DimensionChoice('мк'), 'мк'),
+                                 (apps.core.models.element_parameter.DimensionChoice('н'), 'н'),
+                                 (apps.core.models.element_parameter.DimensionChoice('п'), 'п'),
+                                 (apps.core.models.element_parameter.DimensionChoice('К'), 'К'),
+                                 (apps.core.models.element_parameter.DimensionChoice('М'), 'М'),
+                                 (apps.core.models.element_parameter.DimensionChoice('Г'), 'Г'),
+                                 (apps.core.models.element_parameter.DimensionChoice('Т'), 'Т')],
+                        max_length=30,
+                        verbose_name='Размерность'
+                    )
+                ),
                 ('value', models.FloatField(verbose_name='Значение')),
-                ('element', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Element', verbose_name='Элемент')),
+                (
+                    'element',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to='core.Element', verbose_name='Элемент'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Параметр Элемента',
@@ -59,7 +130,14 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=255, verbose_name='Название')),
                 ('formula', models.CharField(blank=True, max_length=255, null=True, verbose_name='Формула')),
-                ('creator', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Создатель')),
+                (
+                    'creator',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                        verbose_name='Создатель'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Схема',
@@ -70,10 +148,31 @@ class Migration(migrations.Migration):
             name='SchemeElement',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('coordinates', django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]), size=None, validators=[django.contrib.postgres.validators.ArrayMaxLengthValidator(2), django.contrib.postgres.validators.ArrayMinLengthValidator(2)], verbose_name='Координаты')),
+                (
+                    'coordinates',
+                    lib.postgres.fields.ArrayField(
+                        base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]),
+                        size=None,
+                        validators=[
+                            django.contrib.postgres.validators.ArrayMaxLengthValidator(2),
+                            django.contrib.postgres.validators.ArrayMinLengthValidator(2)
+                        ],
+                        verbose_name='Координаты'
+                    )
+                ),
                 ('name', models.CharField(blank=True, max_length=255, null=True, verbose_name='Название')),
-                ('element', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Element', verbose_name='Элемент')),
-                ('scheme', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Scheme', verbose_name='Схема')),
+                (
+                    'element',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to='core.Element', verbose_name='Элемент'
+                    )
+                ),
+                (
+                    'scheme',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to='core.Scheme', verbose_name='Схема'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Элементы Схемы',
@@ -84,12 +183,54 @@ class Migration(migrations.Migration):
             name='SchemeLink',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('input_pin', models.IntegerField(validators=[django.core.validators.MinValueValidator(0)], verbose_name='Индекс входа на элементе')),
-                ('output_pin', models.IntegerField(validators=[django.core.validators.MinValueValidator(0)], verbose_name='Индекс выхода на элементе')),
-                ('coordinate_array', django.contrib.postgres.fields.ArrayField(base_field=django.contrib.postgres.fields.ArrayField(base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]), size=None, validators=[django.contrib.postgres.validators.ArrayMaxLengthValidator(2), django.contrib.postgres.validators.ArrayMinLengthValidator(2)]), size=None, verbose_name='Координаты')),
+                (
+                    'input_pin',
+                    models.IntegerField(
+                        validators=[django.core.validators.MinValueValidator(0)],
+                        verbose_name='Индекс входа на элементе'
+                    )
+                ),
+                (
+                    'output_pin',
+                    models.IntegerField(
+                        validators=[django.core.validators.MinValueValidator(0)],
+                        verbose_name='Индекс выхода на элементе'
+                    )
+                ),
+                (
+                    'coordinate_array',
+                    lib.postgres.fields.ArrayField(
+                        base_field=lib.postgres.fields.ArrayField(
+                            base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]),
+                            size=None,
+                            validators=[
+                                django.contrib.postgres.validators.ArrayMaxLengthValidator(2),
+                                django.contrib.postgres.validators.ArrayMinLengthValidator(2)
+                            ]
+                        ),
+                        size=None,
+                        verbose_name='Координаты'
+                    )
+                ),
                 ('name', models.CharField(blank=True, max_length=255, null=True, verbose_name='Название')),
-                ('input_scheme_element', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='in_link', to='core.SchemeElement', verbose_name='Входной элемент схемы')),
-                ('output_scheme_element', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='out_link', to='core.SchemeElement', verbose_name='Выходной элемент схемы')),
+                (
+                    'input_scheme_element',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='in_link',
+                        to='core.SchemeElement',
+                        verbose_name='Входной элемент схемы'
+                    )
+                ),
+                (
+                    'output_scheme_element',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name='out_link',
+                        to='core.SchemeElement',
+                        verbose_name='Выходной элемент схемы'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Связи схемы',
@@ -100,7 +241,12 @@ class Migration(migrations.Migration):
             name='SchemeTag',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('scheme', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Scheme', verbose_name='Схема')),
+                (
+                    'scheme',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to='core.Scheme', verbose_name='Схема'
+                    )
+                ),
             ],
             options={
                 'verbose_name': 'Тег схемы',
@@ -142,6 +288,8 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='elementparameter',
             name='unit',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.Unit', verbose_name='Единица измерения'),
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to='core.Unit', verbose_name='Единица измерения'
+            ),
         ),
     ]

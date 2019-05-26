@@ -31,8 +31,7 @@ class JSONArrayFieldValidator:
 
     def __eq__(self, other):
         return (
-            isinstance(other, self.__class__) and
-            self.field_validator == other.field_validator and
+            isinstance(other, self.__class__) and self.field_validator == other.field_validator and
             self.total_dimension == other.total_dimension
         )
 

@@ -14,28 +14,28 @@ metadata:
     service: dreamsim
 spec:
   rules:
-    - host: dreamsim.ru
+    - host: drsim.ru
       http:
         paths:
           - path: /api
             backend:
               serviceName: app
               servicePort: 80
-    - host: www.dreamsim.ru
+    - host: www.drsim.ru
       http:
         paths:
           - path: /api
             backend:
               serviceName: app
               servicePort: 80
-    - host: dreamsim.ru
+    - host: drsim.ru
       http:
         paths:
           - path: /
             backend:
               serviceName: frontend
               servicePort: 80
-    - host: www.dreamsim.ru
+    - host: www.drsim.ru
       http:
         paths:
           - path: /
@@ -44,6 +44,6 @@ spec:
               servicePort: 80
   tls:
     - hosts:
-        - dreamsim.ru
-        - www.dreamsim.ru
+        - drsim.ru
+        - www.drsim.ru
       secretName: dreamsim-stage-tls
