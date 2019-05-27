@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 
-//import './style.scss';
 import Component from './CircuitEditor';
 
 const mapStateToProps = (state) => ({
@@ -8,8 +7,6 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = () => ({
-/*  addSchemeElement*/
 });
-
 
 export default connect(mapStateToProps, mapDispatchToProps)(Component);
