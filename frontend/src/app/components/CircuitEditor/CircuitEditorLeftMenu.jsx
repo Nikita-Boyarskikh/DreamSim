@@ -1,13 +1,9 @@
-import React from 'react';
-import { render } from 'react-dom';
-import { Group } from 'react-konva';
-import CircuitEditorElement from './CircuitEditorElement';
-import CircuitEditorWire from './CircuitEditorWire';
-
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import CircuitEditorElement from './CircuitEditorElement'
+import { Group, Text, Line } from 'react-konva';
 
-
-class CircuitEditor extends React.Component {
+class CircuitEditorLeftMenu extends React.Component{
 
   state = {
     connectClicked:false,
@@ -49,19 +45,19 @@ class CircuitEditor extends React.Component {
   render(){
     return(
       <Group onMouseDown = {this.handleClick} onMouseUp = {this.handleUp}>
-        {this.props.elements.map(element => <CircuitEditorElement
-          key={element.id} image={element.image}
-          x={element.x} y={element.y}
+        <Text text="Список Элементов" fontSize={15} x={15} y={65} />
+        {this.props.backendElements.map(element =>  <CircuitEditorElement key={element.id}
+          image={element.image} x={element.x} y={element.y}
           w={element.w} h={element.h}
-          inConnections={element.inConnections}
-          outConnections={element.outConnections}
+          inConnections={element.inConnections} outConnections={element.outConnections}
           onPinClick={() => this.pinClick()}
           onPinUp = {() => this.pinUp()}
           />)}
+        <Line x={180} y={0} points={[0, 0, 0, 10000]} stroke={"black"}/>
       </Group>
-    );
+    )
   }
+
 }
 
-
-export default CircuitEditor
+export default CircuitEditorLeftMenu;
