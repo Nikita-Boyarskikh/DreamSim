@@ -41,6 +41,7 @@ class TestUserViewSet:
 
     def test_list(self, client):
         response = client.get(self.get_url())
+        assert response.status_code == 200
         assert len(response.data) == User.objects.count() == 0
 
         user = UserFactory()
