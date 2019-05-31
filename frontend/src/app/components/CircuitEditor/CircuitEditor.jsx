@@ -1,10 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Group } from 'react-konva';
 import CircuitEditorElement from './CircuitEditorElement';
-import CircuitEditorWire from './CircuitEditorWire';
-
-import PropTypes from 'prop-types';
 
 
 class CircuitEditor extends React.Component {
@@ -35,7 +31,7 @@ class CircuitEditor extends React.Component {
         connectClicked:false
       });
     }
-  }
+  };
 
   handleUp = () => {
     if(this.state.upOnConnect){
@@ -44,7 +40,7 @@ class CircuitEditor extends React.Component {
         upOnConnect:false
       });
     }
-  }
+  };
 
   render(){
     return(

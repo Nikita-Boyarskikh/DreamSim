@@ -8,8 +8,8 @@ const mapStateToProps = (state) => ({
   isOpen: state.local.ui.menu.isOpen,
 });
 const mapDispatchToProps = (dispatch) => ({
-  onOpen:  openMenu,
-  onClose: closeMenu,
+  onOpen:  () => dispatch(openMenu()),
+  onClose: () => dispatch(closeMenu()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Component);

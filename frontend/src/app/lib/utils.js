@@ -18,3 +18,6 @@ export function isIn(a) {
 }
 
 export const isDebug = process.env.NODE_ENV !== 'production';
+
+export const lazy = (func) => (...args) => () => func(...args);
+export const unlazy = (lazy) => ((typeof lazy === 'function') ? lazy() : lazy);

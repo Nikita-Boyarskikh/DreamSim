@@ -1,7 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { getBackRef } from 'app/lib/navigation';
 import Header from 'app/components/Header';
+
+const checkGoBack = (history) => {
+  const backRef = getBackRef(history);
+  if (backRef) {
+    return () => history.push(backRef);
+  }
+
+  return history.location.pathname === '/' ? null : () => history.goBack();
+};
 
 const WithLayoutHOC = (Component) => {
   const historyPropTypes = {
@@ -15,7 +25,7 @@ const WithLayoutHOC = (Component) => {
 
   const Layout = (props) => (
     <React.Fragment>
-      <Header onBackClick={() => props.history.goBack()} {...props} />
+      <Header history={props.history} onBackClick={checkGoBack(props.history)} {...props} />
       <Component {...props} />
     </React.Fragment>
   );

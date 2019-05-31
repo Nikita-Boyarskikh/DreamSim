@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 process.env.NODE_ENV = 'development';
@@ -34,7 +35,10 @@ const webpackConfig = {
     alias: {
       'react-dom': '@hot-loader/react-dom'
     }
-  }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 };
 
 module.exports = merge(common, webpackConfig);

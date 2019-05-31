@@ -1,4 +1,5 @@
 import { handleActions } from 'redux-actions';
+import { LOCATION_CHANGE } from 'connected-react-router';
 import {
   CLOSE_MENU,
   OPEN_MENU,
@@ -27,4 +28,10 @@ export default handleActions({
       isOpen: !state.isOpen,
     };
   },
+
+  [LOCATION_CHANGE]() {
+    return {
+      isOpen: false
+    };
+  }
 }, initialState);

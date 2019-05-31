@@ -1,9 +1,10 @@
 // ================= DB =================
 
-// Common API
-export const API = 'API';
+// Enums
+export const LOAD_ENUMS = 'LOAD_ENUMS';
 
-export const API_CANCEL = 'API_CANCEL';
+export const LOAD_TOOLS = 'LOAD_TOOLS';
+export const SET_TOOLS = 'SET_TOOLS';
 
 // CircuitEditor
 export const ADD_SCHEME_ELEMENT = 'ADD_SCHEME_ELEMENT';
@@ -26,12 +27,16 @@ export const CLOSE_MENU = 'CLOSE_MENU';
 
 export const TOGGLE_MENU = 'TOGGLE_MENU';
 
+// I18N
+export const I18N_INIT = 'I18N_INIT';
+
 // ================= User =================
 
 // Authorization
 export const LOGIN = 'LOGIN';
 
 export const LOGIN_WITH_VK = 'LOGIN_WITH_VK';
+export const CONNECT_VK = 'CONNECT_VK';
 
 export const LOGOUT = 'LOGOUT';
 

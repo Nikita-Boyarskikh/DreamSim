@@ -1,6 +1,6 @@
 process.env.NODE_ENV = 'production';
 
-const common = require('./webpack.config.common');
+const path = require('path');
 const merge = require('webpack-merge');
 
 const SafePostCssParser = require('postcss-safe-parser');
@@ -9,6 +9,9 @@ const AppCachePlugin = require('appcache-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
+
+const config = require('./config');
+const common = require('./webpack.config.common');
 
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.resolve(rootDir, config.paths.dist);
@@ -51,7 +54,7 @@ const webpackConfig = {
       ),
       publicPath: config.manifest.publicName
     }),
-    new CleanWebpackPlugin([config.paths.dist]),
+    new CleanWebpackPlugin(),
   ]
 };
 

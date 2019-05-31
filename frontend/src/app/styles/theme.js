@@ -30,6 +30,7 @@ export default createMuiTheme({
       contrastText: mainColor,
     },
     text: {
+      primary:   mainColor,
       secondary: textColorSecondary,
     },
     background: {},
@@ -58,11 +59,6 @@ export default createMuiTheme({
     },
   },
   overrides: {
-    MuiIconButton: {
-      root: {
-        color: textColor
-      }
-    },
     MuiLink: {
       root: {
         color: textColorSecondary

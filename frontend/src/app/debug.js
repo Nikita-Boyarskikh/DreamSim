@@ -1,6 +1,6 @@
 import { LOCALES, LOCALES_VERSIONS } from 'app/constants/locales';
-import { eqSet } from 'app/utils';
-import { isDebug } from 'app/utils';
+import { eqSet } from 'app/lib/utils';
+import { isDebug } from 'app/lib/utils';
 
 export function checkLocaleVersions() {
   if (!eqSet(

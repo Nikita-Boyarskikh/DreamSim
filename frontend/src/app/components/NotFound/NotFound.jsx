@@ -14,7 +14,7 @@ const NotFound = ({ history }) => (
       component="img"
       image="/images/notFound.png"
       title="not_found"
-      className="not_found"
+      className="not-found__image"
     />
     <CardActions>
       <Button color="primary" fullWidth onClick={() => history.goBack()}>

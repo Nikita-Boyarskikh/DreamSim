@@ -7,17 +7,22 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from rest_framework.documentation import include_docs_urls
 
+from apps.core.views.tools import ToolNamesApiView
 from apps.core.views.scheme import SchemeViewSet
 from apps.core.views.element import ElementViewSet
 from apps.authentication.views import UserViewSet, VKLogin
 
-router = routers.SimpleRouter()
-router.register(r'scheme', SchemeViewSet, basename='scheme')
-router.register(r'element', ElementViewSet, basename='element')
-router.register(r'user', UserViewSet, basename='user')
+enums_router = routers.SimpleRouter()
+enums_router.register(r'tools', ToolNamesApiView, basename='tools')
+
+api_v1_router = routers.SimpleRouter()
+api_v1_router.register(r'scheme', SchemeViewSet, basename='scheme')
+api_v1_router.register(r'element', ElementViewSet, basename='element')
+api_v1_router.register(r'user', UserViewSet, basename='user')
 
 v1_api_urls = \
-    router.urls + [
+    api_v1_router.urls + [
+        path('enums/', include((enums_router.urls, 'enums'))),
         path('status/', include((health_check.urls, 'health_check'))),
         path('docs/', include_docs_urls(title='My API title')),
     ]

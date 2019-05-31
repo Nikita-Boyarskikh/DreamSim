@@ -9,6 +9,8 @@
     align-items: center;
 
     .header__element {
+      color: $bg-color;
+
       &.header__profile {
 
       }
@@ -26,6 +28,8 @@
       flex-grow: 1;
 
       .menu__item {
+        color: $bg-color;
+
         .menu__item-name {
 
         }
@@ -34,3 +38,12 @@
   }
 }
 
+@media (max-width: 600px) {
+  .header {
+    .header__toolbar {
+      .menu {
+        display: none;
+      }
+    }
+  }
+}
