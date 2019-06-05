@@ -1,8 +1,8 @@
 from rest_framework.response import Response
-from rest_framework.viewsets import ViewSet
+from rest_framework.views import APIView
 
 
-class EnumApiView(ViewSet):
+class EnumApiView(APIView):
     enum_class = None
 
     def get(self, request):

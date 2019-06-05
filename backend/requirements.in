@@ -1,4 +1,5 @@
 celery==4.3.0
+coreapi==2.3.3
 django-allauth==0.39.1
 django-cors-headers==2.4.0
 django-filter==2.1.0

@@ -6,6 +6,7 @@ import {
   commonMiddlewares,
   createStore
 } from './configureStore.common';
+import createRootReducer from 'app/state/reducers';
 
 export const history = commonHistory;
 
@@ -25,7 +26,7 @@ export default (initialState) => {
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(reducer);
+      store.replaceReducer(createRootReducer(history));
     });
   }
 

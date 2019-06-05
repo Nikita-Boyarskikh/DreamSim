@@ -11,7 +11,7 @@ billiard==3.6.0.0         # via celery
 celery==4.3.0
 certifi==2019.3.9         # via requests
 chardet==3.0.4            # via requests
-coreapi==2.3.3            # via django-rest-swagger, openapi-codec
+coreapi==2.3.3
 coreschema==0.0.4         # via coreapi
 defusedxml==0.6.0         # via python3-openid
 django-allauth==0.39.1

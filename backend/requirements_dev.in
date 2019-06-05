@@ -7,8 +7,9 @@ flake8-strict==0.2.1
 flake8==3.5.0
 mimesis-factory==1.0.0
 mimesis==3.2.0
-pip-tools==3.4.0
+pip-tools==3.7.0
 pyenchant==2.0.0  # For pylint spelling
+pyfakefs==3.5.8
 pylint-args==0.0.5
 pylint-celery==0.3
 pylint-django==2.0.5

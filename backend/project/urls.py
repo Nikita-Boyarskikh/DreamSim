@@ -2,6 +2,8 @@
 # pylint: disable=invalid-name
 import health_check.urls
 from rest_auth.registration.views import SocialAccountListView, SocialAccountDisconnectView
+from rest_auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
+
 from rest_framework import routers
 from django.contrib import admin
 from django.urls import path, include, re_path
@@ -12,19 +14,37 @@ from apps.core.views.scheme import SchemeViewSet
 from apps.core.views.element import ElementViewSet
 from apps.authentication.views import UserViewSet, VKLogin
 
-enums_router = routers.SimpleRouter()
-enums_router.register(r'tools', ToolNamesApiView, basename='tools')
+enums_urls = [
+    path('tools/', ToolNamesApiView.as_view())
+]
 
 api_v1_router = routers.SimpleRouter()
 api_v1_router.register(r'scheme', SchemeViewSet, basename='scheme')
 api_v1_router.register(r'element', ElementViewSet, basename='element')
 api_v1_router.register(r'user', UserViewSet, basename='user')
 
+# rest_auth.urls
+auth_urls = [
+    re_path(r'^password/reset/$', PasswordResetView.as_view(), name='password_reset'),
+    re_path(r'^password/reset/confirm/$', PasswordResetConfirmView.as_view(), name='password_reset_confirm'),
+    re_path(r'^login/$', LoginView.as_view(), name='login'),
+    re_path(r'^logout/$', LogoutView.as_view(), name='logout'),
+    re_path(r'^password/change/$', PasswordChangeView.as_view(), name='password_change'),
+    path('registration/', include('rest_auth.registration.urls')),
+    path('vk/', VKLogin.as_view(), name='vk_login'),
+    path('social-accounts/', SocialAccountListView.as_view(), name='social_account_list'),
+    re_path(
+        r'social-accounts/(?P<pk>\d+)/disconnect/$',
+        SocialAccountDisconnectView.as_view(),
+        name='social_account_disconnect'
+    ),
+]
+
 v1_api_urls = \
     api_v1_router.urls + [
-        path('enums/', include((enums_router.urls, 'enums'))),
+        path('auth/', include((auth_urls, 'auth'))),
+        path('enums/', include((enums_urls, 'enums'))),
         path('status/', include((health_check.urls, 'health_check'))),
-        path('docs/', include_docs_urls(title='My API title')),
     ]
 
 api_versions = [
@@ -34,16 +54,5 @@ api_versions = [
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include((api_versions, 'api'))),
-
-    path('rest-auth/', include('rest_auth.urls')),  # Without /user
-    path('dj-auth/', include('django.contrib.auth.urls')),  # Reset password form
-    path('rest-auth/vk/', VKLogin.as_view(), name='vk_login'),
-    path('rest-auth/registration/', include('rest_auth.registration.urls')),
-    path('account/', include('allauth.urls')),
-    path('socialaccounts/', SocialAccountListView.as_view(), name='social_account_list'),
-    re_path(
-        r'^socialaccounts/(?P<pk>\d+)/disconnect/$',
-        SocialAccountDisconnectView.as_view(),
-        name='social_account_disconnect'
-    )
+    path('docs/', include_docs_urls(title='DreamSim API docs')),
 ]

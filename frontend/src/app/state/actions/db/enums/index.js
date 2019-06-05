@@ -7,7 +7,7 @@ const loadEnums = () => (dispatch, getState) => {
   dispatch(action());
 
   const state = getState();
-  if (state.db.enums.tools.length === 0) {
+  if (state.db.enums.tools.ids.length === 0) {
     dispatch(loadTools());
   }
 };

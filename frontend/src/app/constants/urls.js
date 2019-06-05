@@ -6,7 +6,7 @@ export default {
   editor: '/editor',
   signup: '/signup',
   userAgreement: '/user-agreement',
-  resetPassword: '/reset-password',
+  resetPassword: '/reset-password/:uid/:token',
   profile: '/profile',
   settings: '/settings',
   logout: '/logout',

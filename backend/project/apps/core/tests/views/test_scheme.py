@@ -34,7 +34,7 @@ class TestSchemeViewSet:
         json['elements'] =
         return json
 
-    def test_list(self, client):
+    def test_list(self, client, fs):
         response = client.get(self.get_url())
         assert response.status_code == 200
         assert len(response.data) == Scheme.objects.count() == 0
@@ -47,7 +47,7 @@ class TestSchemeViewSet:
         assert len(response.data) == Scheme.objects.count() == 1
         assert response.data[0]['id'] == scheme.id
 
-    def test_retrieve(self, client):
+    def test_retrieve(self, client, fs):
         scheme = SchemeFactory()
         elements = []
         for i in range(10):
@@ -76,7 +76,7 @@ class TestSchemeViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_create(self, client):
+    def test_create(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory.build()
@@ -89,7 +89,7 @@ class TestSchemeViewSet:
         scheme = Scheme.objects.get(id=data['id'])
         assert_response(response, 201, self.to_json(scheme, response))
 
-    def test_update(self, client):
+    def test_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
 
@@ -107,7 +107,7 @@ class TestSchemeViewSet:
         json = self.to_json(scheme, response)
         assert_response(response, 200, json)
 
-    def test_noop_update(self, client):
+    def test_noop_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()
@@ -132,7 +132,7 @@ class TestSchemeViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_partial_update(self, client):
+    def test_partial_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         prev_name = 'prev'
@@ -147,7 +147,7 @@ class TestSchemeViewSet:
         print("JSON", self.to_json(scheme, response))
         assert_response(response, 200, self.to_json(scheme, response))
 
-    def test_noop_partial_update(self, client):
+    def test_noop_partial_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()
@@ -169,7 +169,7 @@ class TestSchemeViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_destroy(self, client):
+    def test_destroy(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()

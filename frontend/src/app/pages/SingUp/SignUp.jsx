@@ -7,7 +7,7 @@ import SignUpForm from 'app/components/SignUpForm';
 
 class SignUp extends React.Component {
   render() {
-    const { t: _, signUp, connectVk } = this.props;
+    const { signUp, connectVk } = this.props;
 
     return (
       <div className="page">

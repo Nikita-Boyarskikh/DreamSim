@@ -37,7 +37,7 @@ class TestElementViewSet:
         json['image'] = response.wsgi_request.build_absolute_uri(json['image'].url)
         return json
 
-    def test_list(self, client):
+    def test_list(self, client, fs):
         response = client.get(self.get_url())
         assert response.status_code == 200
         assert len(response.data) == Element.objects.count() == 0
@@ -48,7 +48,7 @@ class TestElementViewSet:
         assert len(response.data) == Element.objects.count() == 1
         assert response.data[0]['id'] == element.id
 
-    def test_retrieve(self, client):
+    def test_retrieve(self, client, fs):
         element = ElementFactory()
         response = client.get(self.get_url(element.id))
 
@@ -73,7 +73,7 @@ class TestElementViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_create(self, client):
+    def test_create(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         element = ElementFactory.build()
@@ -83,7 +83,7 @@ class TestElementViewSet:
         element = Element.objects.get(id=data['id'])
         assert_response(response, 201, self.to_json(element, response))
 
-    def test_update(self, client):
+    def test_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         prev_time = '0'
@@ -98,7 +98,7 @@ class TestElementViewSet:
         json = self.to_json(element, response)
         assert_response(response, 200, json)
 
-    def test_noop_update(self, client):
+    def test_noop_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         element = ElementFactory()
@@ -109,7 +109,7 @@ class TestElementViewSet:
         json = self.to_json(element, response)
         assert_response(response, 200, json)
 
-    def test_update_not_found(self, client):
+    def test_update_not_found(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         id_not_found = 404
@@ -121,7 +121,7 @@ class TestElementViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_partial_update(self, client):
+    def test_partial_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         prev_time = '0'
@@ -132,7 +132,7 @@ class TestElementViewSet:
         element.refresh_from_db()
         assert_response(response, 200, self.to_json(element, response))
 
-    def test_noop_partial_update(self, client):
+    def test_noop_partial_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         element = ElementFactory()
@@ -153,7 +153,7 @@ class TestElementViewSet:
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
 
-    def test_destroy(self, client):
+    def test_destroy(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         element = ElementFactory()

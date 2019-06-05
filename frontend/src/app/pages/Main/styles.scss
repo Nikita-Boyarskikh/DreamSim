@@ -1,0 +1,14 @@
+@import 'app/styles/global-styles';
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: $main-spacing;
+
+  .main__add-scheme {
+    position: fixed;
+    bottom: $main-spacing;
+  }
+}

@@ -2,6 +2,7 @@
   pk: 1
   fields:
     is_superuser: true
+    is_staff: true
     username: admin
     password: pbkdf2_sha256$120000$4Dijko33cUgS$Orh8V3P4ayQicmWV9Flb45yp+2Au4uXo9nISmHYxAtg=  # admin
     email: admin@drsim.ru

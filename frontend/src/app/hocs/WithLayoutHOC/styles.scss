@@ -1,0 +1,26 @@
+@import 'app/styles/constants';
+
+.alert {
+  #client-snackbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    svg {
+      margin-right: $text-spacing;
+    }
+  }
+
+  &.alert_info {
+    background-color: $info-color;
+  }
+  &.alert_warning {
+    background-color: $warning-color;
+  }
+  &.alert_error {
+    background-color: $error-color;
+  }
+  &.alert_success {
+    background-color: $success-color;
+  }
+}

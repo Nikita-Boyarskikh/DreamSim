@@ -8,6 +8,10 @@ export const SET_TOOLS = 'SET_TOOLS';
 
 // CircuitEditor
 export const ADD_SCHEME_ELEMENT = 'ADD_SCHEME_ELEMENT';
+export const SET_SCHEME_ELEMENTS = 'SET_SCHEME_ELEMENTS';
+
+export const ADD_SCHEME = 'ADD_SCHEME';
+export const SET_SCHEMES = 'SET_SCHEMES';
 
 export const CHOOSE_ELEMENT_FROM_MENU = 'CHOOSE_ELEMENT_FROM_MENU';
 
@@ -29,6 +33,9 @@ export const TOGGLE_MENU = 'TOGGLE_MENU';
 
 // I18N
 export const I18N_INIT = 'I18N_INIT';
+
+export const OPEN_ALERT = 'OPEN_ALERT';
+export const CLOSE_ALERT = 'CLOSE_ALERT';
 
 // ================= User =================
 

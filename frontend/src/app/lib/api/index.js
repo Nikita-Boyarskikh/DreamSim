@@ -1,7 +1,8 @@
 import { getJSON, RSAA } from 'redux-api-middleware';
-import { normalize } from 'normalizr';
+import { normalize } from 'normalizr/dist/normalizr';
 
 import { LOADING_START, LOADING_STOP } from 'app/constants/actionTypes';
+import { handleActions } from 'redux-actions';
 
 export const createApiAction = ({endpoint, method='GET', headers, credentials='include', success, schema}) => () => ({
   [RSAA]: {
@@ -19,3 +20,18 @@ export const createApiAction = ({endpoint, method='GET', headers, credentials='i
     ]
   }
 });
+
+export const handleSetNormalizedData = (actionType, schema, otherActions={}) => {
+  const initialState = { ids: [], entities: {} };
+
+  return handleActions({
+    [actionType](state, action) {
+      return {
+        ids: action.payload.result,
+        entities: action.payload.entities[schema.key],
+      };
+    },
+
+    ...otherActions
+  }, initialState);
+};
