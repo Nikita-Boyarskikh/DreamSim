@@ -8,6 +8,7 @@ from django.forms import model_to_dict
 from apps.authentication.models import User
 from apps.authentication.tests.factories import UserFactory
 from lib.test.utils import assert_response
+from lib.test.serialization import user_to_json
 from lib.util import clean_dict, only_keys
 
 pytestmark = pytest.mark.django_db
@@ -26,18 +27,6 @@ class TestUserViewSet:
     def is_logged_in(response):
         session_cookie = response.cookies.get(settings.SESSION_COOKIE_NAME)
         return session_cookie and session_cookie.value
-
-    @staticmethod
-    def to_json(user):
-        model_dict = clean_dict(model_to_dict(user))
-        birthday = model_dict['birthday']
-        if isinstance(birthday, datetime.date):
-            model_dict['birthday'] = birthday.isoformat()
-        json = only_keys(
-            model_dict,
-            {'id', 'username', 'email', 'birthday', 'first_name', 'last_name', 'vk', 'patronymic'}
-        )
-        return json
 
     def test_list(self, client):
         response = client.get(self.get_url())
@@ -80,14 +69,14 @@ class TestUserViewSet:
         response = client.post(self.get_url(), data=json)
 
         user = User.objects.get_by_natural_key(user.username)
-        assert_response(response, 201, self.to_json(user))
+        assert_response(response, 201, self.user_to_json(user))
 
     def test_update(self, client):
         prev_last_name = 'Previous-Last-Name'
         new_last_name = 'New-Last-Name'
 
         user = UserFactory(last_name=prev_last_name)
-        json = self.to_json(user)
+        json = self.user_to_json(user)
         json['last_name'] = new_last_name
 
         response = client.put(self.get_url(user.id), data=json)
@@ -95,7 +84,7 @@ class TestUserViewSet:
 
     def test_noop_update(self, client):
         user = UserFactory()
-        json = self.to_json(user)
+        json = self.user_to_json(user)
 
         response = client.put(self.get_url(user.id), data=json)
         assert_response(response, 200, json)
@@ -105,7 +94,7 @@ class TestUserViewSet:
         assert not User.objects.filter(id=id_not_found).exists()
 
         user = UserFactory.build()
-        response = client.put(self.get_url(id_not_found), data=self.to_json(user))
+        response = client.put(self.get_url(id_not_found), data=self.user_to_json(user))
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -117,11 +106,11 @@ class TestUserViewSet:
         user = UserFactory(last_name=prev_last_name)
         response = client.patch(self.get_url(user.id), data={'last_name': new_last_name})
         user.refresh_from_db()
-        assert_response(response, 200, self.to_json(user))
+        assert_response(response, 200, self.user_to_json(user))
 
     def test_noop_partial_update(self, client):
         user = UserFactory()
-        json = self.to_json(user)
+        json = self.user_to_json(user)
 
         response = client.patch(self.get_url(user.id), data={})
         assert_response(response, 200, json)
@@ -162,7 +151,7 @@ class TestUserViewSet:
 
         client.logout()
         response = client.post(self.get_url() + 'login/', data=data)
-        assert_response(response, 200, self.to_json(user))
+        assert_response(response, 200, self.user_to_json(user))
         print(response.cookies)
         assert self.is_logged_in(response)
 
@@ -210,7 +199,7 @@ class TestUserViewSet:
 
         assert client.login(**data)
         response = client.post(self.get_url() + 'login/', data=data)
-        assert_response(response, 200, self.to_json(user))
+        assert_response(response, 200, self.user_to_json(user))
         print(response.cookies)
         assert self.is_logged_in(response)
 

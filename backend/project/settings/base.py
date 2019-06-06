@@ -208,5 +208,11 @@ LOGGING = {
     }
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.AllowAny',
+    )
+}
+
 # TODO: TEST_RUNNER
 # TODO: MIDDLEWARE, INSTALLED_APPS, TEMPLATES
