@@ -1,26 +1,30 @@
 import React from 'react';
 import { render } from 'react-dom';
-import {Circle} from 'react-konva';
+import {Line,Rect,Group,Circle} from 'react-konva';
 import PropTypes from 'prop-types';
 
 class CircuitEditorConnection extends React.Component{
 
-  handleClick = () => {
-    this.props.onPinClick();
-    console.log("Нажат (уровень 0)");
-  }
+  state = {
+    selfKey : this.props.selfKey
+  };
 
-  handleUp = () => {
-    this.props.onPinUp();
-    console.log("Отпущен уровень 0");
+/*------------------------------------------------------------------------------
+Обработка нажатия на соединение - передача его id выше
+------------------------------------------------------------------------------*/
+  handleClick = () => {
+    console.log("Кликнуто соединение (1)");
+    this.props.onPinClick(this.state.selfKey);
   }
 
   render(){
     return(
-      <Circle x = {this.props.pos_x} y = {this.props.pos_y} radius = {5} fill = "black"
-        onMouseDown = {this.handleClick}
-        onMouseUp = {this.handleUp}
-      />
+      <Group>
+        <Rect x = {this.props.pos_x} y = {this.props.pos_y - 10} width = {20} height = {20} fill = "white"
+          onClick = {this.handleClick}/>
+        <Line x = {this.props.pos_x} y = {this.props.pos_y} points = {[0,0,20,0]} stroke="black" strokeWidth={2}
+          onClick = {this.handleClick}/>
+      </Group>
     );
   }
 }

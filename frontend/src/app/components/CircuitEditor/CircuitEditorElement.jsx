@@ -9,76 +9,61 @@ class CircuitEditorElement extends Component {
   state = {
     image: null,
     isDragging: false,
-    x: this.props.x,
-    y: this.props.y,
+    x: 0,
+    y:0,
+    connections : [],
     connectClicked:false,
     upOnConnect:false,
-    inClickedConnections: [],
-    outClickedConnections: []
-
+    selfKey : 0
   };
 
+/*------------------------------------------------------------------------------
+Загрузка и обработка изображения
+------------------------------------------------------------------------------*/
   componentDidMount() {
     this.loadImage();
     this.setState({
-      inClickedConnections:this.props.inConnections,
-      outClickedConnections:this.props.outConnections
+      selfKey : this.props.selfKey,
+      x : this.props.x,
+      y: this.props.y,
+      connections : this.props.connections
     });
   }
-
   componentWillUnmount() {
     this.image.removeEventListener("load", this.handleLoad);
   }
-
   loadImage() {
     this.image = new window.Image();
     this.image.src = this.props.image;
     this.image.addEventListener("load", this.handleLoad);
   }
-
   handleLoad = () => {
     this.setState({
       image: this.image
     });
   };
 
-  pinUp = () => {
-    console.log("отпущен уровень 1");
-    this.setState({
-      upOnConnect:true
-    });
+/*------------------------------------------------------------------------------
+Отработка нажатия на соединение
+------------------------------------------------------------------------------*/
+  pinClick = (pinKey) => {
+    console.log("Кликнуто соединение (2)");
+    this.props.onPinClick([{element : this.state.selfKey,  connect : pinKey}]);
   };
 
-  pinClick = () => {
-    console.log("нажат уровень 1");
-    this.setState({
-      connectClicked:true
-    });
-  };
-
-  handleClick = () => {
-    if(this.state.connectClicked){
-      this.props.onPinClick();
-      this.setState({
-        connectClicked:false
-      });
-    }
-  }
-
-  handleUp = () => {
-    if(this.state.upOnConnect){
-      this.props.onPinUp();
-      this.setState({
-        upOnConnect:false
-      });
-    }
+/*------------------------------------------------------------------------------
+Отработка остановки перетаскивания элемента для изменения стэйта в классе выше
+------------------------------------------------------------------------------*/
+  elementStopped = () => {
+    console.log("Конец перетаскивания (1)");
+    this.props.onStop([{selfKey : this.state.selfKey, x : this.state.x, y : this.state.y}]);
   }
 
   render() {
     return (
-      <Group onMouseDown = {this.handleClick} onMouseUp = {this.handleUp}>
-
+      <Group>
         <Image
+
           opacity={this.state.isDragging ? 0.7 : 1}
           x={this.state.x}
           y={this.state.y}
@@ -90,28 +75,38 @@ class CircuitEditorElement extends Component {
             });
           }}
           onDragMove = { e => {
+            /* не работатет удержание в границах */
+            let pos_x = e.target.x();
+            let pos_y = e.target.y();
+
+            pos_y = pos_y < 60 ? 60 : pos_y;
+            pos_y = pos_y > window.innerHeight ? window.innerHeight :  pos_y;
+
+            pos_x = pos_x < 150 ? 150 : pos_x;
+            pos_x = pos_x > window.innerWidth ? window.innerWidth : pos_x;
+
+            /* не работатет удержание в границах */
+
             this.setState({
-              x: e.target.x(),
-              y: e.target.y()
+              x: pos_x,
+              y: pos_y
             });
-          }}
-          onDragEnd={ e => {
-            this.setState({
-              isDragging: false
-            });
-          }}
+          }
+
+        }
+        onDragEnd = {()=>{
+          this.setState({
+            selfKey : this.props.selfKey,
+            isDragging: false
+        });
+        this.elementStopped();
+      }}
         />
 
-        {this.state.inClickedConnections.map(inPin => <CircuitEditorConnection
-          key = {inPin.id} pos_x = {this.state.x - 1} pos_y = {this.state.y + inPin.y}
-          onPinClick = {() => this.pinClick()}
-          onPinUp = {() => this.pinUp()}
-          /> )}
-        {this.state.outClickedConnections.map(outPin => <CircuitEditorConnection
-          key = {outPin.id} pos_x = {this.state.x + this.props.w - 1} pos_y={this.state.y + outPin.y}
-          onPinClick = {() => this.pinClick()}
-          onPinUp = {() => this.pinUp()}
-
+        {this.state.connections.map(pin => <CircuitEditorConnection
+          key = {pin.id} selfKey = {pin.id}
+          pos_x = {this.state.x + pin.x} pos_y = {this.state.y + pin.y}
+          onPinClick = {(pinKey) => this.pinClick(pinKey)}
           /> )}
 
       </Group>
