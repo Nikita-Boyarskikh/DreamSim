@@ -1,8 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { Group } from 'react-konva';
+import { Layer } from 'react-konva';
 import CircuitEditorElement from './CircuitEditorElement';
 import CircuitEditorWire from './CircuitEditorWire';
+import uuid from "uuid";
 
 import PropTypes from 'prop-types';
 
@@ -11,54 +12,37 @@ class CircuitEditor extends React.Component {
 
   state = {
     connectClicked:false,
-    upOnConnect:false
+    upOnConnect:false,
+    elementStopped : [],
+    flagStopped : false
   };
 
-  pinClick = () => {
-    console.log("нажат уровень 2");
-    this.setState({
-      connectClicked:true
-    });
+/*------------------------------------------------------------------------------
+Отработка нажатия на соединение
+------------------------------------------------------------------------------*/
+  pinClick = (pin) => {
+    console.log("Кликнуто соединение (3)");
+    this.props.onPinClick(pin);
   };
 
-  pinUp = () => {
-    console.log("отпущен уровень 2");
-    this.setState({
-      upOnConnect:true
-    });
+  elementStopped = (arr) => {
+    console.log("Конец перетаскивания (2)");
+    this.props.onStop(arr);
   };
-
-  handleClick = () => {
-    if(this.state.connectClicked){
-      this.props.onPinClick();
-      this.setState({
-        connectClicked:false
-      });
-    }
-  }
-
-  handleUp = () => {
-    if(this.state.upOnConnect){
-      this.props.onPinUp();
-      this.setState({
-        upOnConnect:false
-      });
-    }
-  }
 
   render(){
     return(
-      <Group onMouseDown = {this.handleClick} onMouseUp = {this.handleUp}>
+      <Layer>
         {this.props.elements.map(element => <CircuitEditorElement
-          key={element.id} image={element.image}
+          key={uuid.v4()} selfKey = {element.selfKey} id = {element.id}
+          image={element.image}
           x={element.x} y={element.y}
-          w={element.w} h={element.h}
-          inConnections={element.inConnections}
-          outConnections={element.outConnections}
-          onPinClick={() => this.pinClick()}
-          onPinUp = {() => this.pinUp()}
-          />)}
-      </Group>
+          connections={element.connections}
+          onPinClick={(pin) => this.pinClick(pin)}
+          onStop = {(arr) => this.elementStopped(arr)}
+          />
+      )}
+      </Layer>
     );
   }
 }

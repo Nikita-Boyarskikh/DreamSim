@@ -1,61 +1,44 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import CircuitEditorElement from './CircuitEditorElement'
+import CircuitEditorLeftMenuElement from './CircuitEditorLeftMenuElement'
 import { Group, Text, Line } from 'react-konva';
 
 class CircuitEditorLeftMenu extends React.Component{
 
   state = {
-    connectClicked:false,
-    upOnConnect:false
+    elementClicked : false,
+    clickedElement : []
   };
 
-  pinClick = () => {
-    console.log("нажат уровень 2");
+  elementClick = (thisElement) => {
     this.setState({
-      connectClicked:true
-    });
-  };
-
-  pinUp = () => {
-    console.log("отпущен уровень 2");
-    this.setState({
-      upOnConnect:true
+      elementClicked : true ,
+      clickedElement : thisElement
     });
   };
 
   handleClick = () => {
-    if(this.state.connectClicked){
-      this.props.onPinClick();
+    if(this.state.elementClicked){
+      this.props.onElementClick(this.state.clickedElement);
       this.setState({
-        connectClicked:false
-      });
-    }
-  }
-
-  handleUp = () => {
-    if(this.state.upOnConnect){
-      this.props.onPinUp();
-      this.setState({
-        upOnConnect:false
+        connectClicked : false
       });
     }
   }
 
   render(){
     return(
-      <Group onMouseDown = {this.handleClick} onMouseUp = {this.handleUp}>
+      <Group onMouseDown = {this.handleClick} >
         <Text text="Список Элементов" fontSize={15} x={15} y={65} />
-        {this.props.backendElements.map(element =>  <CircuitEditorElement key={element.id}
+        {this.props.backendElements.map(element =>  <CircuitEditorLeftMenuElement
+          key={element.id}
           image={element.image} x={element.x} y={element.y}
-          w={element.w} h={element.h}
-          inConnections={element.inConnections} outConnections={element.outConnections}
-          onPinClick={() => this.pinClick()}
-          onPinUp = {() => this.pinUp()}
+          connections={element.connections}
+          onChooseElement={(thisElement) => this.elementClick(thisElement)}
           />)}
         <Line x={180} y={0} points={[0, 0, 0, 10000]} stroke={"black"}/>
       </Group>
-    )
+    );
   }
 
 }
