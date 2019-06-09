@@ -1,10 +1,13 @@
-import { applyMiddleware, createStore } from 'redux';
-import { default as reducer } from '../reducers';
-import promise from 'redux-promise';
-import thunk from 'redux-thunk';
+import { compose } from 'redux';
+
+import {
+  commonMiddlewares,
+  createStore,
+  history as commonHistory
+} from './configureStore.common';
+
+export const history = commonHistory;
 
 export default (persistedState) => {
-  const middlewares = [promise, thunk];
-
-  return createStore(reducer, persistedState, applyMiddleware(...middlewares));
+  return createStore(commonMiddlewares, compose, persistedState);
 };

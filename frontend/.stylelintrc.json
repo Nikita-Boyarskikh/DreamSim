@@ -1,6 +1,7 @@
 {
   "plugins": [
-    "no-low-performance-animation-properties",
+    "stylelint-high-performance-animation",
+    "stylelint-order"
   ],
   "rules": {
     "at-rule-blacklist": "",
@@ -176,6 +177,42 @@
     "value-list-comma-space-before": "",
     "value-list-max-empty-lines": "",
     "value-no-vendor-prefix": "",
-    "plugin/no-low-performance-animation-properties": true
+    "plugin/no-low-performance-animation-properties": true,
+    "order/properties-order": [
+      [
+        "position",
+        "z-index",
+        "top",
+        "right",
+        "bottom",
+        "left"
+      ],
+      {
+        "unspecified": "bottom"
+      }
+    ],
+    "order/order": [
+      "declarations",
+      {
+        "type": "at-rule",
+        "name": "media"
+      },
+      {
+        "type": "rule",
+        "selector": "^&::(before|after)"
+      },
+      {
+        "type": "rule",
+        "selector": "^&:\\w"
+      },
+      {
+        "type": "rule",
+        "selector": "^&_"
+      },
+      {
+        "type": "rule",
+        "selector": "^."
+      }
+    ]
   }
 }

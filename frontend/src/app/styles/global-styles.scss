@@ -5,19 +5,37 @@ html, body {
   background-color: $secondary-bg-color;
 }
 html, body, section {
-  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  background:
+          linear-gradient(90deg, $bg-color ($background-dot-space - $background-dot-size), transparent 1%) center,
+          linear-gradient($bg-color ($background-dot-space - $background-dot-size), transparent 1%) center,
+          $secondary-bg-color;
+  background-size: $background-dot-space $background-dot-space;
 }
 
 .page {
-  position: relative;
-  overflow-y: auto;
+  margin-top: $header-height + $main-spacing;
+  margin-bottom: $main-spacing;
   overflow-x: hidden;
+  width: 85%;
+
+  background: $bg-color;
+  border-radius: 10px;
+  box-shadow: 5px 5px 10px 0 $secondary-bg-color;
 }
 
-a {
+.link {
   text-decoration: none;
-  color: inherit;
+  color: $text-color-secondary;
 }
 a[disabled] {
   pointer-events: none;
+}
+
+.form-line {
+  margin-bottom: $main-spacing;
+  width: 100%;
 }

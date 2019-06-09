@@ -1,24 +1,32 @@
-import { applyMiddleware, compose, createStore } from 'redux';
-import { default as reducer } from 'app/state/reducers';
-import promise from 'redux-promise';
-import thunk from 'redux-thunk';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import createLogger from 'app/state/middlewares/logger';
 
-export default (persistedState) => {
-  const middlewares = [promise, thunk],
-        logger = configureLogger('debug');
+import {
+  history as commonHistory,
+  commonMiddlewares,
+  createStore
+} from './configureStore.common';
+import createRootReducer from 'app/state/reducers';
 
-  middlewares.push(logger);
+export const history = commonHistory;
 
-  const store = createStore(
-    reducer,
-    persistedState,
-    applyMiddleware(...middlewares),
-  );
+export default (initialState) => {
+  const logger = createLogger('debug');
+  const middlewares = commonMiddlewares.concat([logger]);
+
+  const composeEnhancers = composeWithDevTools({
+    latency: 500,
+    maxAge: 50,
+    trace: true,
+    traceLimit: 10
+  });
+
+  const store = createStore(middlewares, composeEnhancers, initialState);
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
-      store.replaceReducer(reducer);
+      store.replaceReducer(createRootReducer(history));
     });
   }
 

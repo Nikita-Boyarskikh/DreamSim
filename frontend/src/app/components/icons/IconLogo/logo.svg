@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     id="logo"
+     width="60"
+     height="25"
+     viewBox="0 0 60 25"
+>
+    <style>
+        .rect {
+            fill: none;
+            stroke: #000000;
+            stroke-width: 2;
+            stroke-miterlimit:10;
+        }
+
+        .text {
+            font-size: 20px;
+        }
+    </style>
+    <text
+        transform="matrix(1 0 0 1 2 20)"
+        class="text"
+    >
+        DrSim
+    </text>
+    <rect
+        class="rect"
+        width="60"
+        height="25"
+    />
+</svg>

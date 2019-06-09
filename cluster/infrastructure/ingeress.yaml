@@ -15,10 +15,10 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-body-size: "10G"
   labels:
     app: grafana
-    service: circuit-design
+    service: dreamsim
 spec:
   rules:
-    - host: kube-dashboard.circuit-design.ru
+    - host: kube-dashboard.drsim.ru
       http:
         paths:
           - path: /
@@ -27,5 +27,5 @@ spec:
               servicePort: 443
   tls:
     - hosts:
-        - kube-dashboard.circuit-design.ru
-      secretName: circuit-design-stage-tls
+        - kube-dashboard.drsim.ru
+      secretName: dreamsim-stage-tls

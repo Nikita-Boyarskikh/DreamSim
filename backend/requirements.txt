@@ -7,14 +7,40 @@
 --no-binary psycopg2
 
 amqp==2.4.1               # via kombu
-billiard==3.5.0.5         # via celery
-celery==4.2.1
+billiard==3.6.0.0         # via celery
+celery==4.3.0
+certifi==2019.3.9         # via requests
+chardet==3.0.4            # via requests
+coreapi==2.3.3
+coreschema==0.0.4         # via coreapi
+defusedxml==0.6.0         # via python3-openid
+django-allauth==0.39.1
 django-cors-headers==2.4.0
 django-filter==2.1.0
+django-health-check==3.10.1
+django-redis-cache==2.0.0
+django-rest-auth==0.9.5
+django-rest-swagger==2.2.0
 django==2.1.7
 djangorestframework==3.9.1
-kombu==4.3.0              # via celery
+idna==2.8                 # via requests
+itypes==1.1.0             # via coreapi
+jinja2==2.10.1            # via coreschema
+kombu==4.5.0              # via celery
+markupsafe==1.1.1         # via jinja2
+oauthlib==3.0.1           # via requests-oauthlib
+openapi-codec==1.3.2      # via django-rest-swagger
+pillow==6.0.0
+psutil==5.6.2
 psycopg2-binary==2.7.7
 psycopg2==2.7.7
+python3-openid==3.1.0     # via django-allauth
 pytz==2018.9              # via celery, django
-vine==1.2.0               # via amqp
+redis==3.2.1
+requests-oauthlib==1.2.0  # via django-allauth
+requests==2.22.0          # via coreapi, django-allauth, requests-oauthlib
+simplejson==3.16.0        # via django-rest-swagger
+six==1.12.0               # via django-rest-auth
+uritemplate==3.0.0        # via coreapi
+urllib3==1.25.3           # via requests
+vine==1.3.0               # via amqp, celery

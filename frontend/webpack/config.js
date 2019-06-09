@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'Circuit Design',
+  title: 'DreamSim',
   mediaRegex: /\.(woff|woff2|ttf|eot|svg|png|jpe?g|gif|bmp)$/,
   indexHtml: 'index.html',
   indexJsx: 'index.jsx',
@@ -7,8 +7,7 @@ module.exports = {
   paths: {
     dist: 'dist',
     src: 'src',
-    public: 'public',
-    assets: 'public'
+    public: 'public'
   },
   icons: {
     prefix: 'icons/',
@@ -19,18 +18,18 @@ module.exports = {
   manifest: {
     json: 'manifest.json',
     publicName: 'manifest.json',
-    appcacheFilename: 'circuit-design-manifest.appcache'
+    appcacheFilename: 'dreamsim-manifest.appcache'
   },
   devServer: {
     port: 8080,
     backend: {
-      port: 3000,
+      port: 8000,
       apiUrl: '/api'
     }
   },
   limits: {
-    maxAssetSize: 2 * 1024 * 1024,
-    maxEntrypointSize: 4 * 1024 * 1024,
+    maxAssetSize: 10 * 1024 * 1024,
+    maxEntrypointSize: 15 * 1024 * 1024,
     urlLoaderLimit: 128 * 1024
   }
 };

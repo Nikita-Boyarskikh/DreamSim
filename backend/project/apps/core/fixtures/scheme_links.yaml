@@ -1,0 +1,9 @@
+- model: core.schemelink
+  pk: 1
+  fields:
+    name: Мой коннекшен
+    input_scheme_element: 1
+    output_scheme_element: 1
+    input_pin: 1
+    output_pin: 1
+    coordinate_array: []

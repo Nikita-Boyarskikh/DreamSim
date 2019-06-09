@@ -1,0 +1,49 @@
+@import 'app/styles/constants';
+
+.header {
+  height: $header-height;
+
+  .header__toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header__element {
+      color: $bg-color;
+
+      &.header__profile {
+
+      }
+
+      &.header__settings {
+
+      }
+
+      &.header__logout {
+
+      }
+    }
+
+    .menu {
+      flex-grow: 1;
+
+      .menu__item {
+        color: $bg-color;
+
+        .menu__item-name {
+
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .header {
+    .header__toolbar {
+      .menu {
+        display: none;
+      }
+    }
+  }
+}

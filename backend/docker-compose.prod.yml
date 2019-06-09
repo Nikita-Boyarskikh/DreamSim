@@ -8,7 +8,7 @@ services:
       service: base
 
   app:
-    image: circuit-design-app
+    image: dreamsim-app
     build:
       context: .
       dockerfile: docker/app/Dockerfile
@@ -16,15 +16,15 @@ services:
     volumes:
       - .:/usr/src/app
     environment:
-      - NAME='circuit-design'
+      - NAME=dreamsim
       - LOGGING_CONFIG='/etc/app/logging.json'
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
       - DJANGO_SETTINGS_MODULE=settings.prod
       - SECRET_KEY=lskjfkwghkljcleikfhk34ri2h3i5g1hntofj4kplwtgp[f;o4ler;PIT;WGAJOLI,43JORT,FH4MIET]
-      - PGUSER=circuitdesign
-      - PGPASSWORD=circuitdesign
-      - PGDATABASE=circuitdesign_prod
+      - PGUSER=dreamsim
+      - PGPASSWORD=dreamsim
+      - PGDATABASE=dreamsim_prod
       - PGHOST=postgres
       - PGPORT=5432
     ports:
@@ -42,6 +42,6 @@ services:
       file: docker-compose.base.yml
       service: postgres
     environment:
-      - POSTGRES_USER=circuitdesign
-      - POSTGRES_DB=circuitdesign_prod
-      - POSTGRES_PASSWORD=circuitdesign
+      - POSTGRES_USER=dreamsim
+      - POSTGRES_DB=dreamsim_prod
+      - POSTGRES_PASSWORD=dreamsim

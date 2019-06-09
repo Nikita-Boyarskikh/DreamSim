@@ -1,5 +1,7 @@
 import { handleActions } from 'redux-actions';
 
-const initialState = { isAuthorized: false };
+const initialState = {
+  isAuthorized: false,
+};
 
-export default handleActions(initialState, {});
+export default handleActions({}, initialState);

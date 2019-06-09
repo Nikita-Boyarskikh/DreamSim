@@ -1,4 +1,4 @@
-CREATE DATABASE circuitdesign;
-CREATE USER circuitdesign WITH password 'circuitdesign';
-GRANT ALL ON DATABASE circuitdesign TO circuitdesign;
-ALTER ROLE circuitdesign SUPERUSER;
+CREATE DATABASE dreamsim;
+CREATE USER dreamsim WITH password 'dreamsim';
+GRANT ALL ON DATABASE dreamsim TO dreamsim;
+ALTER ROLE dreamsim SUPERUSER;

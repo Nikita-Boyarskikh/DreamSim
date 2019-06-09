@@ -2,7 +2,7 @@ version: '2.1'
 
 services:
   frontend:
-    image: circuit-design-frontend
+    image: dreamsim-frontend
     environment:
       - NODE_ENV=development
       - API_URL='http://localhost'

@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: dreamsim-stage
+  name: app-env
+  labels:
+    app: app
+    stage: stage
+    service: dreamsim
+data:
+  NAME: dreamsim
+  LOGGING_CONFIG: /etc/app/logging.json
+  DJANGO_SETTINGS_MODULE: settings.prod
+  SECRET_KEY: lgjcleikfhk3hntofj4kplw
+  PGUSER: dreamsim
+  PGPASSWORD: dreamsim
+  PGDATABASE: dreamsim_prod
+  PGHOST: postgres
+  PGPORT: "5432"

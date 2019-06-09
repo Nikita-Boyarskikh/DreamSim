@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const merge = require('webpack-merge');
 
 process.env.NODE_ENV = 'development';
@@ -15,21 +16,29 @@ const webpackConfig = {
   devServer: {
     port: config.devServer.port,
     proxy: devServerProxises, // proxy URLs to backend development server
-    contentBase: path.join(__dirname, config.paths.assets),
-    publicPath: '/' + config.paths.public + '/',
-    useLocalIp: true,
+    contentBase: path.join(__dirname, '..', config.paths.public),
+    publicPath: '/',
+    useLocalIp: false,
     compress: true,
     hot: true,
     headers: {
       'Access-Control-Allow-Origin': '*'
     },
-    https: true,
+    https: false,
     open: true,
     overlay: {
       warnings: true,
       errors: true
     }
-  }
+  },
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
+  },
+  plugins: [
+    new webpack.HotModuleReplacementPlugin()
+  ]
 };
 
 module.exports = merge(common, webpackConfig);
