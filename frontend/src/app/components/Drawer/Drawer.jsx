@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
+import Menu from 'app/components/Header/Menu';
 
-const Drawer = ({ isOpen, onOpen, onClose }) => (
-  <SwipeableDrawer onOpen={onOpen} onClose={onClose} open={isOpen} />
+const Drawer = ({ isOpen, menuItems, onOpen, onClose }) => (
+  <SwipeableDrawer onOpen={onOpen} onClose={onClose} open={isOpen}>
+    <div className="drawer">
+      <Menu menuItems={menuItems} className="drawer__menu" />
+    </div>
+  </SwipeableDrawer>
 );
 
 Drawer.propTypes = {

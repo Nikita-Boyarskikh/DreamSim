@@ -4,7 +4,10 @@ from django.db import models
 class Tag(models.Model):
     """Тег"""
 
-    name = models.CharField('Имя тега', max_length=255)
+    name = models.CharField('Название', max_length=255)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         verbose_name = 'Тег'

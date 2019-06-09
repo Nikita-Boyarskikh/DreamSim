@@ -1,0 +1,6 @@
+- model: core.scheme
+  pk: 1
+  fields:
+    name: Simple scheme
+    creator: 1
+    formula: 1 OR 0

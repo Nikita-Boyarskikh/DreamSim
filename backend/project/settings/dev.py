@@ -20,5 +20,7 @@ INSTALLED_APPS += [
 
 PASSWORD_MIN_LENGTH = None
 
-EMAIL_FILE_PATH = [os.path.join(TMP_DIR, 'emails')]
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 MEDIA_PATH = os.path.join(TMP_DIR, 'media')
+
+CELERY_TASK_ALWAYS_EAGER = True

@@ -1,7 +1,7 @@
 import storage from 'redux-persist/lib/storage';
 
 import { PERSISTED_STORE_PREFIX, PERSISTED_STORE_VERSION } from 'app/constants/global';
-import { isDebug } from 'app/utils';
+import { isDebug } from 'app/lib/utils';
 
 export default {
   version: PERSISTED_STORE_VERSION,

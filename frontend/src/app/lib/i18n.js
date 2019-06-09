@@ -6,14 +6,24 @@ import LocalStorageCacheBackend from 'i18next-localstorage-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import { FALLBACK_LANG, LOCALES, LOCALES_VERSIONS } from 'app/constants/locales';
-import { I18N_CACHE_BACKEND_PREFIX } from 'app/constants/locales';
-import { isDebug } from 'app/utils';
+import { FALLBACK_LANG, LOCALES, LOCALES_VERSIONS, I18N_CACHE_BACKEND_PREFIX } from 'app/constants/locales';
+import { lazy, isDebug } from 'app/lib/utils';
+import { i18nInit } from 'app/state/actions/ui';
+
+const LazyPostProcessor = {
+  type: 'postProcessor',
+  name: 'LazyPostProcessor',
+  process: function(value, key, options, translator) {
+    console.log('woow');
+    return value;
+  }
+};
 
 export default i18n
   .use(Backend)
   .use(LanguageDetector)
   .use(initReactI18next)
+  .use(LazyPostProcessor)
   .init({
     fallbackLng: FALLBACK_LANG,
 
@@ -28,7 +38,6 @@ export default i18n
     ns: ['translations'],
     defaultNS: 'translations',
 
-    saveMissing: isDebug,
     debug: isDebug,
 
     backend: {
@@ -43,15 +52,12 @@ export default i18n
         },
         {
           loadPath: '/locales/{{lng}}/{{ns}}.json',
-          addPath: '/locales/add/{{lng}}/{{ns}}',
           // allow cross domain requests
           crossDomain: false,
-
           // allow credentials on cross domain requests
           withCredentials: false,
-
           // overrideMimeType sets request.overrideMimeType("application/json")
-          overrideMimeType: false,
+          overrideMimeType: true,
         }]
     },
     react: {
@@ -66,3 +72,17 @@ export default i18n
 i18n.on('languageChanged', function(lng) {
   moment.locale(lng);
 });
+
+export function subscribe(store) {
+  i18n.on('initialized', function() {
+    store.dispatch(i18nInit());
+  });
+  i18n.on('missingKey', function(lngs, namespace, key, res) {
+    if (store.getState().local.ui.i18n) {
+      console.error(lngs, namespace, key, res);
+    }
+  });
+}
+
+export const _ = i18n.t.bind(i18n);
+export const __ = lazy(_);

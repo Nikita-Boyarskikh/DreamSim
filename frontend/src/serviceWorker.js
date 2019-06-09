@@ -1,4 +1,4 @@
-import { isDebug } from 'app/utils';
+import { isDebug } from 'app/lib/utils';
 
 export function register() {
   if (!isDebug && 'serviceWorker' in navigator) {

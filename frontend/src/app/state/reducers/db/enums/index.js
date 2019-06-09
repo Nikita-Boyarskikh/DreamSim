@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import menuItems from './menuItems';
+import tools from './tools';
 
 export default combineReducers({
-  menuItems,
+  tools,
 });

@@ -1,13 +1,7 @@
-/*
- * TODO: use redux-logger
- * TODO: use redux-immutablejs
- */
-
+import { createLogger } from 'redux-logger';
 import Immutable from 'immutable';
 
 export default (level) => {
-  const { createLogger } = require('redux-logger');
-
   const stateTransformer = (state) => {
     const newState = {};
 

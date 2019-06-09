@@ -1,11 +1,7 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Layer } from 'react-konva';
 import CircuitEditorElement from './CircuitEditorElement';
-import CircuitEditorWire from './CircuitEditorWire';
-import uuid from "uuid";
-
-import PropTypes from 'prop-types';
+import uuid from 'uuid';
 
 
 class CircuitEditor extends React.Component {

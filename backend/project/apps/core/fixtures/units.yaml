@@ -1,0 +1,4 @@
+- model: core.unit
+  pk: 1
+  fields:
+    name: Герц

@@ -15,6 +15,8 @@ import {
   Link
 } from "@material-ui/core";
 
+import urls from 'app/constants/urls';
+
 import IconLogo from 'app/components/icons/IconLogo';
 import IconLogoVk from 'app/components/icons/IconLogoVk';
 
@@ -34,7 +36,7 @@ class LoginForm extends React.Component {
 
     return (
       <form
-        action="/api/v1/login"
+        action={urls.api.v1.login}
         className="login"
       >
         <div className="form-line">
@@ -51,7 +53,7 @@ class LoginForm extends React.Component {
             <Link
               component={Rote}
               className="login__register-link"
-              to={'/registration'}
+              to={urls.signup}
             >
               { _('Please, register') }
             </Link>
@@ -76,7 +78,7 @@ class LoginForm extends React.Component {
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <IconButton onClick={this.togglePasswordVisibility}>
+                  <IconButton onClick={this.togglePasswordVisibility} color="primary">
                     {this.state.showPassword ? <IconVisibility/> : <IconVisibilityOff/>}
                   </IconButton>
                 </InputAdornment>
@@ -86,21 +88,21 @@ class LoginForm extends React.Component {
             required
           />
 
-          <div className="login__reset-password">
-            <FormControlLabel
-              control={<Checkbox color="primary" />}
-              label={_('Remember password')}
-            />
-            <Typography>
-              <Link
-                className="login__reset-password-link"
-                to={'/resetpassword'}
-                component={Rote}
-              >
-                { _('Forgot your password?') }
-              </Link>
-            </Typography>
-          </div>
+          {/*<div className="login__reset-password">*/}
+          {/*  <FormControlLabel*/}
+          {/*    control={<Checkbox color="primary" />}*/}
+          {/*    label={_('Remember password')}*/}
+          {/*  />*/}
+          {/*  <Typography>*/}
+          {/*    <Link*/}
+          {/*      className="login__reset-password-link"*/}
+          {/*      to={urls.resetPassword}*/}
+          {/*      component={Rote}*/}
+          {/*    >*/}
+          {/*      { _('Forgot your password?') }*/}
+          {/*    </Link>*/}
+          {/*  </Typography>*/}
+          {/*</div>*/}
         </div>
 
         <div className="form-line">
@@ -115,16 +117,14 @@ class LoginForm extends React.Component {
           </Button>
         </div>
 
-        <div className="form-line">
-          <Button
-            onClick={loginWithVk}
-            variant="text"
-            fullWidth
-          >
-            <IconLogoVk className="login__login-vk-icon" />
-            { _('Login with VKontakte') }
-          </Button>
-        </div>
+        {/*<Button*/}
+        {/*  onClick={loginWithVk}*/}
+        {/*  variant="text"*/}
+        {/*  fullWidth*/}
+        {/*>*/}
+        {/*  <IconLogoVk className="login__login-vk-icon" />*/}
+        {/*  { _('Login with VKontakte') }*/}
+        {/*</Button>*/}
       </form>
     );
   };

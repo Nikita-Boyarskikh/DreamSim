@@ -7,7 +7,7 @@ import LoginForm from 'app/components/LoginForm';
 
 class Login extends React.Component {
   render() {
-    const { t: _, login, loginWithVk } = this.props;
+    const { login, loginWithVk } = this.props;
 
     return (
       <div className="page">

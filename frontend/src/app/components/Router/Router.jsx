@@ -1,25 +1,26 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Route, Switch } from 'react-router-dom';
+
+import urls from 'app/constants/urls';
+import { history } from 'app/state/store/configureStore';
+import { ConnectedRouter } from 'connected-react-router';
 
 import Main from 'app/pages/Main';
 import Login from 'app/pages/Login';
 import PageNotFound from 'app/pages/NotFound';
-import Editor from  'app/pages/Editor'
-
-PageNotFound.propTypes = {
-  history: PropTypes.object.isRequired,
-};
+import Editor from  'app/pages/Editor';
+import SignUp from 'app/pages/SingUp';
 
 const Router = (props) => (
-  <BrowserRouter>
+  <ConnectedRouter history={history}>
     <Switch>
-      <Route exact path="/" component={Main} />
-      <Route exact path="/login" component={Login} />
-      <Route exact path="/editor" component={Editor} />
+      <Route exact path={urls.root} component={Main} />
+      <Route exact path={urls.login} component={Login} />
+      <Route exact path={urls.editor} component={Editor} />
+      <Route exact path={urls.signup} component={SignUp} />
       <Route component={PageNotFound} />
     </Switch>
-  </BrowserRouter>
+  </ConnectedRouter>
 );
 
 export default Router;

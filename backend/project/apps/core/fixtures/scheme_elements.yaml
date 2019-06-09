@@ -1,0 +1,7 @@
+- model: core.schemeelement
+  pk: 1
+  fields:
+    name: Мой элементик
+    scheme: 1
+    element: 1
+    coordinates: [0, 0]

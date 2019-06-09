@@ -6,8 +6,11 @@ from .scheme import Scheme
 class SchemeTag(models.Model):
     """Тег схемы"""
 
-    tag_id = models.ForeignKey(Tag, on_delete=models.CASCADE, name='ИД тега')
-    scheme_id = models.ForeignKey(Scheme, on_delete=models.CASCADE, name='ИД схемы')
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE, verbose_name='Тег')
+    scheme = models.ForeignKey(Scheme, on_delete=models.CASCADE, verbose_name='Схема')
+
+    def __str__(self):
+        return f'{self.tag}(scheme={self.scheme.id})'
 
     class Meta:
         verbose_name = 'Тег схемы'

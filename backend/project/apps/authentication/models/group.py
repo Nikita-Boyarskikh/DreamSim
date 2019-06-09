@@ -1,14 +1,20 @@
 from django.db import models
-from apps.authentication.validators import GroupValidator
+from apps.authentication.validators import validate_group_name
 from .institute import Institute
 
 
 class Group(models.Model):
-    """Группа"""
+    """Учебная группа"""
 
-    name = models.CharField('Название группы', max_length=255, validators=[GroupValidator])
-    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, name='ВУЗ')
+    name = models.CharField('Название', max_length=255)
+    institute = models.ForeignKey(Institute, on_delete=models.CASCADE, verbose_name='ВУЗ')
+
+    def clean(self):
+        validate_group_name(self)
+
+    def __str__(self):
+        return self.name
 
     class Meta:
-        verbose_name = 'Группа'
-        verbose_name_plural = 'Группы'
+        verbose_name = 'Учебная группа'
+        verbose_name_plural = 'Учебные группы'

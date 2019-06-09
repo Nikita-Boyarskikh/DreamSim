@@ -1,0 +1,122 @@
+variables:
+  IMAGE: dreamsim-test
+  DOCKER_COMPOSE_FILE_NAME: docker-compose.test.yml
+  DOCKER_COMPOSE: docker-compose -f $DOCKER_COMPOSE_FILE_NAME -p ${IMAGE}_${CI_PIPELINE_ID}_${CI_JOB_NAME}
+
+stages:
+  - build
+  - deps_check
+  - lint
+  - test
+  - publish
+  - translation
+  - merge-to-stage
+  - merge-to-dev
+
+before_script:
+  - 'sed -i "s#image: ${IMAGE}#image: $IMAGE:$CI_PIPELINE_ID#g" ${DOCKER_COMPOSE_FILE_NAME}'
+
+after_script:
+  - '$DOCKER_COMPOSE down --remove-orphans -v'
+
+build:
+  stage: build
+  script:
+    - '$DOCKER_COMPOSE build'
+
+python_deps_check:
+  stage: deps_check
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run --no-deps app pip check'
+
+flake8:
+  stage: lint
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run --no-deps app flake8'
+
+pylint:
+  stage: lint
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run --no-deps app pylint --py3k `find . -name "*.py" | egrep -v "^\./project/apps/\w+/(migrations|tests|fixtures)"`'
+
+jshint:
+  stage: lint
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run --no-deps app npm install --only=prod'
+    - '$DOCKER_COMPOSE run --no-deps app npm run jshint'
+
+eslint:
+  stage: lint
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run --no-deps app npm install --only=prod'
+    - '$DOCKER_COMPOSE run --no-deps app npm run eslint -s' # -s to prevent node err if lint fails
+
+pytest:
+  stage: test
+  except:
+    - translation
+  script:
+    - '$DOCKER_COMPOSE run app ./docker/scripts/wait-for-it.sh postgres:5432 -- py.test'
+
+translate:
+  stage: translation
+  only:
+    - translations
+  variables:
+    DST_BRANCH: dev
+  script:
+    - '$DOCKER_COMPOSE --version'
+    - '$DOCKER_COMPOSE run --no-deps app ./scripts/i18n.sh extract'
+    - '$DOCKER_COMPOSE run --no-deps app ./scripts/i18n.sh update'
+    - git config user.name "${GITLAB_USER_NAME}"
+    - git config user.email "${GITLAB_USER_EMAIL}"
+    - git remote set-url --push origin $(echo "$CI_REPOSITORY_URL" | sed -e "s/.*@/git@/g" | sed -e "s/\//:/")
+    # git commit will always produce new commit due to timestamp changes in po-files.
+    - git fetch && git diff --quiet && git diff --staged --quiet || (git add project/translations && git commit -m "Translations extract")
+    - git merge --ff --no-edit origin/$DST_BRANCH
+    - git push origin HEAD:$DST_BRANCH
+
+publish:
+  stage: publish
+  except:
+    - translation
+  only:
+    - master
+  script:
+    - 'docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY'
+    - 'docker build -f docker/base/Dockerfile -t $CI_REGISTRY_IMAGE/dreamsim-base .'
+    - 'docker build -f docker/backend/Dockerfile -t $CI_REGISTRY_IMAGE/dreamsim-backend .'
+    - 'docker build -f docker/frontend/Dockerfile -t $CI_REGISTRY_IMAGE/dreamsim-frontend .'
+    - 'docker build -f docker/postgres/Dockerfile -t $CI_REGISTRY_IMAGE/dreamsim-postgres .'
+    - 'docker push $CI_REGISTRY_IMAGE/dreamsim-base'
+    - 'docker push $CI_REGISTRY_IMAGE/dreamsim-backend'
+    - 'docker push $CI_REGISTRY_IMAGE/dreamsim-frontend'
+    - 'docker push $CI_REGISTRY_IMAGE/dreamsim-postgres'
+
+# To use this job gitlab-runner user should have permissions to push to project repository via SSH, i.e. to have
+# corresponding GitLab user with added public key
+merge-to-dev:
+  before_script: []
+  after_script: []
+  stage: merge-to-dev
+  only:
+    - master
+  variables:
+    DST_BRANCH: dev
+  script:
+    - git remote set-url --push origin $(echo "$CI_REPOSITORY_URL" | sed -e "s/.*@/git@/g" | sed -e "s/\//:/")
+    - git checkout $DST_BRANCH && git fetch && git reset --hard origin/$DST_BRANCH
+    - git merge --ff --no-edit $CI_COMMIT_SHA
+    - git push origin $DST_BRANCH
+    - git checkout $CI_COMMIT_SHA
+

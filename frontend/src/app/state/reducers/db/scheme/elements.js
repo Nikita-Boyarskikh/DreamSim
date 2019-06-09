@@ -1,13 +1,9 @@
-import { handleActions } from 'redux-actions';
-import { ADD_SCHEME_ELEMENT } from 'app/constants/actionTypes';
+import { ADD_SCHEME_ELEMENT, SET_SCHEME_ELEMENTS } from 'app/constants/actionTypes';
+import { handleSetNormalizedData } from 'app/lib/api';
+import { elementSchema } from 'app/lib/api/schema/element';
 
-const initialState = [];
-
-export default handleActions({
-  [ADD_SCHEME_ELEMENT](state, action) {
-
-    console.log("ADD_SCHEME_ELEMENT");
-
-    return state;
+export default handleSetNormalizedData(SET_SCHEME_ELEMENTS, elementSchema, {
+  [ADD_SCHEME_ELEMENT]() {
+    // TODO
   }
-}, initialState);
+});

@@ -8,7 +8,7 @@ services:
       service: base
 
   app:
-    image: circuit-design-app
+    image: dreamsim-app
     build:
       context: .
       dockerfile: ./docker/dev/Dockerfile
@@ -17,9 +17,9 @@ services:
       - DEBUG=1
       - PYTHONDONTWRITEBYTECODE=1
       - PYTHONUNBUFFERED=1
-      - PGUSER=circuitdesign
-      - PGPASSWORD=circuitdesign
-      - PGDATABASE=circuitdesign
+      - PGUSER=dreamsim
+      - PGPASSWORD=dreamsim
+      - PGDATABASE=dreamsim
       - PGHOST=postgres
       - PGPORT=5432
     volumes:
@@ -39,6 +39,6 @@ services:
       file: docker-compose.base.yml
       service: postgres
     environment:
-      - POSTGRES_USER=circuitdesign
-      - POSTGRES_DB=circuitdesign
-      - POSTGRES_PASSWORD=circuitdesign
+      - POSTGRES_USER=dreamsim
+      - POSTGRES_DB=dreamsim
+      - POSTGRES_PASSWORD=dreamsim
