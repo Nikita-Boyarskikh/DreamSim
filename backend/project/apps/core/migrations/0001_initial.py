@@ -3,7 +3,6 @@
 import apps.core.models.element_parameter
 from django.conf import settings
 import lib.postgres.fields
-import django.contrib.postgres.validators
 import django.core.validators
 from django.db import migrations, models
 import django.db.models.deletion
@@ -38,7 +37,7 @@ class Migration(migrations.Migration):
                 (
                     'array_of_inputs',
                     lib.postgres.fields.ArrayField(
-                        base_field=models.CharField(max_length=255), size=None, verbose_name='Массив имён входов'
+                        base_field=models.CharField(max_length=255), blank=True, size=None, verbose_name='Массив имён входов'
                     )
                 ),
                 (
@@ -152,11 +151,7 @@ class Migration(migrations.Migration):
                     'coordinates',
                     lib.postgres.fields.ArrayField(
                         base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]),
-                        size=None,
-                        validators=[
-                            django.contrib.postgres.validators.ArrayMaxLengthValidator(2),
-                            django.contrib.postgres.validators.ArrayMinLengthValidator(2)
-                        ],
+                        size=2,
                         verbose_name='Координаты'
                     )
                 ),
@@ -202,12 +197,9 @@ class Migration(migrations.Migration):
                     lib.postgres.fields.ArrayField(
                         base_field=lib.postgres.fields.ArrayField(
                             base_field=models.IntegerField(validators=[django.core.validators.MinValueValidator(0)]),
-                            size=None,
-                            validators=[
-                                django.contrib.postgres.validators.ArrayMaxLengthValidator(2),
-                                django.contrib.postgres.validators.ArrayMinLengthValidator(2)
-                            ]
+                            size=2
                         ),
+                        blank=True,
                         size=None,
                         verbose_name='Координаты'
                     )

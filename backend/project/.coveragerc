@@ -1,4 +1,6 @@
 [run]
+branch = True
+parallel = True
 omit =
   *apps.py,
   *migrations/*,
@@ -7,3 +9,8 @@ omit =
   *urls.py,
   *wsgi.py,
   manage.py
+
+[report]
+fail_under = 80
+skip_covered = True
+sort = "Miss"

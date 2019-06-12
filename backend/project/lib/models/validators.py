@@ -1,19 +1,19 @@
 from django.core.exceptions import ValidationError
 from django.utils.deconstruct import deconstructible
 
-ARRAY_FIELD_ERROR = 'Поле должно быть массивом с размерностью {}'
+ARRAY_FIELD_SIZE_ERROR = 'Поле должно быть массивом с размерностью {}'
 BIN_ERROR = 'Поле должно иметь значение 0 или 1'
 
 
 def json_array_validator(field, dimensions=1):
     if not isinstance(field, list):
-        raise ValidationError(ARRAY_FIELD_ERROR.format(dimensions))
+        raise ValidationError(ARRAY_FIELD_SIZE_ERROR.format(dimensions))
 
 
 @deconstructible
 class JSONArrayFieldValidator:
     code = 'json_array'
-    message = ARRAY_FIELD_ERROR
+    message = ARRAY_FIELD_SIZE_ERROR
 
     def __init__(self, field_validator=None, dimension=1):
         self.field_validator = field_validator

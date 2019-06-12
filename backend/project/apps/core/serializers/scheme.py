@@ -1,29 +1,38 @@
 from django.db import transaction
-from rest_framework import serializers
+from rest_framework.serializers import PrimaryKeyRelatedField, CurrentUserDefault
 
-from apps.core.models import Scheme, Element, SchemeElement
+from apps.core.models import Scheme
 from apps.core.serializers.scheme_element import SchemeElementSerializer
+from apps.core.service.scheme import create_scheme_elements_for_scheme
+from lib.api.serializers import ModelSerializer
 
 
-class SchemeSerializer(serializers.ModelSerializer):
-    creator = serializers.PrimaryKeyRelatedField(read_only=True, default=serializers.CurrentUserDefault())
+class SchemeSerializer(ModelSerializer):
+    creator = PrimaryKeyRelatedField(read_only=True, default=CurrentUserDefault())
     elements = SchemeElementSerializer(source='schemeelement_set', many=True)
 
     @transaction.atomic
     def create(self, validated_data):
         scheme = Scheme.objects.create(
-            name=validated_data['name'], creator=validated_data['creator'], formula=validated_data.get('formula')
+            name=validated_data['name'],
+            creator=validated_data['creator'],
+            formula=validated_data.get('formula')
         )
+        create_scheme_elements_for_scheme(scheme, validated_data['schemeelement_set'])
+        scheme.refresh_from_db(fields={'elements'})
+        return scheme
 
-        scheme_elements_data = validated_data['schemeelement_set']
-        element_ids = (data['id'] for data in scheme_elements_data)
+    @transaction.atomic
+    def update(self, scheme, validated_data):
+        scheme.name = self.partial_optional(scheme, validated_data, 'name')
+        scheme.formula = self.partial_optional(scheme, validated_data, 'formula')
 
-        elements = Element.objects.filter(id__in=element_ids).all()
-        for element, data in zip(elements, scheme_elements_data):
-            SchemeElement.objects.create(
-                element=element, scheme=scheme, name=data.get('name') or element.name, coordinates=data['coordinates']
-            )
+        if 'schemeelement_set' in validated_data:
+            scheme.schemeelement_set.all().delete()
+            create_scheme_elements_for_scheme(scheme, validated_data['schemeelement_set'])
+            scheme.refresh_from_db(fields={'elements'})
 
+        scheme.save()
         return scheme
 
     class Meta:

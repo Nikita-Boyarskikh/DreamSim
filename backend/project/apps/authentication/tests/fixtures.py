@@ -1,12 +1,6 @@
 import pytest
 
-from apps.authentication.models import User, Institute
-from apps.authentication.models import Group
-
-
-@pytest.fixture
-def simple_user():
-    return User.objects.create(username='simple', password='123455678')
+from apps.authentication.models import Institute, Group
 
 
 @pytest.fixture
