@@ -7,7 +7,7 @@ import Menu from 'app/components/Header/Menu';
 const Drawer = ({ isOpen, menuItems, onOpen, onClose }) => (
   <SwipeableDrawer onOpen={onOpen} onClose={onClose} open={isOpen}>
     <div className="drawer">
-      <Menu menuItems={menuItems} className="drawer__menu" />
+      <Menu menuItems={menuItems} />
     </div>
   </SwipeableDrawer>
 );
