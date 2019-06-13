@@ -1,4 +1,3 @@
-from django.contrib.postgres.validators import ArrayMaxLengthValidator, ArrayMinLengthValidator
 from django.core.validators import MinValueValidator
 from django.db import models
 from lib.postgres.fields import ArrayField
@@ -21,8 +20,9 @@ class SchemeLink(models.Model):
     coordinate_array = ArrayField(
         ArrayField(
             models.IntegerField(validators=[MinValueValidator(0)]),
-            validators=[ArrayMaxLengthValidator(2), ArrayMinLengthValidator(2)]
+            size=2
         ),
+        blank=True,
         verbose_name='Координаты'
     )
     name = models.CharField('Название', max_length=255, blank=True, null=True)

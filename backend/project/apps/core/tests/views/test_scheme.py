@@ -1,38 +1,20 @@
 import pytest
-from django.forms import model_to_dict
 
 from apps.authentication.tests.factories import UserFactory
-from apps.core.models import Scheme
-from apps.core.tests.factories import SchemeFactory, SchemeElementFactory
+from apps.core.models import Scheme, SchemeElement
+from apps.core.tests.factories import SchemeFactory, SchemeElementFactory, ElementFactory
+from lib.test.serialization import scheme_to_json
 from lib.test.utils import assert_response
-from lib.util import clean_dict, only_keys
+from lib.test.viewtestcase import ViewTestCase
 
 pytestmark = pytest.mark.django_db
 
 
-class TestSchemeViewSet:
+class TestSchemeViewSet(ViewTestCase):
     base_url = '/api/v1/scheme/'
-
-    def get_url(self, scheme_id=None):
-        if scheme_id is None:
-            return self.base_url
-        else:
-            return self.base_url + f'{scheme_id}/'
-
-    @staticmethod
-    def serialize(scheme):
-        json = clean_dict(model_to_dict(scheme))
-        return json
-
-    @staticmethod
-    def to_json(scheme, response):
-        model_dict = clean_dict(model_to_dict(scheme))
-        json = only_keys(
-            model_dict,
-            {'id', 'name', 'formula', 'creator', 'elements'}
-        )
-        json['elements'] =
-        return json
+    allowed_keys = {'id', 'name', 'formula', 'creator', 'elements'}
+    element_allowed_keys = {'id', 'name', 'coordinates'}
+    serialization_method = scheme_to_json
 
     def test_list(self, client, fs):
         response = client.get(self.get_url())
@@ -40,17 +22,17 @@ class TestSchemeViewSet:
         assert len(response.data) == Scheme.objects.count() == 0
 
         scheme = SchemeFactory()
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme)
+        SchemeElementFactory(scheme=scheme)
         response = client.get(self.get_url())
         assert_response(response, 200)
+
         assert len(response.data) == Scheme.objects.count() == 1
         assert response.data[0]['id'] == scheme.id
 
     def test_retrieve(self, client, fs):
         scheme = SchemeFactory()
         elements = []
-        for i in range(10):
+        for i in range(2):
             element = SchemeElementFactory(scheme=scheme)
             elements.append(element)
         response = client.get(self.get_url(scheme.id))
@@ -61,7 +43,7 @@ class TestSchemeViewSet:
             'formula': scheme.formula,
             'creator': scheme.creator.id,
             'elements': [{
-                'id': el.id,
+                'id': el.element.id,
                 'name': el.name,
                 'coordinates': el.coordinates
             } for el in reversed(elements)]
@@ -79,15 +61,22 @@ class TestSchemeViewSet:
     def test_create(self, client, fs):
         user = UserFactory()
         client.force_login(user)
+
+        element1 = ElementFactory()
+        element2 = ElementFactory()
         scheme = SchemeFactory.build()
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme).build()
-        json = self.serialize(scheme)
-        response = client.post(self.get_url(), data=json)
+        elements = [
+            SchemeElementFactory.build(scheme=scheme, element=element1),
+            SchemeElementFactory.build(scheme=scheme, element=element2),
+            SchemeElementFactory.build(scheme=scheme, element=element2),
+        ]
+
+        json = self.serialize(scheme, elements)
+        response = client.post(self.get_url(), data=json, content_type='application/json')
         data = response.json()
 
         scheme = Scheme.objects.get(id=data['id'])
-        assert_response(response, 201, self.to_json(scheme, response))
+        assert_response(response, 201, self.serialize(scheme))
 
     def test_update(self, client, fs):
         user = UserFactory()
@@ -97,28 +86,39 @@ class TestSchemeViewSet:
         new_name = 'new'
 
         scheme = SchemeFactory(name=prev_name)
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme)
+        SchemeElementFactory(scheme=scheme)
         json = self.serialize(scheme)
         json['name'] = new_name
 
         response = client.put(self.get_url(scheme.id), data=json, content_type='application/json')
-        scheme.refresh_from_db()
-        json = self.to_json(scheme, response)
+        scheme.refresh_from_db(fields={'name'})
+        json = self.serialize(scheme)
         assert_response(response, 200, json)
 
     def test_noop_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme)
+        SchemeElementFactory(scheme=scheme)
         json = self.serialize(scheme)
 
         response = client.put(self.get_url(scheme.id), data=json, content_type='application/json')
-        scheme.refresh_from_db()
-        json = self.to_json(scheme, response)
+        json = self.serialize(scheme)
         assert_response(response, 200, json)
+
+    def test_update_not_found_elements(self, client, fs):
+        user = UserFactory()
+        client.force_login(user)
+        scheme = SchemeFactory()
+        SchemeElementFactory(scheme=scheme)
+        json = self.serialize(scheme)
+        json['elements'][0]['id'] = 404
+
+        assert SchemeElement.objects.filter(element_id=404).count() == 0
+
+        response = client.put(self.get_url(scheme.id), data=json, content_type='application/json')
+        error = {'detail': f'Элементы {404} не найдены'}
+        assert_response(response, 404, error)
 
     def test_update_not_found(self, client):
         user = UserFactory()
@@ -127,7 +127,7 @@ class TestSchemeViewSet:
         assert not Scheme.objects.filter(id=id_not_found).exists()
 
         scheme = SchemeFactory.build()
-        response = client.put(self.get_url(id_not_found), data=self.serialize(scheme))
+        response = client.put(self.get_url(id_not_found), data=self.serialize(scheme), content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -139,24 +139,34 @@ class TestSchemeViewSet:
         new_name = 'new'
 
         scheme = SchemeFactory(name=prev_name)
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme)
+        SchemeElementFactory(scheme=scheme)
         response = client.patch(self.get_url(scheme.id), data={'name': new_name}, content_type='application/json')
-        scheme.refresh_from_db()
-        print("respoNCE ", response.json())
-        print("JSON", self.to_json(scheme, response))
-        assert_response(response, 200, self.to_json(scheme, response))
+        scheme.refresh_from_db(fields={'name'})
+        assert_response(response, 200, self.serialize(scheme))
 
     def test_noop_partial_update(self, client, fs):
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()
-        for i in range(10):
-            SchemeElementFactory(scheme=scheme)
+        SchemeElementFactory(scheme=scheme)
 
         response = client.patch(self.get_url(scheme.id), data={}, content_type='application/json')
-        json = self.to_json(scheme, response)
+        json = self.serialize(scheme)
         assert_response(response, 200, json)
+
+    def test_partial_update_not_found_elements(self, client, fs):
+        user = UserFactory()
+        client.force_login(user)
+        scheme = SchemeFactory()
+        SchemeElementFactory(scheme=scheme)
+        json = self.serialize(scheme)
+        json['elements'][0]['id'] = 404
+
+        assert SchemeElement.objects.filter(element_id=404).count() == 0
+
+        response = client.patch(self.get_url(scheme.id), data=json, content_type='application/json')
+        error = {'detail': f'Элементы {404} не найдены'}
+        assert_response(response, 404, error)
 
     def test_partial_update_not_found(self, client):
         user = UserFactory()
@@ -164,7 +174,7 @@ class TestSchemeViewSet:
         id_not_found = 404
         assert not Scheme.objects.filter(id=id_not_found).exists()
 
-        response = client.patch(self.get_url(id_not_found), data={})
+        response = client.patch(self.get_url(id_not_found), data={}, content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -173,13 +183,15 @@ class TestSchemeViewSet:
         user = UserFactory()
         client.force_login(user)
         scheme = SchemeFactory()
-        for i in range(10):
+        for i in range(2):
             SchemeElementFactory(scheme=scheme)
         assert Scheme.objects.count() == 1
+        assert SchemeElement.objects.count() == 2
 
         response = client.delete(self.get_url(scheme.id))
         assert_response(response, 204)
         assert Scheme.objects.count() == 0
+        assert SchemeElement.objects.count() == 0
 
     def test_destroy_not_found(self, client):
         user = UserFactory()

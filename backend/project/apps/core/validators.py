@@ -6,12 +6,12 @@ TRUTH_TABLE_INPUT_STATES_ERROR = 'Количество возможных ком
 
 
 def validate_input_pin(model):
-    if model.input_pin >= len(model.input_scheme_element.element.array_of_inputs):
+    if model.input_pin >= len(model.input_scheme_element.element.array_of_outputs):
         raise ValidationError(PIN_INDEX_ERROR)
 
 
 def validate_output_pin(model):
-    if model.output_pin >= len(model.output_scheme_element.element.array_of_outputs):
+    if model.output_pin >= len(model.output_scheme_element.element.array_of_inputs):
         raise ValidationError(PIN_INDEX_ERROR)
 
 

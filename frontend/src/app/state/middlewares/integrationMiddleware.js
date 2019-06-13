@@ -1,4 +1,4 @@
-import { REHYDRATE } from 'redux-persist/es/constants';
+import { REHYDRATE } from 'redux-persist';
 import { initialize } from 'app/state/actions/db/initial';
 import { alert } from 'app/state/actions/ui';
 import { LOCATION_CHANGE } from 'connected-react-router';

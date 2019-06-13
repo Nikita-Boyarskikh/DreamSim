@@ -1,27 +1,20 @@
-import datetime
-
 import pytest
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
-from django.forms import model_to_dict
 
 from apps.authentication.models import User
 from apps.authentication.tests.factories import UserFactory
 from lib.test.utils import assert_response
 from lib.test.serialization import user_to_json
-from lib.util import clean_dict, only_keys
+from lib.test.viewtestcase import ViewTestCase
 
 pytestmark = pytest.mark.django_db
 
 
-class TestUserViewSet:
+class TestUserViewSet(ViewTestCase):
     base_url = '/api/v1/user/'
-
-    def get_url(self, user_id=None):
-        if user_id is None:
-            return self.base_url
-        else:
-            return self.base_url + f'{user_id}/'
+    allowed_keys = {'id', 'username', 'email', 'birthday', 'first_name', 'last_name', 'vk', 'patronymic'}
+    serialization_method = user_to_json
 
     @staticmethod
     def is_logged_in(response):
@@ -65,28 +58,28 @@ class TestUserViewSet:
 
     def test_create(self, client):
         user = UserFactory.build()
-        json = clean_dict(model_to_dict(user))
+        json = self.serialization_method(user)
         response = client.post(self.get_url(), data=json)
 
         user = User.objects.get_by_natural_key(user.username)
-        assert_response(response, 201, self.user_to_json(user))
+        assert_response(response, 201, self.serialize(user))
 
     def test_update(self, client):
         prev_last_name = 'Previous-Last-Name'
         new_last_name = 'New-Last-Name'
 
         user = UserFactory(last_name=prev_last_name)
-        json = self.user_to_json(user)
+        json = self.serialize(user)
         json['last_name'] = new_last_name
 
-        response = client.put(self.get_url(user.id), data=json)
+        response = client.put(self.get_url(user.id), data=json, content_type='application/json')
         assert_response(response, 200, json)
 
     def test_noop_update(self, client):
         user = UserFactory()
-        json = self.user_to_json(user)
+        json = self.serialize(user)
 
-        response = client.put(self.get_url(user.id), data=json)
+        response = client.put(self.get_url(user.id), data=json, content_type='application/json')
         assert_response(response, 200, json)
 
     def test_update_not_found(self, client):
@@ -94,7 +87,7 @@ class TestUserViewSet:
         assert not User.objects.filter(id=id_not_found).exists()
 
         user = UserFactory.build()
-        response = client.put(self.get_url(id_not_found), data=self.user_to_json(user))
+        response = client.put(self.get_url(id_not_found), data=self.serialize(user), content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -104,22 +97,23 @@ class TestUserViewSet:
         new_last_name = 'New-Last-Name'
 
         user = UserFactory(last_name=prev_last_name)
-        response = client.patch(self.get_url(user.id), data={'last_name': new_last_name})
-        user.refresh_from_db()
-        assert_response(response, 200, self.user_to_json(user))
+        response = client.patch(self.get_url(user.id), data={'last_name': new_last_name},
+                                content_type='application/json')
+        user.refresh_from_db(fields={'last_name'})
+        assert_response(response, 200, self.serialize(user))
 
     def test_noop_partial_update(self, client):
         user = UserFactory()
-        json = self.user_to_json(user)
+        json = self.serialize(user)
 
-        response = client.patch(self.get_url(user.id), data={})
+        response = client.patch(self.get_url(user.id), data={}, content_type='application/json')
         assert_response(response, 200, json)
 
     def test_partial_update_not_found(self, client):
         id_not_found = 404
         assert not User.objects.filter(id=id_not_found).exists()
 
-        response = client.patch(self.get_url(id_not_found), data={})
+        response = client.patch(self.get_url(id_not_found), data={}, content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -147,21 +141,16 @@ class TestUserViewSet:
         data = {'username': username, 'password': password}
 
         user = UserFactory(username=username, password=make_password(password))
-        user.refresh_from_db()
 
         client.logout()
         response = client.post(self.get_url() + 'login/', data=data)
-        assert_response(response, 200, self.user_to_json(user))
-        print(response.cookies)
+        assert_response(response, 200, self.serialize(user))
         assert self.is_logged_in(response)
 
     def test_login_user_does_not_exists(self, client):
         username = 'does_not_exists'
         password = 'simple_password'
         data = {'username': username, 'password': password}
-
-        user = UserFactory()
-        user.refresh_from_db()
 
         assert not User.objects.filter(username=username).exists()
 
@@ -170,7 +159,6 @@ class TestUserViewSet:
 
         error = {'detail': 'Некорректные учетные данные.'}
         assert_response(response, 403, error)
-        print(response.cookies)
         assert not self.is_logged_in(response)
 
     def test_login_wrong_credentials(self, client):
@@ -178,15 +166,13 @@ class TestUserViewSet:
         password = 'wrong_password'
         data = {'username': username, 'password': password}
 
-        user = UserFactory(username=username)
-        user.refresh_from_db()
+        UserFactory(username=username)
 
         client.logout()
         response = client.post(self.get_url() + 'login/', data=data)
 
         error = {'detail': 'Некорректные учетные данные.'}
         assert_response(response, 403, error)
-        print(response.cookies)
         assert not self.is_logged_in(response)
 
     def test_login_already_authorized(self, client):
@@ -195,12 +181,10 @@ class TestUserViewSet:
         data = {'username': username, 'password': password}
 
         user = UserFactory(username=username, password=make_password(password))
-        user.refresh_from_db()
 
         assert client.login(**data)
         response = client.post(self.get_url() + 'login/', data=data)
-        assert_response(response, 200, self.user_to_json(user))
-        print(response.cookies)
+        assert_response(response, 200, self.serialize(user))
         assert self.is_logged_in(response)
 
     def test_login_user_does_not_exists_already_authorized(self, client):
@@ -209,8 +193,6 @@ class TestUserViewSet:
         data = {'username': username, 'password': password}
 
         user = UserFactory(password=make_password(password))
-        user.refresh_from_db()
-
         assert not User.objects.filter(username=username).exists()
 
         assert client.login(username=user.username, password=password)
@@ -218,7 +200,6 @@ class TestUserViewSet:
 
         error = {'detail': 'Некорректные учетные данные.'}
         assert_response(response, 403, error)
-        print(response.cookies)
         assert not self.is_logged_in(response)
 
     def test_login_wrong_credentials_already_authorized(self, client):
@@ -227,22 +208,19 @@ class TestUserViewSet:
         true_password = 'true_password'
         data = {'username': username, 'password': password}
 
-        user = UserFactory(username=username, password=make_password(true_password))
-        user.refresh_from_db()
+        UserFactory(username=username, password=make_password(true_password))
 
         assert client.login(username=username, password=true_password)
         response = client.post(self.get_url() + 'login/', data=data)
 
         error = {'detail': 'Некорректные учетные данные.'}
         assert_response(response, 403, error)
-        print(response.cookies)
         assert not self.is_logged_in(response)
 
     def test_logout(self, client):
         client.logout()
         response = client.post(self.get_url() + 'logout/')
         assert_response(response, 200)
-        print(response.cookies)
         assert not self.is_logged_in(response)
 
     def test_logout_already_authorized(self, client):
@@ -250,11 +228,9 @@ class TestUserViewSet:
         password = 'simple_password'
         data = {'username': username, 'password': password}
 
-        user = UserFactory(username=username, password=make_password(password))
-        user.refresh_from_db()
+        UserFactory(username=username, password=make_password(password))
 
         assert client.login(**data)
         response = client.post(self.get_url() + 'logout/')
         assert_response(response, 200)
-        print(response.cookies)
         assert not self.is_logged_in(response)

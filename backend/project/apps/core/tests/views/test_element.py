@@ -1,40 +1,25 @@
-import base64
-
 import pytest
-from django.forms import model_to_dict
 
 from apps.authentication.tests.factories import UserFactory
 from apps.core.models import Element
 from apps.core.tests.factories import ElementFactory
+from lib.test.serialization import element_to_json
 from lib.test.utils import assert_response
-from lib.util import clean_dict, only_keys
+from lib.test.viewtestcase import ViewTestCase
 
 pytestmark = pytest.mark.django_db
 
 
-class TestElementViewSet:
+class TestElementViewSet(ViewTestCase):
     base_url = '/api/v1/element/'
+    allowed_keys = {
+        'id', 'name', 'element_type', 'array_of_inputs', 'array_of_outputs', 'time', 'delay', 'image', 'truth_table'
+    }
+    serialization_method = element_to_json
 
-    def get_url(self, element_id=None):
-        if element_id is None:
-            return self.base_url
-        else:
-            return self.base_url + f'{element_id}/'
-
-    @staticmethod
-    def serialize(element):
-        json = clean_dict(model_to_dict(element))
-        json['image'] = str(base64.b64encode(json['image'].read()))[2:-1]
-        return json
-
-    @staticmethod
-    def to_json(element, response):
-        model_dict = clean_dict(model_to_dict(element))
-        json = only_keys(
-            model_dict,
-            {'id', 'name', 'element_type', 'array_of_inputs', 'array_of_outputs', 'time', 'delay', 'image', 'truth_table'}
-        )
-        json['image'] = response.wsgi_request.build_absolute_uri(json['image'].url)
+    def to_json(self, element):
+        json = self.serialize(element)
+        json.pop('image')
         return json
 
     def test_list(self, client, fs):
@@ -60,7 +45,7 @@ class TestElementViewSet:
             'array_of_outputs': element.array_of_outputs,
             'time': element.time,
             'delay': element.delay,
-            'image': response.wsgi_request.build_absolute_uri(element.image.url),
+            'image': 'http://testserver/storage/example.jpg',
             'truth_table': element.truth_table
         }
         assert_response(response, 200, data)
@@ -77,11 +62,17 @@ class TestElementViewSet:
         user = UserFactory()
         client.force_login(user)
         element = ElementFactory.build()
+
         json = self.serialize(element)
-        response = client.post(self.get_url(), data=json)
+        response = client.post(self.get_url(), data=json, content_type='application/json')
+
         data = response.json()
+        # Image name generates random
+        image = data.pop('image')
+        assert image.startswith('http://') and image.endswith('.jpg')
+
         element = Element.objects.get(id=data['id'])
-        assert_response(response, 201, self.to_json(element, response))
+        assert_response(response, 201, self.to_json(element))
 
     def test_update(self, client, fs):
         user = UserFactory()
@@ -94,9 +85,14 @@ class TestElementViewSet:
         json['time'] = new_time
 
         response = client.put(self.get_url(element.id), data=json, content_type='application/json')
-        element.refresh_from_db()
-        json = self.to_json(element, response)
-        assert_response(response, 200, json)
+
+        data = response.json()
+        # Image name generates random
+        image = data.pop('image')
+        assert image.startswith('http://') and image.endswith('.jpg')
+
+        element.refresh_from_db(fields={'time'})
+        assert_response(response, 200, self.to_json(element))
 
     def test_noop_update(self, client, fs):
         user = UserFactory()
@@ -105,9 +101,13 @@ class TestElementViewSet:
         json = self.serialize(element)
 
         response = client.put(self.get_url(element.id), data=json, content_type='application/json')
-        element.refresh_from_db()
-        json = self.to_json(element, response)
-        assert_response(response, 200, json)
+
+        data = response.json()
+        # Image name generates random
+        image = data.pop('image')
+        assert image.startswith('http://') and image.endswith('.jpg')
+
+        assert_response(response, 200, self.to_json(element))
 
     def test_update_not_found(self, client, fs):
         user = UserFactory()
@@ -116,7 +116,7 @@ class TestElementViewSet:
         assert not Element.objects.filter(id=id_not_found).exists()
 
         element = ElementFactory.build()
-        response = client.put(self.get_url(id_not_found), data=self.serialize(element))
+        response = client.put(self.get_url(id_not_found), data=self.serialize(element), content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)
@@ -129,8 +129,10 @@ class TestElementViewSet:
 
         element = ElementFactory(time=prev_time)
         response = client.patch(self.get_url(element.id), data={'time': new_time}, content_type='application/json')
-        element.refresh_from_db()
-        assert_response(response, 200, self.to_json(element, response))
+        element.refresh_from_db(fields={'time'})
+
+        assert response.json().pop('image') == 'http://testserver/storage/example.jpg'
+        assert_response(response, 200, self.to_json(element))
 
     def test_noop_partial_update(self, client, fs):
         user = UserFactory()
@@ -139,8 +141,8 @@ class TestElementViewSet:
 
         response = client.patch(self.get_url(element.id), data={}, content_type='application/json')
 
-        json = self.to_json(element, response)
-        assert_response(response, 200, json)
+        assert response.json().pop('image') == 'http://testserver/storage/example.jpg'
+        assert_response(response, 200, self.to_json(element))
 
     def test_partial_update_not_found(self, client):
         user = UserFactory()
@@ -148,7 +150,7 @@ class TestElementViewSet:
         id_not_found = 404
         assert not Element.objects.filter(id=id_not_found).exists()
 
-        response = client.patch(self.get_url(id_not_found), data={})
+        response = client.patch(self.get_url(id_not_found), data={}, content_type='application/json')
 
         error = {'detail': 'Не найдено.'}
         assert_response(response, 404, error)

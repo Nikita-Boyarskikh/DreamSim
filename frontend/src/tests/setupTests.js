@@ -1,4 +1,11 @@
-import Enzyme from 'enzyme';
-import Adapter from 'enzyme-adapter-react-16';
+// import jest from 'jest';
+import 'isomorphic-fetch';
+import fetchMock from './mocks/fetch';
+import 'jest-dom/extend-expect';
 
-Enzyme.configure({ adapter: new Adapter() });
+global.console = {
+  debug: jest.fn(),
+  log: jest.fn(),
+  warn: jest.fn(),
+  error: jest.fn()
+};
