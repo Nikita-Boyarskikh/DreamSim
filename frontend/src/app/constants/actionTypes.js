@@ -39,12 +39,18 @@ export const CLOSE_ALERT = 'CLOSE_ALERT';
 
 // ================= User =================
 
+export const SET_USER = 'SET_USER';
+export const GET_USER = 'GET_USER';
+
 // Authorization
 export const LOGIN = 'LOGIN';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 
 export const LOGIN_WITH_VK = 'LOGIN_WITH_VK';
 export const CONNECT_VK = 'CONNECT_VK';
 
 export const LOGOUT = 'LOGOUT';
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
 export const SIGNUP = 'SIGNUP';
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';

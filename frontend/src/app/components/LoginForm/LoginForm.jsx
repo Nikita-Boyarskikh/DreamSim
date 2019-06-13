@@ -13,7 +13,7 @@ import {
   IconButton,
   TextField,
   Link
-} from "@material-ui/core";
+} from '@material-ui/core';
 
 import urls from 'app/constants/urls';
 
@@ -22,6 +22,8 @@ import IconLogoVk from 'app/components/icons/IconLogoVk';
 
 class LoginForm extends React.Component {
   state = {
+    login: '',
+    password: '',
     showPassword: false
   };
 
@@ -31,12 +33,21 @@ class LoginForm extends React.Component {
     }));
   };
 
+  onSubmit(event) {
+    event.preventDefault();
+
+    this.props.login({
+      username: this.state.login,
+      password: this.state.password
+    });
+  }
+
   render() {
-    const { t: _, login, loginWithVk } = this.props;
+    const { t: _, loginWithVk } = this.props;
 
     return (
       <form
-        action={urls.api.v1.login}
+        onSubmit={event => this.onSubmit(event)}
         className="login"
       >
         <div className="form-line">
@@ -63,10 +74,12 @@ class LoginForm extends React.Component {
         <div className="form-line">
           <TextField
             label={ _('Login (email)') }
-            type="email"
+            value={this.state.login}
+            onChange={event => this.setState({ login: event.target.value })}
             name="login"
             className="form-line login__login"
             fullWidth
+            autoComplete="login"
             required
             autoFocus
           />
@@ -75,6 +88,8 @@ class LoginForm extends React.Component {
             label={ _('Password') }
             className="form-line login__password"
             type={this.state.showPassword ? 'text' : 'password'}
+            value={this.state.password}
+            onChange={event => this.setState({ password: event.target.value })}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -84,6 +99,7 @@ class LoginForm extends React.Component {
                 </InputAdornment>
               )
             }}
+            autoComplete="password"
             fullWidth
             required
           />
@@ -108,7 +124,6 @@ class LoginForm extends React.Component {
         <div className="form-line">
           <Button
             type="submit"
-            onSubmit={login}
             fullWidth
             variant="contained"
             color="primary"

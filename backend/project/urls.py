@@ -1,6 +1,7 @@
 # Suppress warning 'Constant name doesn't conform to UPPER_CASE naming style'
 # pylint: disable=invalid-name
 import health_check.urls
+from django.views.generic import RedirectView
 from rest_auth.registration.views import SocialAccountListView, SocialAccountDisconnectView
 from rest_auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetView, PasswordResetConfirmView
 
@@ -55,4 +56,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include((api_versions, 'api'))),
     path('docs/', include_docs_urls(title='DreamSim API docs')),
+
+    # TODO!
+    re_path(r'^confirmemail/(?P<key>.+)/$', RedirectView.as_view(url='/', permanent=True), name='account_confirm_email'),
+    re_path(r'^verifyemail/$', RedirectView.as_view(url='/', permanent=True), name='account_email_verification_sent'),
 ]

@@ -10,7 +10,7 @@ import LogoutIcon from '@material-ui/icons/PowerSettingsNew';
 
 import urls from 'app/constants/urls';
 
-const RightHeaderPart = ({ isAuthorized }) => isAuthorized ? (
+const RightHeaderPart = ({ isAuthorized, logout }) => isAuthorized ? (
   <React.Fragment>
     <IconButton
       component={Link}
@@ -27,8 +27,7 @@ const RightHeaderPart = ({ isAuthorized }) => isAuthorized ? (
       <SettingsIcon />
     </IconButton>
     <IconButton
-      component={Link}
-      to={urls.logout}
+      onClick={logout}
       className="header__element header__logout"
     >
       <LogoutIcon />
@@ -45,7 +44,8 @@ const RightHeaderPart = ({ isAuthorized }) => isAuthorized ? (
 );
 
 RightHeaderPart.propTypes = {
-  isAuthorized: PropTypes.bool.isRequired
+  isAuthorized: PropTypes.bool.isRequired,
+  logout: PropTypes.func.isRequired
 };
 
 export default RightHeaderPart;

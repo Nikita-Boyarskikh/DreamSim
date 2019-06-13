@@ -8,7 +8,7 @@ export const firstMenuItems = [
 
 export const lastMenuItems = [
   { name: 'Profile', url: urls.profile },
-  { name: 'Settings', url: urls.settings },
+  // { name: 'Settings', url: urls.settings },
 ];
 
 export const AUTO_HIDE_SNACKBAR = 3000;  // ms

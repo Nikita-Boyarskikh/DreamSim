@@ -9,7 +9,6 @@ export default {
   resetPassword: '/reset-password/:uid/:token',
   profile: '/profile',
   settings: '/settings',
-  logout: '/logout',
 
   tools: include('/tools/', {
     optimizer: 'optimizer'
@@ -17,8 +16,12 @@ export default {
 
   api: include('/api/', {
     v1: include('v1/', {
-      login: 'login/',
-      signup: 'signup/',
+      user: 'user/current/',
+      auth: include('auth/', {
+        login: 'login/',
+        registration: 'registration/',
+        logout: 'logout/'
+      }),
       enums: include('enums/', {
         tools: 'tools/'
       })
