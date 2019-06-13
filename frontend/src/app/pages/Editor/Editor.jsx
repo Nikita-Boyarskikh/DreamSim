@@ -14,10 +14,13 @@ class Editor extends React.Component {
 
   state = {
     isDrawing: false,
+    xDrawing:0,
+    yDrawing:0,
     lines: [],
     elements: [],
-    flagElementChoosen : false,
-    elementChoosen : [],
+
+    flagelementChosen : false,
+    elementChosen : [],
     userKeys : 0
   };
 
@@ -26,20 +29,39 @@ class Editor extends React.Component {
 ------------------------------------------------------------------------------*/
   pinClick = (pin) => {
     console.log("Кликнуто соединение (4)");
+    console.log(pin);
     this.setState({
       isDrawing : !this.state.isDrawing
     });
     if(this.state.isDrawing){
       const newLine = {start : [{el : pin[0].element , pin : pin[0].connect}] ,
-        end : [{el : 0, pin : 0}] , points : [0,0] ,
+        end : [{el : -1, pin : -1, extraX : 0}] , points : [0,0,0,0] ,
         elements : this.state.elements , isEnded : false};
+      if(pin[0].side == 2){
+        newLine.points.push(20);
+        newLine.points.push(0);
+        newLine.points.push(20);
+        newLine.points.push(0);
+      }
       const newLines = this.state.lines;
       newLines.push(newLine);
       this.setState({
-        lines : newLines
+        lines : newLines,
+        xDrawing : pin[0].x,
+        yDrawing : pin[0].y
       });
     }else{
-      const lastLine = this.state.lines[this.state.lines.length - 1];
+      const lines = this.state.lines;
+      const line = lines.pop();
+      line.end[0].el = pin[0].element;
+      line.end[0].pin = pin[0].connect;
+      if(pin[0].side == 2){
+        line.end[0].extraX = 20;
+      }
+      lines.push(line);
+      this.setState({
+        lines : lines
+      });
     }
   };
 
@@ -50,7 +72,7 @@ class Editor extends React.Component {
 ------------------------------------------------------------------------------*/
   elementChosen = (clickedElement) => {
     this.setState({
-      flagElementChoosen : true,
+      flagelementChosen : true,
       elementChosen : clickedElement
     });
   };
@@ -78,22 +100,77 @@ class Editor extends React.Component {
       <div className="page">
         <Stage width={window.innerWidth} height={window.innerHeight}
 
-        onMouseMove={e => {
+      /*  onMouseMove={ (e) => {
+          const pos = e.target.getStage().getPointerPosition();
+          if(pos.x > 182){
+
+            if(this.state.isDrawing){
+              const lines = this.state.lines;
+              const line = lines.pop();
+              line.points.pop();
+              line.points.pop();
+              line.points.push(pos.x - this.state.xDrawing);
+              line.points.push(pos.y - this.state.yDrawing);
+              lines.push(line);
+              this.setState({
+                lines : lines
+              });
+            }
+
+          }
+        }}*/
+
+        onClick = { (e) => {
+          const pos = e.target.getStage().getPointerPosition();
+          console.log(pos);
+            if (this.state.isDrawing){
+              const lines = this.state.lines;
+              const line = lines.pop();
+              line.points.push(pos.x - this.state.xDrawing);
+              line.points.push(pos.y - this.state.yDrawing);
+              line.points.push(pos.x - this.state.xDrawing);
+              line.points.push(pos.y - this.state.yDrawing);
+              lines.push(line);
+              this.setState({
+                lines : lines
+              });
+          }
+        }}
+
+        onDblClick = { (e) => {
+          const pos = e.target.getStage().getPointerPosition();
+          if (pos.x > 182){
+            if(this.state.isDrawing){
+              const newLines = this.state.lines;
+              newLines.pop();
+              this.setState({
+                isDrawing : false,
+                lines : newLines
+              });
+
+            }
+          };
         }}
 
         onMouseUp={e => {
-          if (this.state.flagElementChoosen){
+          const pos = e.target.getStage().getPointerPosition();
+          if (this.state.flagelementChosen && pos.x > 182){
             const newElements = this.state.elements;
             const newElement = this.state.elementChosen[0];
-            newElement.x = e.target.getStage().getPointerPosition().x ;
-            newElement.y = e.target.getStage().getPointerPosition().y ;
+            newElement.x = pos.x ;
+            newElement.y = pos.y ;
             newElement.selfKey = this.state.userKeys;
             const nextKey = this.state.userKeys + 1;
             newElements.push(newElement);
             this.setState({
               userKeys : nextKey ,
               elements : newElements,
-              flagElementChoosen : false
+              flagelementChosen : false
+            });
+          }else{
+            this.setState({
+              flagelementChosen : false,
+              elementChosen : []
             });
           }
 
@@ -102,12 +179,12 @@ class Editor extends React.Component {
           <Layer>
             <CircuitEditorLeftMenu
               backendElements = {[
-              {id:0,image:"/images/AND.png",x:10,y:80, w:120, h:80,
-              connections:[{id:0, y:20, x:0},{id:1, y:60, x:0},{id:2, y:40, x:100}]},
-              {id:1,image:"/images/OR.png",x:10,y:200, w:120, h:80,
-              connections:[{id:0, y:20, x:0},{id:1, y:60, x:0},{id:2, y:40, x:100}]},
-              {id:8,image:"/images/DC-2-4.png",x:10,y:320, w:140, h:100,
-              connections:[{id:0, y:20, x:0},{id:1, y:40, x:0},{id:2, y:80, x:0},{id:3, y:20, x:120},{id:4, y:40, x:120},{id:5, y:60, x:120},{id:6, y:80, x:120}]}
+              {id:0,image:"/images/AND.png",x:10,y:20, w:120, h:80,
+              connections:[{id:0, y:20, x:0, side:0},{id:1, y:60, x:0,side:0},{id:2, y:40, x:100,side:2}]},
+              {id:1,image:"/images/OR.png",x:10,y:130, w:120, h:80,
+              connections:[{id:0, y:20, x:0, side:0},{id:1, y:60, x:0, side:0},{id:2, y:40, x:100, side:2}]},
+              {id:8,image:"/images/DC-2-4.png",x:10,y:230, w:140, h:100,
+              connections:[{id:0, y:20, x:0, side:0},{id:1, y:40, x:0, side:0},{id:2, y:80, x:0, side:0},{id:3, y:20, x:120, side:2},{id:4, y:40, x:120, side:2},{id:5, y:60, x:120, side:2},{id:6, y:80, x:120, side:2}]}
               ]}
               onElementClick = {(clickedElement) => this.elementChosen(clickedElement) }
             />
