@@ -1,4 +1,8 @@
 .drawer > .menu {
   display: flex;
   flex-direction: column;
+
+  .menu__item {
+    border-radius: 0;
+  }
 }

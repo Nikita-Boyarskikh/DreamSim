@@ -17,6 +17,7 @@ import { AUTO_HIDE_SNACKBAR } from 'app/constants/view';
 import { closeAlert } from 'app/state/actions/ui';
 import { getBackRef } from 'app/lib/navigation';
 import Header from 'app/components/Header';
+import PageTitleHandler from 'app/components/PageTitleHandler';
 
 const checkGoBack = (history) => {
   const backRef = getBackRef(history);
@@ -54,6 +55,7 @@ const WithLayoutHOC = (Component) => {
 
   const Layout = (props) => (
     <React.Fragment>
+      <PageTitleHandler title={props.title} />
       <Header history={props.history} onBackClick={checkGoBack(props.history)} {...props} />
       {props.alert && <Snackbar
         anchorOrigin={{
@@ -90,6 +92,7 @@ const WithLayoutHOC = (Component) => {
   );
 
   Layout.propTypes = {
+    ...PageTitleHandler.propTypes,
     ...alertPropTypes,
     ...historyPropTypes,
     ...Header.propTypes,
@@ -97,7 +100,8 @@ const WithLayoutHOC = (Component) => {
   };
 
   const mapStateToProps = state => ({
-    alert: state.local.ui.alert
+    title: state.local.ui.pageTitle,
+    alert: state.local.ui.alert,
   });
   const mapDispatchToProps = dispatch => ({
     closeAlert: () => dispatch(closeAlert())
