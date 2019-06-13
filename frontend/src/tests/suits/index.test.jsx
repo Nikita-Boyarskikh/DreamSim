@@ -1,13 +1,18 @@
-import { shallow } from 'enzyme';
 import React from 'react';
-import renderer from 'react-test-renderer';
-import Index from 'index';
+import fetchMock from 'tests/mocks/fetch';
+import { render, cleanup } from '@testing-library/react';
+import Index from 'app/components/Index';
 
-test('Link changes the class when hovered', () => {
-  const dom = shallow(<Index />);
-  expect(dom.text()).toEqual('');
+describe('Index', () => {
+  afterEach(() => {
+    cleanup();
+    fetchMock.restore();
+  });
 
-  const component = renderer.create(<Index />);
-  const tree = component.toJSON();
-  expect(tree).toMatchSnapshot();
+  test('should renders without errors and warnings', async () => {
+    const { asFragment } = render(<Index/>);
+    expect(console.error).not.toHaveBeenCalled();
+    expect(console.warn).not.toHaveBeenCalled();
+    expect(asFragment()).toMatchSnapshot();
+  });
 });

@@ -5,6 +5,7 @@ import { LOADING_START, LOADING_STOP } from 'app/constants/actionTypes';
 import { handleActions } from 'redux-actions';
 
 export const createApiAction = ({endpoint, method='GET', headers, credentials='include', success, schema}) => () => ({
+  type: RSAA,
   [RSAA]: {
     endpoint,
     method,

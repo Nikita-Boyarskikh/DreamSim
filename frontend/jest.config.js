@@ -4,6 +4,7 @@ module.exports = {
   browser: true,
   clearMocks: true,
   moduleDirectories: webpackConfig.resolve.modules,
+  modulePaths: webpackConfig.resolve.modules,
   moduleFileExtensions: webpackConfig.resolve.extensions.map((ext) =>
     ext.replace('.', '')
   ),
@@ -17,12 +18,14 @@ module.exports = {
     'jest-watch-typeahead/filename',
     'jest-watch-typeahead/testname'
   ],
+  setupFilesAfterEnv: [
+    './src/tests/setupTests.js'
+  ],
   testEnvironment: 'jsdom',
   testURL: 'https://drsim.ru',
   transform: {
-    '^.+\\.(js|jsx)$': '<rootDir>/node_modules/babel-jest',
-    '^.+\\.css$': '<rootDir>/src/tests/transformers/cssTransformer.js',
-    '^(?!.*\\.(js|jsx|css|json)$)':
-      '<rootDir>/src/tests/transformers/fileTransformer.js'
+    '^.+\\.jsx?$': '<rootDir>/node_modules/babel-jest',
+    '^.+\\.s?css$': '<rootDir>/src/tests/transformers/cssTransformer.js',
+    '^.+\\.svg$': '<rootDir>/src/tests/transformers/fileTransformer.js'
   }
 };

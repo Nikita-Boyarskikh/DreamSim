@@ -19,7 +19,7 @@
   "DrSim": "DrSim",
   "Name": "Имя",
   "Surname": "Фамилия",
-  "Authorize to view your profile": "Войдите, чтобы смотереть свой прифиль",
+  "Authorize to view your profile": "Войдите, чтобы смотереть свой профиль",
   "Scheme catalog": "Каталог схем",
   "Patronymic": "Отчество",
   "I accept the <1>user agreement</1>": "Я принимаю <1>пользовательское соглашение</1>",
@@ -27,6 +27,6 @@
   "Already registered?": "Уже зарегистрированы?",
   "Sign up with VKontakte": "Регистрация через ВКонтакте",
   "Sign up": "Зарегистрироваться",
-  "Birthday": "День рождения",
+  "Birthday": "Дата рождения",
   "There is nothing here yet...": "Здесь пока ничего нет..."
 }

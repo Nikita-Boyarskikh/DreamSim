@@ -34,7 +34,7 @@ const WithLayoutHOC = (Component) => {
 
   const alertPropTypes = {
     alert: PropTypes.shape({
-      message: PropTypes.string.isRequired,
+      message: PropTypes.string,
       type: PropTypes.string
     }),
     closeAlert: PropTypes.func
