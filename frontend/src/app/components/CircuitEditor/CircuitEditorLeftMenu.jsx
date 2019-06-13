@@ -29,7 +29,7 @@ class CircuitEditorLeftMenu extends React.Component{
   render(){
     return(
       <Group onMouseDown = {this.handleClick} >
-        <Text text="Список Элементов" fontSize={15} x={15} y={65} />
+        <Text text="Список Элементов" fontSize={15} x={15} y={5} />
         {this.props.backendElements.map(element =>  <CircuitEditorLeftMenuElement
           key={element.id}
           image={element.image} x={element.x} y={element.y}

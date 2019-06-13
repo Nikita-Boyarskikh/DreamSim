@@ -14,7 +14,7 @@ class CircuitEditorConnection extends React.Component{
 ------------------------------------------------------------------------------*/
   handleClick = () => {
     console.log("Кликнуто соединение (1)");
-    this.props.onPinClick(this.state.selfKey);
+    this.props.onPinClick([{connect : this.state.selfKey, element : 0, x : this.props.pos_x  , y : this.props.pos_y , side : this.props.side}]);
   }
 
   render(){

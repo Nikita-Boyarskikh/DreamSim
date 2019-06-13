@@ -21,34 +21,24 @@ class CircuitEditorElement extends Component {
 Загрузка и обработка изображения
 ------------------------------------------------------------------------------*/
   componentDidMount() {
-    this.loadImage();
+    this.image = new window.Image();
+    this.image.src = this.props.image;
     this.setState({
+      image: this.image,
       selfKey : this.props.selfKey,
       x : this.props.x,
       y: this.props.y,
       connections : this.props.connections
     });
   }
-  componentWillUnmount() {
-    this.image.removeEventListener("load", this.handleLoad);
-  }
-  loadImage() {
-    this.image = new window.Image();
-    this.image.src = this.props.image;
-    this.image.addEventListener("load", this.handleLoad);
-  }
-  handleLoad = () => {
-    this.setState({
-      image: this.image
-    });
-  };
-
 /*------------------------------------------------------------------------------
 Отработка нажатия на соединение
 ------------------------------------------------------------------------------*/
-  pinClick = (pinKey) => {
+  pinClick = (pin) => {
     console.log("Кликнуто соединение (2)");
-    this.props.onPinClick([{element : this.state.selfKey,  connect : pinKey}]);
+    console.log(pin);
+    pin[0].element = this.state.selfKey;
+    this.props.onPinClick(pin);
   };
 
 /*------------------------------------------------------------------------------
@@ -104,9 +94,9 @@ class CircuitEditorElement extends Component {
         />
 
         {this.state.connections.map(pin => <CircuitEditorConnection
-          key = {pin.id} selfKey = {pin.id}
+          key = {pin.id} selfKey = {pin.id} side = {pin.side}
           pos_x = {this.state.x + pin.x} pos_y = {this.state.y + pin.y}
-          onPinClick = {(pinKey) => this.pinClick(pinKey)}
+          onPinClick = {(pin) => this.pinClick(pin)}
           /> )}
 
       </Group>
