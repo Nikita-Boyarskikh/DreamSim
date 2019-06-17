@@ -179,9 +179,9 @@ class Editor extends React.Component {
           <Layer>
             <CircuitEditorLeftMenu
               backendElements = {[
-              {id:0,image:"/images/AND.png",x:10,y:20, w:120, h:80,
-              connections:[{id:0, y:20, x:0, side:0},{id:1, y:60, x:0,side:0},{id:2, y:40, x:100,side:2}]},
-              {id:1,image:"/images/OR.png",x:10,y:130, w:120, h:80,
+              {id:0,image:"/images/or.png",x:10,y:20, w:87, h:72,
+              connections:[{id:0, y:19, x:0, side:0},{id:1, y:53, x:0,side:0},{id:2, y:37, x:72,side:2}]},
+              {id:1,image:"/images/and.png",x:10,y:130, w:120, h:80,
               connections:[{id:0, y:20, x:0, side:0},{id:1, y:60, x:0, side:0},{id:2, y:40, x:100, side:2}]},
               {id:8,image:"/images/DC-2-4.png",x:10,y:230, w:140, h:100,
               connections:[{id:0, y:20, x:0, side:0},{id:1, y:40, x:0, side:0},{id:2, y:80, x:0, side:0},{id:3, y:20, x:120, side:2},{id:4, y:40, x:120, side:2},{id:5, y:60, x:120, side:2},{id:6, y:80, x:120, side:2}]}
