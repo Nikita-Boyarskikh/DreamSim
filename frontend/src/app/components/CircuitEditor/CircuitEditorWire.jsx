@@ -17,8 +17,32 @@ elements = Массив всех элементов на поле редакти
 class CircuitEditorWire extends React.Component {
 
   state = {
-    
+
   };
+
+  getPoints() {
+    let lastPoints = this.props.points;
+    if(this.props.end[0].el != -1){
+      lastPoints.pop();
+      lastPoints.pop();
+      lastPoints.push(
+
+        this.props.elements[this.props.end[0].el].x
+        + this.props.elements[this.props.end[0].el].connections[this.props.end[0].pin].x
+        - this.props.elements[this.props.start[0].el].x
+        - this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].x
+        + this.props.end[0].extraX
+      );
+      lastPoints.push(
+
+        this.props.elements[this.props.end[0].el].y
+        + this.props.elements[this.props.end[0].el].connections[this.props.end[0].pin].y
+        - this.props.elements[this.props.start[0].el].y
+        - this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].y
+      );
+    }
+    return lastPoints;
+  }
 
   render() {
     return (
@@ -28,7 +52,7 @@ class CircuitEditorWire extends React.Component {
           + this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].x }
         y={this.props.elements[this.props.start[0].el].y
           + this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].y }
-        points={this.props.points}
+        points={this.getPoints()}
         stroke="black" />
       </Group>
     );
