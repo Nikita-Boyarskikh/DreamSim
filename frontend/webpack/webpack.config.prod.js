@@ -7,7 +7,7 @@ const SafePostCssParser = require('postcss-safe-parser');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const AppCachePlugin = require('appcache-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 
 const config = require('./config');
@@ -15,18 +15,14 @@ const common = require('./webpack.config.common');
 
 const rootDir = path.resolve(__dirname, '..');
 const distDir = path.resolve(rootDir, config.paths.dist);
-const publicDir = path.resolve(rootDir, config.paths.public);
+const srcDir = path.resolve(rootDir, config.paths.src);
 
 const webpackConfig = {
   bail: true,
   optimization: {
-    splitChunks: {
-      chunks: 'all',
-      name: false
-    },
+    nodeEnv: 'production',
     runtimeChunk: true,
     minimizer: [
-      ...common.optimization.minimizer,
       new OptimizeCSSAssetsPlugin({
         parser: SafePostCssParser,
         map: {
@@ -37,9 +33,8 @@ const webpackConfig = {
     ]
   },
   plugins: [
-    ...common.plugins,
     new ServiceWorkerWebpackPlugin({
-      entry: path.resolve(publicDir, 'service-worker.js'),
+      entry: path.resolve(srcDir, 'service-worker.js'),
     }),
     new AppCachePlugin({
       cache: [config.mediaRegex],

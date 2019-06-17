@@ -14,6 +14,8 @@ COPY . ./
 ENV API_URL=${API_URL}
 RUN npm run build
 
+COPY public dist/
+
 #====================
 
 FROM nginx:1.15.5-alpine

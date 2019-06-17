@@ -6,7 +6,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 // const FaviconsWebpackPlugin = require('favicons-webpack-plugin');  Waiting until they upgrade lodash
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const config = require('./config');
 
@@ -17,6 +17,7 @@ const distDir = path.resolve(rootDir, config.paths.dist);
 
 const webpackConfig = {
   mode: process.env.NODE_ENV,
+  cache: true,
   target: 'web',
   entry: {
     app: path.resolve(srcDir, config.indexJsx),
@@ -206,13 +207,13 @@ const webpackConfig = {
   },
   optimization: {
     minimizer: [
-      new UglifyJsPlugin({
+      new TerserPlugin({
         test: /\.jsx?$/,
         cache: true,
         parallel: true,
         sourceMap: !isProduction,
-        uglifyOptions: {
-          warnings: !isProduction && 'verbose',
+        terserOptions: {
+          warnings: false,
           toplevel: true,
           ie8: true,
           compress: {

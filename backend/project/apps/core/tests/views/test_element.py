@@ -25,13 +25,13 @@ class TestElementViewSet(ViewTestCase):
     def test_list(self, client, fs):
         response = client.get(self.get_url())
         assert response.status_code == 200
-        assert len(response.data) == Element.objects.count() == 0
+        assert response.data['count'] == Element.objects.count() == 0
 
         element = ElementFactory()
         response = client.get(self.get_url())
         assert_response(response, 200)
-        assert len(response.data) == Element.objects.count() == 1
-        assert response.data[0]['id'] == element.id
+        assert response.data['count'] == Element.objects.count() == 1
+        assert response.data['results'][0]['id'] == element.id
 
     def test_retrieve(self, client, fs):
         element = ElementFactory()

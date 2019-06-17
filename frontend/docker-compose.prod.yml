@@ -3,11 +3,12 @@ version: '2.1'
 services:
   frontend:
     image: dreamsim-frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     environment:
       - NODE_ENV=production
       - API_URL='https://drsim'
-    volumes:
-      - .:/usr/src/app
     ports:
       - "80:80"
 
