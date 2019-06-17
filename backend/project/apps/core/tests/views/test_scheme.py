@@ -19,15 +19,15 @@ class TestSchemeViewSet(ViewTestCase):
     def test_list(self, client, fs):
         response = client.get(self.get_url())
         assert response.status_code == 200
-        assert len(response.data) == Scheme.objects.count() == 0
+        assert response.data['count'] == Scheme.objects.count() == 0
 
         scheme = SchemeFactory()
         SchemeElementFactory(scheme=scheme)
         response = client.get(self.get_url())
         assert_response(response, 200)
 
-        assert len(response.data) == Scheme.objects.count() == 1
-        assert response.data[0]['id'] == scheme.id
+        assert response.data['count'] == Scheme.objects.count() == 1
+        assert response.data['results'][0]['id'] == scheme.id
 
     def test_retrieve(self, client, fs):
         scheme = SchemeFactory()

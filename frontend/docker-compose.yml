@@ -3,6 +3,9 @@ version: '2.1'
 services:
   frontend:
     image: dreamsim-frontend
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     environment:
       - NODE_ENV=development
       - API_URL='http://localhost'

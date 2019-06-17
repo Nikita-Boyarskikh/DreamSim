@@ -7,5 +7,5 @@ class ElementViewSet(viewsets.ModelViewSet):
     """
     A simple ViewSet for viewing and editing schemes
     """
-    queryset = Element.objects.all()
+    queryset = Element.objects.order_by('created')
     serializer_class = ElementSerializer

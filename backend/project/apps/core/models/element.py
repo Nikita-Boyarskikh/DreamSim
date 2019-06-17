@@ -2,6 +2,8 @@ from enum import Enum
 
 from django.core.validators import MinValueValidator
 from django.db import models
+from django_extensions.db.models import TimeStampedModel
+
 from lib.postgres.fields import JSONField, ArrayField
 from apps.authentication.models import User
 from apps.core.validators import validate_truth_table
@@ -22,7 +24,7 @@ class ElementType(Enum):
     USER = 'Пользовательский'
 
 
-class Element(models.Model):
+class Element(TimeStampedModel):
     """Элемент"""
 
     name = models.CharField('Название', max_length=255)

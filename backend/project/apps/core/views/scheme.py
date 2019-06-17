@@ -9,7 +9,7 @@ class SchemeViewSet(viewsets.ModelViewSet):
     """
     A simple ViewSet for viewing and editing schemes
     """
-    queryset = Scheme.objects.select_related('creator').prefetch_related('elements')
+    queryset = Scheme.objects.select_related('creator').prefetch_related('elements').order_by('created')
     serializer_class = SchemeSerializer
     permission_classes = (IsAuthenticatedOrReadOnly, )
 

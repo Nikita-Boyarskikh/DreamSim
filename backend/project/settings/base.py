@@ -142,6 +142,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 # TODO!
 # ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_LOGOUT_ON_PASSWORD_CHANGE = True
+ACCOUNT_ADAPTER = 'lib.account.adapter.AccountAdapter'
 
 FORMAT_MODULE_PATH = 'locales.formats'
 USE_THOUSAND_SEPARATOR = True
@@ -212,7 +213,13 @@ LOGGING = {
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',
-    )
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ),
+    'DEFAULT_PAGINATION_CLASS': 'lib.pagination.Pagination',
+    'TEST_REQUEST_DEFAULT_FORMAT': 'json',
 }
 
 # TODO: TEST_RUNNER
