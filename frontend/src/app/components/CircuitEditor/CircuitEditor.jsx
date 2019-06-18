@@ -1,5 +1,5 @@
 import React from 'react';
-import { Layer } from 'react-konva';
+import { Group } from 'react-konva';
 import CircuitEditorElement from './CircuitEditorElement';
 import uuid from 'uuid';
 
@@ -28,7 +28,7 @@ class CircuitEditor extends React.Component {
 
   render(){
     return(
-      <Layer>
+      <Group>
         {this.props.elements.map(element => <CircuitEditorElement
           key={uuid.v4()} selfKey = {element.selfKey} id = {element.id}
           image={element.image}
@@ -38,7 +38,7 @@ class CircuitEditor extends React.Component {
           onStop = {(arr) => this.elementStopped(arr)}
           />
       )}
-      </Layer>
+      </Group>
     );
   }
 }

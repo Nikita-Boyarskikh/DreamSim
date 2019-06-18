@@ -21,9 +21,9 @@ class CircuitEditorConnection extends React.Component{
     return(
       <Group>
         <Rect x = {this.props.pos_x} y = {this.props.pos_y - 10} width = {20} height = {20} fill = "white"
-          onClick = {this.handleClick}/>
-        <Line x = {this.props.pos_x} y = {this.props.pos_y} points = {[0,0,20,0]} stroke="black" strokeWidth={2}
-          onClick = {this.handleClick}/>
+          onClick = {this.handleClick} opacity = {0.0}/>
+        <Line x = {this.props.pos_x} y = {this.props.pos_y} points = {[0,0,20,0]} stroke="black" strokeWidth={1}
+          onClick = {this.handleClick} />
       </Group>
     );
   }

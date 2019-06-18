@@ -44,16 +44,25 @@ class CircuitEditorWire extends React.Component {
     return lastPoints;
   }
 
+  handleDoubleClick = () => {
+    console.log("Двойное нажатие на соединение (1)");
+    /*this.props.onDoubleClick(this.props.selfKey);*/
+  }
+
   render() {
     return (
       <Group>
       <Line
+        onClick = {this.handleDoubleClick}
         x={this.props.elements[this.props.start[0].el].x
           + this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].x }
         y={this.props.elements[this.props.start[0].el].y
           + this.props.elements[this.props.start[0].el].connections[this.props.start[0].pin].y }
         points={this.getPoints()}
-        stroke="black" />
+        stroke="grey"
+        strokeWidth={1}
+      />
+
       </Group>
     );
   }

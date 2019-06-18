@@ -36,7 +36,6 @@ class CircuitEditorElement extends Component {
 ------------------------------------------------------------------------------*/
   pinClick = (pin) => {
     console.log("Кликнуто соединение (2)");
-    console.log(pin);
     pin[0].element = this.state.selfKey;
     this.props.onPinClick(pin);
   };
