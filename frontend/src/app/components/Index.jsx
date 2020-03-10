@@ -12,7 +12,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import theme from 'app/styles/theme';
 import moment from 'app/lib/moment';
-import { isDebug } from 'app/lib/utils';
+import { isDevelopment } from 'app/lib/utils';
 import { subscribe } from 'app/lib/i18n';
 import store from 'app/state';
 
@@ -37,7 +37,7 @@ let Index = () => (
   </StoreProvider>
 );
 
-if (isDebug) {
+if (isDevelopment) {
   Index = hot(Index);
 }
 

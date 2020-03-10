@@ -7,7 +7,7 @@ import LanguageDetector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
 import { FALLBACK_LANG, LOCALES, LOCALES_VERSIONS, I18N_CACHE_BACKEND_PREFIX } from 'app/constants/locales';
-import { lazy, isDebug } from 'app/lib/utils';
+import { lazy, isProduction } from 'app/lib/utils';
 import { i18nInit } from 'app/state/actions/ui';
 
 const LazyPostProcessor = {
@@ -38,7 +38,7 @@ export default i18n
     ns: ['translations'],
     defaultNS: 'translations',
 
-    debug: isDebug,
+    debug: !isProduction,
 
     backend: {
       backends: [

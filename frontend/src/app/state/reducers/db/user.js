@@ -5,7 +5,7 @@ const initialState = {};
 
 export default handleActions({
   [LOGOUT_SUCCESS]() {
-    return null;
+    return {};
   },
 
   [SET_USER](state, action) {

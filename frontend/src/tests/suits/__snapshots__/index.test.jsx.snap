@@ -109,5 +109,6 @@ exports[`Index should renders without errors and warnings 1`] = `
       />
     </a>
   </div>
+  Loading...
 </DocumentFragment>
 `;

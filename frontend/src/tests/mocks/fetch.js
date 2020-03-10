@@ -1,5 +1,5 @@
-import fetchMock from 'fetch-mock/src/client';
+import fetchMock from 'fetch-mock';
 
-fetchMock.get('http://lol.kek', 200);
+fetchMock.catch(jest.fail);
 
 export default fetchMock;

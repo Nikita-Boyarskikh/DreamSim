@@ -13,8 +13,6 @@ services:
       context: .
       dockerfile: docker/app/Dockerfile
     restart: always
-    volumes:
-      - .:/usr/src/app
     environment:
       - NAME=dreamsim
       - LOGGING_CONFIG='/etc/app/logging.json'

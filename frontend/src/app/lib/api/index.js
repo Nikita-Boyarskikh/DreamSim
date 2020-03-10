@@ -5,6 +5,8 @@ import { normalize } from 'normalizr/dist/normalizr';
 import { LOADING_START, LOADING_STOP } from 'app/constants/actionTypes';
 import { handleActions } from 'redux-actions';
 
+export const getNormalizedInitialState = () => ({ ids: [], entities: {} });
+
 export const createApiAction = ({endpoint, method='GET', headers, credentials='include', success, schema}) => (body) => ({
   type: RSAA,
   [RSAA]: {
@@ -29,8 +31,6 @@ export const createApiAction = ({endpoint, method='GET', headers, credentials='i
 });
 
 export const handleSetNormalizedData = (actionType, schema, otherActions={}) => {
-  const initialState = { ids: [], entities: {} };
-
   return handleActions({
     [actionType](state, action) {
       return {
@@ -40,5 +40,5 @@ export const handleSetNormalizedData = (actionType, schema, otherActions={}) => 
     },
 
     ...otherActions
-  }, initialState);
+  }, getNormalizedInitialState());
 };

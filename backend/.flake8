@@ -153,7 +153,3 @@ per-file-ignores=
     **/__init__.py: F401
 max-line-length=120
 ignore=
-
-[pep8]
-max-line-length=120
-select=

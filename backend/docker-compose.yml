@@ -11,7 +11,7 @@ services:
     image: dreamsim-app
     build:
       context: .
-      dockerfile: ./docker/dev/Dockerfile
+      dockerfile: docker/dev/Dockerfile
     restart: always
     environment:
       - DEBUG=1
