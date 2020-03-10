@@ -5,7 +5,7 @@ import { LOCATION_CHANGE, push as goUrl } from 'connected-react-router';
 
 import urls from 'app/constants/urls';
 import { __ } from 'app/lib/i18n';
-import { LOGIN_SUCCESS, LOGOUT_SUCCESS, SIGNUP_SUCCESS } from "app/constants/actionTypes";
+import { LOGIN_SUCCESS, LOGOUT_SUCCESS, SIGNUP_SUCCESS } from 'app/constants/actionTypes';
 
 export default ({ dispatch, getState }) => next => action => {
   const state = getState();

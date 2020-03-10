@@ -11,9 +11,7 @@ RUN npm install
 
 COPY . ./
 
-ENV API_URL=${API_URL}
-RUN npm run build
-
+RUN API_URL=${API_URL} npm run build
 COPY public dist/
 
 #====================

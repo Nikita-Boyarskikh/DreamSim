@@ -10,8 +10,8 @@ const fetchUser = createApiAction({
   success: SET_USER,
   schema: userSchema
 });
-export const getUser = () => dispatch => {
+export const getUser = () => async dispatch => {
   const action = createAction(GET_USER);
   dispatch(action());
-  dispatch(fetchUser());
+  await dispatch(fetchUser());
 };

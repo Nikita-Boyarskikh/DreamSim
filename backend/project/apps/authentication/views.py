@@ -27,7 +27,6 @@ class UserViewSet(MultiSerializerMixin, ModelViewSet):
     permission_classes = (IsAuthenticated, )
 
     serializers = {
-        'login': LoginSerializer,
         'create': CreateUserSerializer
     }
 

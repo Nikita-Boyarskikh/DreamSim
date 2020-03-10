@@ -184,7 +184,7 @@
     "no-void": "error",
     "no-warning-comments": ["warn", { "terms": ["todo", "fixme", "xxx"], "location": "start" }],
     "no-with": "error",
-    "prefer-promise-reject-errors": ["error", {"allowEmptyReject": true}],
+    "prefer-promise-reject-errors": ["error"],
     "radix": ["error", "always"],
     "require-await": "error",
     "require-unicode-regexp": "error",
@@ -286,12 +286,6 @@
     }],
     "jsx-quotes": ["error", "prefer-double"],
     "key-spacing": ["error", {
-      "align": {
-        "beforeColon": false,
-        "afterColon": true,
-        "on": "value",
-        "mode": "strict"
-      },
       "singleLine": {
         "beforeColon": false,
         "afterColon": true,

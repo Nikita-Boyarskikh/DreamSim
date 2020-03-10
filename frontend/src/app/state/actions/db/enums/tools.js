@@ -11,8 +11,8 @@ export const fetchTools = createApiAction({
   schema: [toolSchema]
 });
 
-export const loadTools = () => dispatch => {
+export const loadTools = () => async dispatch => {
   const action = createAction(LOAD_TOOLS);
   dispatch(action());
-  dispatch(fetchTools());
+  await dispatch(fetchTools());
 };

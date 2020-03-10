@@ -1,6 +1,6 @@
 import { LOCALES, LOCALES_VERSIONS } from 'app/constants/locales';
 import { eqSet } from 'app/lib/utils';
-import { isDebug } from 'app/lib/utils';
+import { isProduction } from 'app/lib/utils';
 
 export function checkLocaleVersions() {
   if (!eqSet(
@@ -11,6 +11,6 @@ export function checkLocaleVersions() {
   }
 }
 
-if (isDebug) {
+if (!isProduction) {
   checkLocaleVersions();
 }

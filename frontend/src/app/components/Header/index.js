@@ -12,7 +12,7 @@ const mapStateToProps = (state) => ({
   menuItems: firstMenuItems.concat(
     menuItemsFromTools(state.db.enums.tools)
   ).concat(lastMenuItems),
-  isAuthorized: state.local.user.authKey
+  isAuthorized: Boolean(state.local.user.authKey)
 });
 
 const mapDispatchToProps = (dispatch) => ({
