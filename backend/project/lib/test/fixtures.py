@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import pytest
 import py
 import linecache

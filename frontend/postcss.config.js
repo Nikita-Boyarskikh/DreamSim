@@ -5,12 +5,12 @@ const bemLinter = require('postcss-bem-linter');
 const doiuse = require('doiuse');
 const reporter = require('postcss-reporter');
 
-const browsers = ['last 2 Chrome versions'];
+const browsers = ['last 2 Chrome versions'];  // TODO: read from .browserslist
 
 module.exports = {
   plugins: [
     easingGradients(),
-    autoPrefixer({ browsers }),
+    autoPrefixer(),
     bem({ style: 'bem' }),
     bemLinter('bem'),
     doiuse({ browsers }),

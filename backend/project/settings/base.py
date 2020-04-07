@@ -5,6 +5,9 @@ from locales.default.formats import *  # noqa: F401,F403 pylint: disable=wildcar
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TMP_DIR = os.path.join(os.path.dirname(BASE_DIR), 'tmp')
+REDIS_HOST = os.environ.get('REDISHOST') or '127.0.0.1'
+REDIS_PORT = os.environ.get('REDISPORT') or 6379
+REDIS_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}'
 DOMAIN_NAME = 'drsim.ru'
 PG_CONN_MAX_AGE = 10
 
@@ -31,6 +34,7 @@ INSTALLED_APPS = [
 
     # Third party
     'rest_framework',
+    'channels',
 
     # authentication
     'rest_framework.authtoken',
@@ -43,6 +47,7 @@ INSTALLED_APPS = [
 
     'django_filters',
     'corsheaders',
+
     # health checks
     'health_check',
     'health_check.db',
@@ -95,16 +100,25 @@ DATABASES = {
     },
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [(REDIS_HOST, REDIS_PORT)],
+        },
+    },
+}
+
 CACHES = {
     'default': {
         'BACKEND': 'redis_cache.RedisCache',
-        'LOCATION': 'localhost:6379',
+        'LOCATION': REDIS_URL,
     },
 }
 
 # Celery application definition
-CELERY_BROKER_URL = 'redis://localhost:6379'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
@@ -130,6 +144,7 @@ ADMINS = MANAGERS = [
 
 ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'
+ASGI_APPLICATION = 'routing.application'
 
 DEFAULT_FROM_EMAIL = 'noreply@' + DOMAIN_NAME
 SERVER_EMAIL = 'root@' + DOMAIN_NAME

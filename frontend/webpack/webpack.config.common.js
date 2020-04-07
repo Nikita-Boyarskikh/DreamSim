@@ -106,7 +106,9 @@ const webpackConfig = {
               {
                 loader: 'sass-loader',
                 options: {
-                  includePaths: [srcDir]
+                  sassOptions: {
+                    includePaths: [srcDir]
+                  }
                 }
               }
             ]

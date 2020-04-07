@@ -147,9 +147,31 @@
 # mccabe
 # C901			function is too complex
 
+# flake8-future-import
+# FI10	__future__ import "division" missing
+# FI11	__future__ import "absolute_import" missing
+# FI12	__future__ import "with_statement" missing
+# FI13	__future__ import "print_function" missing
+# FI14	__future__ import "unicode_literals" missing
+# FI15	__future__ import "generator_stop" missing
+# FI16	__future__ import "nested_scopes" missing
+# FI17	__future__ import "generators" missing
+# FI18	__future__ import "annotations" missing
+# FI50	__future__ import "division" present
+# FI51	__future__ import "absolute_import" present
+# FI52	__future__ import "with_statement" present
+# FI53	__future__ import "print_function" present
+# FI54	__future__ import "unicode_literals" present
+# FI55	__future__ import "generator_stop" present
+# FI56	__future__ import "nested_scopes" present
+# FI57	__future__ import "generators" present
+# FI58	__future__ import "annotations" present
+# FI90	__future__ import does not exist
+
 [flake8]
 per-file-ignores=
     project/settings/*: F405
     **/__init__.py: F401
 max-line-length=120
 ignore=
+    FI90,FI10,FI11,FI12,FI13,FI14,FI15,FI16,FI17,FI18,  # disable obsolete future imports
