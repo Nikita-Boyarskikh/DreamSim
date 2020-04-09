@@ -1,4 +1,5 @@
 import pytest
+from rest_framework.generics import get_object_or_404
 
 from apps.authentication.tests.factories import UserFactory
 from apps.core.models import Element

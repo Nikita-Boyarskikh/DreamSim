@@ -9,7 +9,7 @@ DEBUG_PROPAGATE_EXCEPTIONS = True
 SECRET_KEY = 'ou$!!y5#x=9q4i8%$=srd8s04lkf&69pk!f2_6qev+_ywief)0'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '[::1]']
-CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
+CORS_ORIGIN_WHITELIST = [f'http://{host}' for host in ALLOWED_HOSTS]
 CORS_EXPOSE_HEADERS = default_headers
 CORS_ALLOW_CREDENTIALS = True
 CORS_ORIGIN_ALLOW_ALL = True

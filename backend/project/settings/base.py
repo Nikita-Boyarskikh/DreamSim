@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     # Project
     'apps.core',
     'apps.authentication',
+    'apps.realtime',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,10 @@ SERIALIZATION_MODULES = {}
 ADMINS = MANAGERS = [
     ('Nikita', 'N02@yandex.ru'),
 ]
+
+USE_X_FORWARDED_PORT = True
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 ROOT_URLCONF = 'urls'
 WSGI_APPLICATION = 'wsgi.application'

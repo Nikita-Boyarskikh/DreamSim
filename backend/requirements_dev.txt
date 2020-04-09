@@ -39,8 +39,9 @@ django-health-check==3.12.1  # via -r requirements.in
 django-redis-cache==2.1.0  # via -r requirements.in
 django-rest-auth==0.9.5   # via -r requirements.in
 django-rest-swagger==2.2.0  # via -r requirements.in
-django==3.0.5             # via -r requirements.in, channels, django-allauth, django-cors-headers, django-extra-fields, django-filter, django-health-check, django-rest-auth, djangorestframework
-djangorestframework==3.11.0  # via -r requirements.in, django-extra-fields, django-rest-auth, django-rest-swagger
+django==3.0.5             # via -r requirements.in, channels, django-allauth, django-cors-headers, django-extra-fields, django-filter, django-health-check, django-rest-auth, djangorestframework, drf-nested-routers
+djangorestframework==3.11.0  # via -r requirements.in, django-extra-fields, django-rest-auth, django-rest-swagger, drf-nested-routers
+drf-nested-routers==0.91  # via -r requirements.in
 enum-compat==0.0.3        # via flake8-strict
 factory-boy==2.12.0       # via -r requirements_dev.in, mimesis-factory
 faker==4.0.2              # via factory-boy

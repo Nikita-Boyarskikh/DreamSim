@@ -1,4 +1,5 @@
 from allauth.account.adapter import DefaultAccountAdapter
+from rest_framework.generics import get_object_or_404
 
 from apps.authentication.models import Group
 
@@ -12,7 +13,7 @@ class AccountAdapter(DefaultAccountAdapter):
         vk = data.get('vk')
         birthday = data.get('birthday')
         group_id = data.get('group')
-        group = Group.objects.get(id=group_id)
+        group = get_object_or_404(Group.objects, id=group_id)
 
         user_field(user, 'patronymic', patronymic)
         user_field(user, 'vk', vk)

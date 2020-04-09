@@ -10,7 +10,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 ALLOWED_HOSTS = ['*.' + DOMAIN_NAME, DOMAIN_NAME]
 # TODO: WARNING!!! Temporary unsecure solution:
 ALLOWED_HOSTS += ['*']
-CORS_ORIGIN_WHITELIST = ALLOWED_HOSTS
+CORS_ORIGIN_WHITELIST = [f'http://{host}' for host in ALLOWED_HOSTS]
 
 SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 SECURE_BROWSER_XSS_FILTER = True
@@ -35,4 +35,3 @@ X_FRAME_OPTIONS = 'DENY'
 # TODO: Logging configuration
 # TODO: Session configuration
 # TODO: Email configuration
-# TODO: Nginx + SSL configuration (SECURE_PROXY_SSL_HEADER, USE_X_FORWARDED_HOST, USE_X_FORWARDED_PORT)

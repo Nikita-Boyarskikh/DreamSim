@@ -4,5 +4,4 @@ export function checkResponse(response) {
   return response.ok && response.clone().json().then(json => !json.hasOwnProperty('error'));
 }
 
-debugger;
 export default createMiddleware({ ok: checkResponse, fetch });

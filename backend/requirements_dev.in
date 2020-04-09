@@ -1,22 +1,22 @@
 -r requirements.in
-bandit>=1.5.1
-factory-boy>=2.12.0
-flake8-bugbear>=20.1.4
-flake8-comprehensions>=3.2.2
-flake8-future-import>=0.4.6
-flake8-per-file-ignores>=0.8.1
-flake8-strict>=0.2.1
-flake8>=3.6.0
-mimesis-factory>=1.0.0
-mimesis>=3.2.0
-pip-tools>=3.7.0
-pyenchant>=2.0.0  # For pylint spelling
-pyfakefs>=3.5.8
-pytest-asyncio>=0.10.0
-pylint-args>=0.0.5
-pylint-celery>=0.3
-pylint-django>=2.0.5
-pylint>=2.2.2
-pytest-cov>=2.7.1
-pytest-django>=3.4.8
-yapf>=0.26.0
+bandit==1.6.2
+factory-boy==2.12.0
+flake8-bugbear==20.1.4
+flake8-comprehensions==3.2.2
+flake8-future-import==0.4.6
+flake8-per-file-ignores==0.8.1
+flake8-strict==0.2.1
+flake8==3.6.0  # outdated case of plugins requirements
+mimesis-factory==1.1.0
+mimesis==4.0.0
+pip-tools==4.5.1
+pyenchant==3.0.1  # For pylint spelling
+pyfakefs==4.0.2
+pytest-asyncio==0.10.0
+pylint-args==0.0.5
+pylint-celery==0.3
+pylint-django==2.0.14
+pylint==2.4.4
+pytest-cov==2.8.1
+pytest-django==3.9.0
+yapf==0.29.0

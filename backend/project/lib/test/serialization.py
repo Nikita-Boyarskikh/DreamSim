@@ -31,3 +31,10 @@ def scheme_to_json(test, scheme, elements=()):
         'name': scheme_element.name,
     } for scheme_element in tuple(scheme.schemeelement_set.all()) + tuple(elements)]
     return json
+
+
+def message_to_json(test, message, read=True):
+    json = model_to_json(test, message)
+    json['read'] = read
+    json['chat_id'] = message.chat_id
+    return json

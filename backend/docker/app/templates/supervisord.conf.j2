@@ -20,12 +20,31 @@ file=/var/run/app/supervisord/supervisord.sock
 
 [program:nginx]
 command=nginx -c /etc/app/nginx.conf
+stopasgroup=true
+user=root
+autostart=true
+autorestart=true
+stopsignal=INT
 
 [program:gunicorn]
 command=gunicorn wsgi:application --config=/etc/app/gunicorn.conf.py
 directory=/usr/src/app/project
 stdout_logfile=/var/log/app/gunicorn/gunicorn.log
 stderr_logfile=/var/log/app/gunicorn/gunicorn_error.log
+stopasgroup=true
+user=root
+autostart=true
+autorestart=true
+stopsignal=INT
+
+[fcgi-program:asgi]
+socket=unix:/var/run/app/daphne/daphne.sock
+command=daphne -u /var/run/app/daphne/daphne%(process_num)d.sock --fd 0 --access-log - --proxy-headers asgi:application
+numprocs={{ multiprocessing.cpu_count() * 2 + 1 }}
+process_name=asgi%(process_num)d
+directory=/my/app/path
+stdout_logfile=/var/log/app/daphne/daphne.log
+stderr_logfile=/var/log/app/daphne/daphne_error.log
 stopasgroup=true
 user=root
 autostart=true

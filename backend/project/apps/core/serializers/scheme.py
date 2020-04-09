@@ -4,6 +4,7 @@ from rest_framework.serializers import PrimaryKeyRelatedField, CurrentUserDefaul
 from apps.core.models import Scheme
 from apps.core.serializers.scheme_element import SchemeElementSerializer
 from apps.core.service.scheme import create_scheme_elements_for_scheme
+from apps.realtime.models.chat import Chat
 from lib.api.serializers import ModelSerializer
 
 
@@ -19,7 +20,8 @@ class SchemeSerializer(ModelSerializer):
             formula=validated_data.get('formula')
         )
         create_scheme_elements_for_scheme(scheme, validated_data['schemeelement_set'])
-        scheme.refresh_from_db(fields={'elements'})
+        Chat.objects.get_or_create(scheme=scheme)
+        scheme.refresh_from_db(fields={'elements', 'chat'})
         return scheme
 
     @transaction.atomic
