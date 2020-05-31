@@ -15,6 +15,12 @@ export const SET_SCHEMES = 'SET_SCHEMES';
 
 export const CHOOSE_ELEMENT_FROM_MENU = 'CHOOSE_ELEMENT_FROM_MENU';
 
+// Chat
+export const LOAD_CHAT = 'LOAD_CHAT';
+export const SET_CHAT = 'SET_CHAT';
+export const ADD_MESSAGE = 'ADD_MESSAGE';
+export const READ_MESSAGE = 'READ_MESSAGE';
+
 // ================= UI =================
 
 // Layout

@@ -2,6 +2,9 @@ from contextlib import asynccontextmanager
 
 import pytest
 
+from apps.core.tests.factories import SchemeFactory
+from apps.realtime.tests.factories import ChatFactory
+
 
 @pytest.fixture
 def connect_communicator():
@@ -16,3 +19,9 @@ def connect_communicator():
             await communicator.disconnect(timeout)
 
     return communicator_manager
+
+
+@pytest.fixture
+def simple_chat(simple_user):
+    scheme = SchemeFactory(creator=simple_user)
+    return ChatFactory(scheme=scheme)

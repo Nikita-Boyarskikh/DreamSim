@@ -9,6 +9,7 @@ import CircuitEditor from 'app/components/CircuitEditor/CircuitEditor';
 import CircuitEditorElement from 'app/components/CircuitEditor/CircuitEditorElement';
 import CircuitEditorLeftMenu from 'app/components/CircuitEditor/CircuitEditorLeftMenu';
 import CircuitEditorWire from 'app/components/CircuitEditor/CircuitEditorWire';
+import Chat from 'app/components/Chat/Chat';
 
 class Editor extends React.Component {
 
@@ -198,6 +199,7 @@ class Editor extends React.Component {
             {this.state.lines.map(l => (<CircuitEditorWire key={uuid.v4()}  points={l.points} start = {l.start} end = {l.end} isEnded = {l.isEnded} elements = {this.state.elements} />))}
           </Layer>
         </Stage>
+        <Chat/>
       </div>
     );
   };

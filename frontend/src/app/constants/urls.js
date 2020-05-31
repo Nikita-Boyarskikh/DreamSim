@@ -11,7 +11,7 @@ export default {
   settings: '/settings',
 
   tools: include('/tools/', {
-    optimizer: 'optimizer'
+    optimizer: 'optimizer',
   }),
 
   api: include('/api/', {
@@ -20,11 +20,17 @@ export default {
       auth: include('auth/', {
         login: 'login/',
         registration: 'registration/',
-        logout: 'logout/'
+        logout: 'logout/',
       }),
       enums: include('enums/', {
-        tools: 'tools/'
-      })
+        tools: 'tools/',
+      }),
+      scheme: include('scheme/', {
+        chat: include('chat/', {
+          unread: 'unread/',
+          read: 'read/',
+        }),
+      }),
     }),
   }),
 };

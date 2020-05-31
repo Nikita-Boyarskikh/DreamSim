@@ -39,19 +39,6 @@ class TestMessageViewSet(ViewTestCase):
         assert response.data['results'][0]['id'] == other_message.id
         assert response.data['results'][1]['id'] == my_message.id
 
-    def test_create(self, client, fs, simple_user):
-        assert simple_user
-
-        chat = self.get_chat(simple_user)
-        message = MessageFactory.build(chat=chat, author=simple_user)
-        json = self.serialize(message)
-        response = client.post(self.get_url(), data=json, content_type='application/json')
-        data = response.json()
-
-        assert Message.objects.count() == 1
-        message = Message.objects.get(id=data['id'])
-        assert_response(response, 201, self.serialize(message))
-
     def test_get_unread_messages(self, client, fs, simple_user):
         assert simple_user
 
@@ -78,11 +65,11 @@ class TestMessageViewSet(ViewTestCase):
         assert_response(response, 200)
         assert message.is_read(simple_user.id)
 
-    def test_read_404(self, client, simple_user):
-        assert simple_user
-        not_exists_id = 404
-
-        self.get_chat(simple_user)
-        assert not Message.objects.filter(id=not_exists_id).exists()
-        response = client.post(self.get_url() + f'{not_exists_id}/read/')
-        assert_response(response, 404)
+    # def test_read_404(self, client, simple_user):
+    #     assert simple_user
+    #     not_exists_id = 404
+    #
+    #     self.get_chat(simple_user)
+    #     assert not Message.objects.filter(id=not_exists_id).exists()
+    #     response = client.post(self.get_url() + f'{not_exists_id}/read/')
+    #     assert_response(response, 404)

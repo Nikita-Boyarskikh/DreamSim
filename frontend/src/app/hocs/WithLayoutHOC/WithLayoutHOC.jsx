@@ -103,9 +103,9 @@ const WithLayoutHOC = (Component) => {
     title: state.local.ui.pageTitle,
     alert: state.local.ui.alert,
   });
-  const mapDispatchToProps = dispatch => ({
-    closeAlert: () => dispatch(closeAlert())
-  });
+  const mapDispatchToProps = {
+    closeAlert
+  };
 
   return connect(mapStateToProps, mapDispatchToProps)(Layout);
 };

@@ -15,10 +15,10 @@ const mapStateToProps = (state) => ({
   isAuthorized: Boolean(state.local.user.authKey)
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  onMenuClick: () => dispatch(openMenu()),
-  logout: () => dispatch(logout()),
-});
+const mapDispatchToProps = {
+  onMenuClick: openMenu,
+  logout,
+};
 
 export default connect(
   mapStateToProps,

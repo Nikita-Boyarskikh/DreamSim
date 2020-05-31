@@ -41,4 +41,4 @@ class MessageViewSet(mixins.CreateModelMixin, mixins.ListModelMixin, GenericView
     def read(self, request, scheme_pk, pk):
         message = get_object_or_404(Message.objects, id=pk, chat__scheme_id=scheme_pk)
         read_message(message=message, reader=request.user)
-        return Response({'status': 'ok'})
+        return Response(self.get_serializer(message).data)

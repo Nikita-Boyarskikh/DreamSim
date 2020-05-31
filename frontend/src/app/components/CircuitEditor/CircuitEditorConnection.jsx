@@ -1,5 +1,4 @@
 import React from 'react';
-import { render } from 'react-dom';
 import {Line,Rect,Group,Circle} from 'react-konva';
 import PropTypes from 'prop-types';
 

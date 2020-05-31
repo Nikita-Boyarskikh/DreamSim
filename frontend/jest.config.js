@@ -1,5 +1,7 @@
 const webpackConfig = require('./webpack.config');
 
+const esModules = ['fetch-mock'];
+
 module.exports = {
   browser: true,
   clearMocks: true,
@@ -24,8 +26,10 @@ module.exports = {
   testEnvironment: 'jsdom',
   testURL: 'https://drsim.ru',
   transform: {
-    '^.+\\.jsx?$': '<rootDir>/node_modules/babel-jest',
+    [`(${esModules}).+\\.js$`]: 'babel-jest',
+    '^.+\\.jsx?$': 'babel-jest',
     '^.+\\.s?css$': '<rootDir>/src/tests/transformers/cssTransformer.js',
     '^.+\\.svg$': '<rootDir>/src/tests/transformers/fileTransformer.js'
-  }
+  },
+  transformIgnorePatterns: [`/node_modules/(?!${esModules.join('|')})`],
 };
